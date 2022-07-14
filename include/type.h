@@ -31,7 +31,7 @@ namespace ratio::core
 
     ORATIOCORE_EXPORT virtual bool is_assignable_from(const type &t) const noexcept; // checks whether this type is assignable from the 't' type..
 
-    virtual expr new_instance(); // creates a new instance of this type..
+    ORATIOCORE_EXPORT virtual expr new_instance(); // creates a new instance of this type..
 
   private:
     const std::string name;

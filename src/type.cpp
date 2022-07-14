@@ -2,15 +2,25 @@
 #include "core.h"
 #include "item.h"
 #include "riddle_lexer.h"
+#include <queue>
 
 namespace ratio::core
 {
     ORATIOCORE_EXPORT type::type(core &cr, const std::string &name, bool primitive) : scope(cr), name(name), primitive(primitive) {}
 
-    expr type::new_instance()
+    ORATIOCORE_EXPORT expr type::new_instance()
     {
         auto itm = std::make_shared<complex_item>(*this);
-        instances.push_back(itm);
+        // we add the new item to the instances of this predicate and to the instances of all the super-predicates..
+        std::queue<type *> q;
+        q.push(this);
+        while (!q.empty())
+        {
+            q.front()->instances.push_back(itm);
+            for (const auto &st : q.front()->supertypes)
+                q.push(st);
+            q.pop();
+        }
         return itm;
     }
 

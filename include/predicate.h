@@ -11,6 +11,8 @@ namespace ratio::core
     ORATIOCORE_EXPORT predicate(core &cr, const std::string &name);
     predicate(const predicate &orig) = delete;
 
+    ORATIOCORE_EXPORT virtual expr new_instance(); // creates a new instance of this type..
+
     ORATIOCORE_EXPORT void apply_rule(atom &a); // applies the rule associated to this predicate to the given atom..
   };
 } // namespace ratio::core
