@@ -11,11 +11,11 @@ namespace ratio::core
             delete tp;
     }
 
-    std::optional<expr> core::get(const std::string &name) noexcept
+    expr core::get(const std::string &name) noexcept
     {
         if (const auto at_xpr = vars.find(name); at_xpr != vars.cend())
             return at_xpr->second;
         else
-            return {};
+            return nullptr;
     }
 } // namespace ratio::core

@@ -23,6 +23,6 @@ namespace ratio::core
   public:
     complex_item(type &tp);
 
-    std::optional<expr> get(const std::string &name) noexcept override;
+    expr get(const std::string &name) noexcept override;
   };
 } // namespace ratio::core

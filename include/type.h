@@ -1,5 +1,4 @@
 #pragma once
-#include "defs.h"
 #include "scope.h"
 #include <string>
 #include <vector>

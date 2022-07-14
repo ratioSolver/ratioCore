@@ -13,11 +13,11 @@ namespace ratio::core
     core(const core &orig) = delete;
     ~core();
 
-    inline core &get_core() override { return *this; }
+    inline core &get_core() const override { return const_cast<core &>(*this); }
 
-    std::optional<expr> get(const std::string &name) noexcept override;
+    expr get(const std::string &name) noexcept override;
 
-    std::optional<type &> get_type(const std::string &name) noexcept override;
+    type &get_type(const std::string &name) const override;
 
   private:
     std::map<std::string, type *> types;
