@@ -6,9 +6,12 @@
 namespace ratio::core
 {
   class item;
+  class predicate;
 
   class type : public scope
   {
+    friend class predicate;
+
   public:
     ORATIOCORE_EXPORT type(core &cr, const std::string &name, bool primitive = false);
     type(const type &orig) = delete;

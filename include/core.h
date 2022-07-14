@@ -13,6 +13,19 @@ namespace ratio::core
     core(const core &orig) = delete;
     ORATIOCORE_EXPORT ~core();
 
+    /**
+     * @brief Parses the given riddle script.
+     *
+     * @param script the riddle script to parse.
+     */
+    ORATIOCORE_EXPORT virtual void read(const std::string &script);
+    /**
+     * @brief Parses the given riddle files.
+     *
+     * @param files the riddle files to parse.
+     */
+    ORATIOCORE_EXPORT virtual void read(const std::vector<std::string> &files);
+
     inline core &get_core() const override { return const_cast<core &>(*this); }
 
     ORATIOCORE_EXPORT expr get(const std::string &name) noexcept override;

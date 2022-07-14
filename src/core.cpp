@@ -1,5 +1,7 @@
 #include "core.h"
 #include "predicate.h"
+#include <sstream>
+#include <fstream>
 
 namespace ratio::core
 {
@@ -9,6 +11,21 @@ namespace ratio::core
         // we delete the types..
         for ([[maybe_unused]] const auto &[tp_name, tp] : types)
             delete tp;
+    }
+
+    ORATIOCORE_EXPORT void core::read(const std::string &script)
+    {
+        std::stringstream ss(script);
+    }
+
+    ORATIOCORE_EXPORT void core::read(const std::vector<std::string> &files)
+    {
+        for (const auto &f : files)
+            if (std::ifstream ifs(f); ifs)
+            {
+            }
+            else
+                throw std::invalid_argument("cannot find file '" + f + "'");
     }
 
     ORATIOCORE_EXPORT expr core::get(const std::string &name) noexcept

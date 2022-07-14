@@ -6,7 +6,7 @@ namespace ratio::core
 {
     ORATIOCORE_EXPORT predicate::predicate(core &cr, const std::string &name) : type(cr, name) {}
 
-    ORATIOCORE_EXPORT expr type::new_instance()
+    ORATIOCORE_EXPORT expr predicate::new_instance()
     {
         auto itm = std::make_shared<atom>(*this);
         // we add the new atom to the instances of this predicate and to the instances of all the super-predicates..
@@ -25,6 +25,7 @@ namespace ratio::core
     ORATIOCORE_EXPORT void predicate::apply_rule(atom &a)
     {
         for (const auto &sp : supertypes)
-            static_cast<predicate *>(sp)->apply_rule(a);
+            if (auto p = dynamic_cast<predicate *>(sp))
+                p->apply_rule(a);
     }
 } // namespace ratio::core
