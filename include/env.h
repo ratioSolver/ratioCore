@@ -1,6 +1,5 @@
 #pragma once
 #include "defs.h"
-#include <optional>
 #include <map>
 
 namespace ratio::core
@@ -12,6 +11,7 @@ namespace ratio::core
   public:
     env(core &cr);
     env(context ctx);
+    env(const env &orig) = delete;
 
     inline core &get_core() const noexcept { return cr; }
 
