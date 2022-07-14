@@ -1,4 +1,5 @@
 #pragma once
+#include "oratiocore_export.h"
 #include <map>
 
 namespace ratio::core
@@ -28,6 +29,9 @@ namespace ratio::core
 
     inline virtual core &get_core() { return cr; }  // returns the core in which this scope is defined..
     inline scope &get_scope() const { return scp; } // returns the enclosing scope..
+
+    ORATIOCORE_EXPORT virtual std::optional<type &> get_type(const std::string &name) const noexcept;
+    ORATIOCORE_EXPORT virtual const std::map<std::string, type *> &get_types() const noexcept; // returns a map of types defined within this scope having the types' names as keys..
 
   private:
     core &cr;   // the core in which this scope is defined..

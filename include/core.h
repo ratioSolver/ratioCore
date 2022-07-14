@@ -17,6 +17,8 @@ namespace ratio::core
 
     std::optional<expr> get(const std::string &name) noexcept override;
 
+    std::optional<type &> get_type(const std::string &name) noexcept override;
+
   private:
     std::map<std::string, type *> types;
   };
