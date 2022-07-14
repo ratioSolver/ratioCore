@@ -1,0 +1,3 @@
+[submodule "extern/riddle"]
+	path = extern/riddle
+	url = https://github.com/ratioSolver/RiDDLe
