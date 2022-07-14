@@ -10,9 +10,9 @@ namespace ratio::core
   class type : public scope
   {
   public:
-    type(core &cr, const std::string &name, bool primitive = false);
+    ORATIOCORE_EXPORT type(core &cr, const std::string &name, bool primitive = false);
     type(const type &orig) = delete;
-    virtual ~type() = default;
+    ORATIOCORE_EXPORT virtual ~type() = default;
 
     inline const std::string get_name() const noexcept { return name; } // returns the name of this type..
     std::string get_full_name() const noexcept

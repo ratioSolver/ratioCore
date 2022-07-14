@@ -21,8 +21,9 @@ namespace ratio::core
   class complex_item : public item, public env
   {
   public:
-    complex_item(type &tp);
+    ORATIOCORE_EXPORT complex_item(type &tp);
+    complex_item(const complex_item &orig) = delete;
 
-    expr get(const std::string &name) noexcept override;
+    ORATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
   };
 } // namespace ratio::core

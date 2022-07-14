@@ -1,4 +1,5 @@
 #pragma once
+#include "oratiocore_export.h"
 #include <map>
 #include <string>
 #include <memory>
@@ -35,7 +36,7 @@ namespace ratio::core
      * @param name The name of the variable.
      * @return expr The expression having the given name.
      */
-    virtual expr get(const std::string &name) noexcept;
+    ORATIOCORE_EXPORT virtual expr get(const std::string &name) noexcept;
 
   private:
     core &cr;

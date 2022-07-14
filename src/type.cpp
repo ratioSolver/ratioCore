@@ -5,7 +5,7 @@
 
 namespace ratio::core
 {
-    type::type(core &cr, const std::string &name, bool primitive) : scope(cr), name(name), primitive(primitive) {}
+    ORATIOCORE_EXPORT type::type(core &cr, const std::string &name, bool primitive) : scope(cr), name(name), primitive(primitive) {}
 
     expr type::new_instance()
     {

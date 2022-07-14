@@ -29,9 +29,9 @@ namespace ratio::core
   class scope
   {
   public:
-    scope(scope &scp);
+    ORATIOCORE_EXPORT scope(scope &scp);
     scope(const scope &orig) = delete;
-    virtual ~scope() = default;
+    ORATIOCORE_EXPORT virtual ~scope() = default;
 
     /**
      * @brief Get the core in which this scope is defined.

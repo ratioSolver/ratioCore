@@ -9,15 +9,15 @@ namespace ratio::core
   class core : public scope, public env
   {
   public:
-    core();
+    ORATIOCORE_EXPORT core();
     core(const core &orig) = delete;
-    ~core();
+    ORATIOCORE_EXPORT ~core();
 
     inline core &get_core() const override { return const_cast<core &>(*this); }
 
-    expr get(const std::string &name) noexcept override;
+    ORATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
 
-    type &get_type(const std::string &name) const override;
+    ORATIOCORE_EXPORT type &get_type(const std::string &name) const override;
 
   private:
     std::map<std::string, type *> types;

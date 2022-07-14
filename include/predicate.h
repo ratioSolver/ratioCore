@@ -8,9 +8,9 @@ namespace ratio::core
   class predicate : public type
   {
   public:
-    predicate(core &cr, const std::string &name);
+    ORATIOCORE_EXPORT predicate(core &cr, const std::string &name);
     predicate(const predicate &orig) = delete;
 
-    void apply_rule(atom &a); // applies the rule associated to this predicate to the given atom..
+    ORATIOCORE_EXPORT void apply_rule(atom &a); // applies the rule associated to this predicate to the given atom..
   };
 } // namespace ratio::core

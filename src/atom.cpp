@@ -3,5 +3,5 @@
 
 namespace ratio::core
 {
-    atom::atom(predicate &pred) : complex_item(pred) {}
+    ORATIOCORE_EXPORT atom::atom(predicate &pred) : complex_item(pred) {}
 } // namespace ratio::core

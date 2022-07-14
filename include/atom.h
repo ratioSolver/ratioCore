@@ -8,7 +8,7 @@ namespace ratio::core
   class atom : public complex_item
   {
   public:
-    atom(predicate &pred);
+    ORATIOCORE_EXPORT atom(predicate &pred);
     atom(const atom &orig) = delete;
   };
 } // namespace ratio::core
