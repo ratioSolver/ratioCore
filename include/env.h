@@ -2,6 +2,7 @@
 #include "defs.h"
 #include <optional>
 #include <map>
+#include <string>
 
 namespace ratio::core
 {
