@@ -6,12 +6,6 @@
 namespace ratio::core
 {
     ORATIOCORE_EXPORT core::core() : scope(*this), env(std::make_shared<env>(*this)) {}
-    ORATIOCORE_EXPORT core::~core()
-    {
-        // we delete the types..
-        for ([[maybe_unused]] const auto &[tp_name, tp] : types)
-            delete tp;
-    }
 
     ORATIOCORE_EXPORT void core::read(const std::string &script)
     {

@@ -4,14 +4,11 @@
 
 namespace ratio::core
 {
-  class type;
-
   class core : public scope, public env
   {
   public:
     ORATIOCORE_EXPORT core();
     core(const core &orig) = delete;
-    ORATIOCORE_EXPORT ~core();
 
     /**
      * @brief Parses the given riddle script.
@@ -33,6 +30,6 @@ namespace ratio::core
     ORATIOCORE_EXPORT type &get_type(const std::string &name) const override;
 
   private:
-    std::map<std::string, type *> types;
+    std::map<std::string, type_ptr> types;
   };
 } // namespace ratio::core
