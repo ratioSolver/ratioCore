@@ -25,9 +25,9 @@ GENERATE_EXPORT_HEADER(${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/include $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}> $<INSTALL_INTERFACE:>)
 target_link_libraries(${PROJECT_NAME} PRIVATE RiDDLe SeMiTONE)
 
-#if(BUILD_TESTING)
-#    add_subdirectory(tests)
-#endif()
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
 
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4)

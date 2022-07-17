@@ -8,6 +8,24 @@ namespace ratio::core
 {
     ORATIOCORE_EXPORT type::type(core &cr, const std::string &name, bool primitive) : scope(cr), name(name), primitive(primitive) {}
 
+    ORATIOCORE_EXPORT bool type::is_assignable_from(const type &t) const noexcept
+    {
+        std::queue<const type *> q;
+        q.push(&t);
+        while (!q.empty())
+        {
+            if (q.front() == this)
+                return true;
+            else
+            {
+                for (const auto &st : q.front()->supertypes)
+                    q.push(st);
+                q.pop();
+            }
+        }
+        return false;
+    }
+
     ORATIOCORE_EXPORT expr type::new_instance()
     {
         auto itm = std::make_shared<complex_item>(*this);
