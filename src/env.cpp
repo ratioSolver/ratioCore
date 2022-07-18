@@ -3,8 +3,8 @@
 
 namespace ratio::core
 {
-    env::env(core &cr) : cr(cr) {}
-    env::env(context ctx) : cr(ctx->get_core()), ctx(ctx) {}
+    env::env(env &e) : e(e) {}
+    env::env(context ctx) : e(*ctx), ctx(ctx) {}
 
     ORATIOCORE_EXPORT expr env::get(const std::string &name) noexcept
     {
@@ -13,6 +13,6 @@ namespace ratio::core
         else if (ctx)
             return ctx->get(name);
         else
-            return nullptr;
+            return e.get(name);
     }
 } // namespace ratio::core

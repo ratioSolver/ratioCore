@@ -12,7 +12,7 @@ namespace ratio::core
   class method : public scope
   {
   public:
-    method(scope &scp, type_ptr return_type, const std::string &name, std::vector<field_ptr> args, std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts);
+    ORATIOCORE_EXPORT method(scope &scp, type_ptr return_type, const std::string &name, std::vector<field_ptr> args, std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts);
     method(const method &orig) = delete;
 
   private:

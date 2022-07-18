@@ -1,8 +1,12 @@
 #include "type.h"
 #include "core.h"
 #include "item.h"
+#include "constructor.h"
 #include "riddle_lexer.h"
 #include <queue>
+#include <algorithm>
+#include <stdexcept>
+#include <cassert>
 
 namespace ratio::core
 {
@@ -40,6 +44,28 @@ namespace ratio::core
             q.pop();
         }
         return itm;
+    }
+
+    constructor &type::get_constructor(const std::vector<const type *> &ts) const
+    {
+        assert(std::none_of(ts.cbegin(), ts.cend(), [](const type *t)
+                            { return t == nullptr; }));
+        bool found = false;
+        for (const auto &cnstr : constructors)
+            if (cnstr->args.size() == ts.size())
+            {
+                found = true;
+                for (unsigned int i = 0; i < ts.size(); i++)
+                    if (!cnstr->args[i]->get_type().is_assignable_from(*ts[i]))
+                    {
+                        found = false;
+                        break;
+                    }
+                if (found)
+                    return *cnstr;
+            }
+
+        throw std::out_of_range(name);
     }
 
     bool_type::bool_type(core &cr) : type(cr, BOOL_KEYWORD, true) {}

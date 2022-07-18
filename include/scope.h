@@ -8,8 +8,6 @@
 namespace ratio::core
 {
   class core;
-  class env;
-  using context = std::shared_ptr<env>;
   class item;
   using expr = std::shared_ptr<item>;
   class type;

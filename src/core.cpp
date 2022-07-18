@@ -5,7 +5,7 @@
 
 namespace ratio::core
 {
-    ORATIOCORE_EXPORT core::core() : scope(*this), env(std::make_shared<env>(*this)) {}
+    ORATIOCORE_EXPORT core::core() : scope(*this), env(*this) {}
 
     ORATIOCORE_EXPORT void core::read(const std::string &script)
     {

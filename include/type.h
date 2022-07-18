@@ -7,6 +7,7 @@ namespace ratio::core
 {
   class item;
   class predicate;
+  class constructor;
 
   class type : public scope
   {
@@ -34,15 +35,20 @@ namespace ratio::core
 
     ORATIOCORE_EXPORT virtual bool is_assignable_from(const type &t) const noexcept; // checks whether this type is assignable from the 't' type..
 
-    ORATIOCORE_EXPORT virtual expr new_instance(); // creates a new instance of this type..
+    ORATIOCORE_EXPORT virtual expr new_instance();                         // creates a new instance of this type..
+    std::vector<expr> get_instances() const noexcept { return instances; } // returns the instances of this type..
+
+    ORATIOCORE_EXPORT constructor &get_constructor(const std::vector<const type *> &ts) const;
+    std::vector<constructor *> get_constructors() const noexcept { return constructors; }
 
   private:
     const std::string name;
     const bool primitive; // is this type a primitive type?
 
   protected:
-    std::vector<type *> supertypes; // the base types (i.e. the types this type inherits from)..
-    std::vector<expr> instances;    // a vector containing all the instances of this type..
+    std::vector<type *> supertypes;          // the base types (i.e. the types this type inherits from)..
+    std::vector<constructor *> constructors; // the constructors defined within this type..
+    std::vector<expr> instances;             // a vector containing all the instances of this type..
   };
 
   class bool_type final : public type

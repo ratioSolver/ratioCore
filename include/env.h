@@ -11,6 +11,7 @@
 namespace ratio::core
 {
   class core;
+  class constructor;
   class env;
   using context = std::shared_ptr<env>;
   class item;
@@ -18,17 +19,12 @@ namespace ratio::core
 
   class env
   {
+    friend class constructor;
+
   public:
-    env(core &cr);
+    env(env &e);
     env(context ctx);
     env(const env &orig) = delete;
-
-    /**
-     * @brief Get the core in which this environment is defined.
-     *
-     * @return core& The core in which this environment is defined.
-     */
-    inline core &get_core() const noexcept { return cr; }
 
     /**
      * @brief Get the expression having the given name, searching in the enclosing environments if not found in the current environment.
@@ -39,7 +35,7 @@ namespace ratio::core
     ORATIOCORE_EXPORT virtual expr get(const std::string &name) noexcept;
 
   private:
-    core &cr;
+    env &e;
     context ctx;
 
   protected:
