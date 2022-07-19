@@ -1,5 +1,7 @@
 #pragma once
 #include "env.h"
+#include "lit.h"
+#include "lin.h"
 #include <map>
 
 namespace ratio::core
@@ -19,6 +21,42 @@ namespace ratio::core
     type &tp;
   };
 
+  class bool_item final : public item
+  {
+  public:
+    ORATIOCORE_EXPORT bool_item(type &t, const semitone::lit &l);
+    bool_item(const bool_item &that) = delete;
+
+    inline semitone::lit get_value() const { return l; }
+
+  private:
+    semitone::lit l;
+  };
+
+  class arith_item final : public item
+  {
+  public:
+    ORATIOCORE_EXPORT arith_item(type &t, const semitone::lin &l);
+    arith_item(const arith_item &that) = delete;
+
+    inline semitone::lin get_value() const { return l; }
+
+  private:
+    const semitone::lin l;
+  };
+
+  class string_item final : public item
+  {
+  public:
+    ORATIOCORE_EXPORT string_item(type &t, const std::string &l);
+    string_item(const string_item &that) = delete;
+
+    inline std::string get_value() const { return l; }
+
+  private:
+    std::string l;
+  };
+
   class complex_item : public item, public env
   {
   public:
@@ -27,5 +65,19 @@ namespace ratio::core
     ORATIOCORE_EXPORT virtual ~complex_item() = default;
 
     ORATIOCORE_EXPORT expr get(const std::string &name) const noexcept override;
+  };
+
+  class enum_item final : public complex_item
+  {
+  public:
+    ORATIOCORE_EXPORT enum_item(type &t, semitone::var ev);
+    enum_item(const enum_item &that) = delete;
+
+    ORATIOCORE_EXPORT expr get(const std::string &name) const noexcept override;
+
+    inline semitone::var get_var() const { return ev; }
+
+  private:
+    const semitone::var ev;
   };
 } // namespace ratio::core
