@@ -10,5 +10,6 @@ namespace ratio::core
   public:
     ORATIOCORE_EXPORT atom(predicate &pred);
     atom(const atom &orig) = delete;
+    ORATIOCORE_EXPORT virtual ~atom() = default;
   };
 } // namespace ratio::core

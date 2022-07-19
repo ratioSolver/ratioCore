@@ -25,6 +25,7 @@ namespace ratio::core
     env(env &e);
     env(context ctx);
     env(const env &orig) = delete;
+    virtual ~env() = default;
 
     /**
      * @brief Get the expression having the given name, searching in the enclosing environments if not found in the current environment.

@@ -11,6 +11,7 @@ namespace ratio::core
   public:
     item(type &tp);
     item(const item &orig) = delete;
+    ORATIOCORE_EXPORT virtual ~item() = default;
 
     type &get_type() const noexcept { return tp; }
 
@@ -23,6 +24,7 @@ namespace ratio::core
   public:
     ORATIOCORE_EXPORT complex_item(type &tp);
     complex_item(const complex_item &orig) = delete;
+    ORATIOCORE_EXPORT virtual ~complex_item() = default;
 
     ORATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
   };
