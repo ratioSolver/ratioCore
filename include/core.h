@@ -10,6 +10,7 @@ namespace ratio::core
   public:
     ORATIOCORE_EXPORT core();
     core(const core &orig) = delete;
+    ORATIOCORE_EXPORT virtual ~core();
 
     /**
      * @brief Parses the given riddle script.
@@ -66,6 +67,8 @@ namespace ratio::core
     ORATIOCORE_EXPORT type &get_type(const std::string &name) const override;
 
   private:
-    std::map<std::string, type_ptr> types;
+    std::map<std::string, std::vector<method_ptr>> methods; // the methods, indexed by their name, defined within this core..
+    std::map<std::string, type_ptr> types;                  // the inner types, indexed by their name, defined within this core..
+    std::map<std::string, predicate_ptr> predicates;        // the inner predicates, indexed by their name, defined within this core..
   };
 } // namespace ratio::core

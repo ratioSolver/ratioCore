@@ -1,8 +1,9 @@
-#include "type.h"
+#include "predicate.h"
 #include "core.h"
 #include "item.h"
 #include "field.h"
 #include "constructor.h"
+#include "method.h"
 #include "riddle_lexer.h"
 #include <queue>
 #include <algorithm>

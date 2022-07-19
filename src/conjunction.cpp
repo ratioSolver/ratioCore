@@ -6,4 +6,5 @@
 namespace ratio::core
 {
     conjunction::conjunction(type &tp, semitone::rational cst, std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts) : scope(tp), cost(std::move(cst)), statements(std::move(stmnts)) {}
+    conjunction::~conjunction() {}
 } // namespace ratio::core

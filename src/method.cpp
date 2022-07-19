@@ -13,4 +13,5 @@ namespace ratio::core
             new_field(std::move(f));
         }
     }
+    ORATIOCORE_EXPORT method::~method() {}
 } // namespace ratio::core

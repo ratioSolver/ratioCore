@@ -1,4 +1,5 @@
 #include "core.h"
+#include "method.h"
 #include "predicate.h"
 #include <sstream>
 #include <fstream>
@@ -6,6 +7,7 @@
 namespace ratio::core
 {
     ORATIOCORE_EXPORT core::core() : scope(*this), env(*this) {}
+    ORATIOCORE_EXPORT core::~core() {}
 
     ORATIOCORE_EXPORT void core::read(const std::string &script)
     {

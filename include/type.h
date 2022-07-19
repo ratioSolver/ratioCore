@@ -49,9 +49,12 @@ namespace ratio::core
     const bool primitive; // is this type a primitive type?
 
   protected:
-    std::vector<type *> supertypes;            // the base types (i.e. the types this type inherits from)..
-    std::vector<constructor_ptr> constructors; // the constructors defined within this type..
-    std::vector<expr> instances;               // a vector containing all the instances of this type..
+    std::vector<type *> supertypes;                         // the base types (i.e. the types this type inherits from)..
+    std::vector<constructor_ptr> constructors;              // the constructors defined within this type..
+    std::map<std::string, std::vector<method_ptr>> methods; // the methods, indexed by their name, defined within this type..
+    std::map<std::string, type_ptr> types;                  // the inner types, indexed by their name, defined within this type..
+    std::map<std::string, predicate_ptr> predicates;        // the inner predicates, indexed by their name, defined within this type..
+    std::vector<expr> instances;                            // a vector containing all the instances of this type..
   };
 
   class bool_type final : public type
