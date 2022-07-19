@@ -24,16 +24,16 @@ namespace ratio::core
      */
     ORATIOCORE_EXPORT virtual void read(const std::vector<std::string> &files);
 
-    ORATIOCORE_EXPORT virtual expr new_bool() noexcept;                              // creates a new boolean variable..
-    ORATIOCORE_EXPORT virtual expr new_bool(const bool &val) noexcept;               // creates a new boolean literal..
-    ORATIOCORE_EXPORT virtual expr new_int() noexcept;                               // creates a new integer variable..
-    ORATIOCORE_EXPORT virtual expr new_int(const semitone::I &val) noexcept;         // creates a new integer literal..
-    ORATIOCORE_EXPORT virtual expr new_real() noexcept;                              // creates a new real variable..
-    ORATIOCORE_EXPORT virtual expr new_real(const semitone::rational &val) noexcept; // creates a new real literal..
-    ORATIOCORE_EXPORT virtual expr new_tp() noexcept;                                // creates a new time-point variable..
-    ORATIOCORE_EXPORT virtual expr new_tp(const semitone::rational &val) noexcept;   // creates a new time-point literal..
-    ORATIOCORE_EXPORT virtual expr new_string() noexcept;                            // creates a new string variable..
-    ORATIOCORE_EXPORT virtual expr new_string(const std::string &val) noexcept;      // creates a new string literal..
+    ORATIOCORE_EXPORT virtual expr new_bool() noexcept;                                    // creates a new boolean variable..
+    ORATIOCORE_EXPORT virtual expr new_bool(const bool &val) noexcept;                     // creates a new boolean literal..
+    ORATIOCORE_EXPORT virtual expr new_int() noexcept;                                     // creates a new integer variable..
+    ORATIOCORE_EXPORT virtual expr new_int(const semitone::I &val) noexcept;               // creates a new integer literal..
+    ORATIOCORE_EXPORT virtual expr new_real() noexcept;                                    // creates a new real variable..
+    ORATIOCORE_EXPORT virtual expr new_real(const semitone::rational &val) noexcept;       // creates a new real literal..
+    ORATIOCORE_EXPORT virtual expr new_time_point() noexcept;                              // creates a new time-point variable..
+    ORATIOCORE_EXPORT virtual expr new_time_point(const semitone::rational &val) noexcept; // creates a new time-point literal..
+    ORATIOCORE_EXPORT virtual expr new_string() noexcept;                                  // creates a new string variable..
+    ORATIOCORE_EXPORT virtual expr new_string(const std::string &val) noexcept;            // creates a new string literal..
     ORATIOCORE_EXPORT virtual expr new_enum(type &tp, std::vector<expr> allowed_vals);
 
     ORATIOCORE_EXPORT virtual expr negate(expr var) noexcept;
