@@ -1,10 +1,19 @@
 #include "predicate.h"
+#include "field.h"
 #include "atom.h"
 #include <queue>
 
 namespace ratio::core
 {
-    ORATIOCORE_EXPORT predicate::predicate(core &cr, const std::string &name) : type(cr, name) {}
+    ORATIOCORE_EXPORT predicate::predicate(core &cr, const std::string &name, std::vector<field_ptr> args) : type(cr, name)
+    {
+        this->args.reserve(args.size());
+        for (auto &f : args)
+        {
+            this->args.push_back(f.get());
+            new_field(std::move(f));
+        }
+    }
 
     ORATIOCORE_EXPORT expr predicate::new_instance()
     {

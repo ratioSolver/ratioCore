@@ -32,7 +32,7 @@ namespace ratio::core
     void invoke(complex_item &itm, const std::vector<expr> &exprs);
 
   private:
-    const std::vector<field_ptr> args;                                                        // the arguments of this constructor..
+    std::vector<field *> args;                                                                // the arguments of this constructor..
     const std::vector<riddle::id_token> init_names;                                           // the parameter names in the init-list..
     const std::vector<std::vector<std::unique_ptr<const riddle::ast::expression>>> init_vals; // for each parameter name in the init-list, its initializzation values..
     const std::vector<std::unique_ptr<const riddle::ast::statement>> statements;              // the statements within the constructor's body..

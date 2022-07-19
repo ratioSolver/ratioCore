@@ -12,7 +12,6 @@ namespace ratio::core
   {
   public:
     ORATIOCORE_EXPORT scope(scope &scp);
-    ORATIOCORE_EXPORT scope(scope &scp, const std::vector<field_ptr> &flds);
     scope(const scope &orig) = delete;
     ORATIOCORE_EXPORT virtual ~scope() = default;
 

@@ -1,6 +1,7 @@
 #include "conjunction.h"
 #include "type.h"
 #include "env.h"
+#include "field.h"
 #include "riddle_parser.h"
 
 namespace ratio::core
