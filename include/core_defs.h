@@ -12,8 +12,6 @@ namespace ratio::core
   using type_ptr = std::shared_ptr<type>;
   class constructor;
   using constructor_ptr = std::shared_ptr<constructor>;
-  class field;
-  using field_ptr = std::unique_ptr<field>;
   class predicate;
   using predicate_ptr = std::shared_ptr<predicate>;
   class method;

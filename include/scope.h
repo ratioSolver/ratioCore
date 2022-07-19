@@ -1,5 +1,6 @@
 #pragma once
 #include "core_defs.h"
+#include "field.h"
 #include <map>
 #include <string>
 #include <vector>

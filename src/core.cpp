@@ -1,6 +1,5 @@
 #include "core.h"
 #include "predicate.h"
-#include "field.h"
 #include <sstream>
 #include <fstream>
 

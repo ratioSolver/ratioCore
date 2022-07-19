@@ -1,6 +1,5 @@
 #include "method.h"
 #include "riddle_parser.h"
-#include "field.h"
 
 namespace ratio::core
 {

@@ -1,6 +1,5 @@
 #include "type.h"
 #include "core.h"
-#include "field.h"
 #include "item.h"
 #include "constructor.h"
 #include "riddle_lexer.h"

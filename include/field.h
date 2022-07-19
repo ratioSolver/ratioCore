@@ -23,4 +23,6 @@ namespace ratio::core
     std::unique_ptr<const riddle::ast::expression> xpr; // the initialization expression..
     const bool synthetic;                               // the field is synthetic (a synthetic field is a field which is not created by the user, e.g. 'this')..
   };
+  
+  using field_ptr = std::unique_ptr<field>;
 } // namespace ratio::core

@@ -1,5 +1,4 @@
 #include "predicate.h"
-#include "field.h"
 #include "atom.h"
 #include <queue>
 
