@@ -55,7 +55,7 @@ namespace ratio::core
 
     inline core &get_core() const override { return const_cast<core &>(*this); }
 
-    ORATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
+    ORATIOCORE_EXPORT expr get(const std::string &name) const noexcept override;
 
     ORATIOCORE_EXPORT type &get_type(const std::string &name) const override;
 

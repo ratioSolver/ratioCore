@@ -8,7 +8,7 @@ namespace ratio::core
 
     ORATIOCORE_EXPORT complex_item::complex_item(type &tp) : item(tp), env(tp.get_core()) {}
 
-    ORATIOCORE_EXPORT expr complex_item::get(const std::string &name) noexcept
+    ORATIOCORE_EXPORT expr complex_item::get(const std::string &name) const noexcept
     {
         if (const auto at_xpr = vars.find(name); at_xpr != vars.cend())
             return at_xpr->second;

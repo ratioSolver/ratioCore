@@ -51,7 +51,7 @@ namespace ratio::core
     ORATIOCORE_EXPORT expr core::geq(expr, expr) noexcept { return nullptr; }
     ORATIOCORE_EXPORT expr core::gt(expr, expr) noexcept { return nullptr; }
 
-    ORATIOCORE_EXPORT expr core::get(const std::string &name) noexcept
+    ORATIOCORE_EXPORT expr core::get(const std::string &name) const noexcept
     {
         if (const auto at_xpr = vars.find(name); at_xpr != vars.cend())
             return at_xpr->second;

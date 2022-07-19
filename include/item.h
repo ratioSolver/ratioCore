@@ -26,6 +26,6 @@ namespace ratio::core
     complex_item(const complex_item &orig) = delete;
     ORATIOCORE_EXPORT virtual ~complex_item() = default;
 
-    ORATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
+    ORATIOCORE_EXPORT expr get(const std::string &name) const noexcept override;
   };
 } // namespace ratio::core
