@@ -1,5 +1,6 @@
 #pragma once
 #include "oratiocore_export.h"
+#include "field.h"
 #include <map>
 #include <string>
 #include <memory>
@@ -14,19 +15,6 @@ namespace ratio::core
   using type_ptr = std::shared_ptr<type>;
   class field;
   using field_ptr = std::shared_ptr<field>;
-
-  class field
-  {
-  public:
-    field(type &tp, const std::string &name) : tp(tp), name(name) {}
-
-    inline type &get_type() const { return tp; }                // returns the type of the field..
-    inline const std::string &get_name() const { return name; } // returns the name of the field..
-
-  private:
-    type &tp;               // the type of the field..
-    const std::string name; // the name of the field..
-  };
 
   class scope
   {

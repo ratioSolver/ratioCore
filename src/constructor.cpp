@@ -31,7 +31,7 @@ namespace ratio::core
         for (size_t il_idx = 0; il_idx < init_names.size(); il_idx++)
             try
             { // we try to find the field in the current type..
-                const auto f = get_field(init_names.at(il_idx).id);
+                const auto &f = get_field(init_names.at(il_idx).id);
                 if (f.get_type().is_primitive())
                 { // we evaluate the expression..
                     assert(init_vals[il_idx].size() == 1);
@@ -69,5 +69,25 @@ namespace ratio::core
                 // we assume that the constructor exists..
                 (*st)->get_constructor(par_types).invoke(itm, c_exprs);
             }
+
+        // we instantiate the uninstantiated fields..
+        for (const auto &[f_name, f] : get_scope().get_fields())
+            if (!f->is_synthetic() && !itm.vars.count(f_name))
+            { // the field is uninstantiated..
+                if (f->get_expression())
+                    itm.vars.emplace(f_name, dynamic_cast<const expression *>(f->get_expression().get())->evaluate(*this, ctx));
+                else
+                {
+                    type &tp = f->get_type();
+                    if (tp.is_primitive())
+                        itm.vars.emplace(f_name, tp.new_instance());
+                    else
+                        itm.vars.emplace(f_name, tp.new_existential());
+                }
+            }
+
+        // finally, we execute the constructor body..
+        for (const auto &s : statements)
+            dynamic_cast<const statement *>(s.get())->execute(*this, ctx);
     }
 } // namespace ratio::core

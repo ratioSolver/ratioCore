@@ -36,6 +36,7 @@ namespace ratio::core
     ORATIOCORE_EXPORT virtual bool is_assignable_from(const type &t) const noexcept; // checks whether this type is assignable from the 't' type..
 
     ORATIOCORE_EXPORT virtual expr new_instance();                         // creates a new instance of this type..
+    ORATIOCORE_EXPORT virtual expr new_existential();                      // creates a new existential of this type (i.e. an object variable whose allowed values are all the current instances of this type)..
     std::vector<expr> get_instances() const noexcept { return instances; } // returns the instances of this type..
 
     ORATIOCORE_EXPORT constructor &get_constructor(const std::vector<const type *> &ts) const;

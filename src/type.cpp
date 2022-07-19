@@ -46,6 +46,21 @@ namespace ratio::core
         return itm;
     }
 
+    ORATIOCORE_EXPORT expr type::new_existential()
+    {
+        assert(!instances.empty());
+        if (instances.size() == 1)
+            return *instances.cbegin();
+        else
+        {
+            std::vector<expr> c_items;
+            c_items.reserve(instances.size());
+            for (const auto &i : instances)
+                c_items.push_back(i);
+            return get_core().new_enum(*this, c_items);
+        }
+    }
+
     constructor &type::get_constructor(const std::vector<const type *> &ts) const
     {
         assert(std::none_of(ts.cbegin(), ts.cend(), [](const type *t)
