@@ -1,13 +1,16 @@
 #pragma once
-#include "core_defs.h"
+#include "oratiocore_export.h"
 #include "field.h"
 #include <map>
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace ratio::core
 {
   class core;
+  class type;
+  using type_ptr = std::shared_ptr<type>;
 
   class scope
   {

@@ -16,7 +16,10 @@ namespace riddle
 namespace ratio::core
 {
   class type;
+  class item;
+  using expr = std::shared_ptr<item>;
   class complex_item;
+
   class constructor : public scope
   {
     friend class type;

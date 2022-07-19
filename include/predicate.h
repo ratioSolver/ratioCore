@@ -18,4 +18,6 @@ namespace ratio::core
   private:
     std::vector<field *> args; // the arguments of this predicate..
   };
+  
+  using predicate_ptr = std::shared_ptr<predicate>;
 } // namespace ratio::core
