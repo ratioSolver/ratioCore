@@ -1,21 +1,10 @@
 #pragma once
-#include "oratiocore_export.h"
+#include "core_defs.h"
 #include <map>
 #include <string>
-#include <memory>
-
-#define THIS_KW "this"
-#define RETURN_KW "return"
-#define TAU_KW "tau"
 
 namespace ratio::core
 {
-  class core;
-  class env;
-  using context = std::shared_ptr<env>;
-  class item;
-  using expr = std::shared_ptr<item>;
-
   class env
   {
     friend class constructor;

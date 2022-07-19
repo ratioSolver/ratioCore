@@ -5,16 +5,6 @@
 
 namespace ratio::core
 {
-  class item;
-  using expr = std::shared_ptr<item>;
-  class constructor;
-  using constructor_ptr = std::shared_ptr<constructor>;
-  class method;
-  using method_ptr = std::shared_ptr<method>;
-  class predicate;
-  using predicate_ptr = std::shared_ptr<predicate>;
-  class constructor;
-
   class type : public scope
   {
     friend class predicate;
@@ -22,7 +12,7 @@ namespace ratio::core
   public:
     ORATIOCORE_EXPORT type(core &cr, const std::string &name, bool primitive = false);
     type(const type &orig) = delete;
-    ORATIOCORE_EXPORT virtual ~type() = default;
+    ORATIOCORE_EXPORT virtual ~type();
 
     inline const std::string get_name() const noexcept { return name; } // returns the name of this type..
     std::string get_full_name() const noexcept
@@ -63,8 +53,6 @@ namespace ratio::core
     std::vector<constructor_ptr> constructors; // the constructors defined within this type..
     std::vector<expr> instances;               // a vector containing all the instances of this type..
   };
-
-  using type_ptr = std::shared_ptr<type>;
 
   class bool_type final : public type
   {

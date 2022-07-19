@@ -5,11 +5,6 @@
 
 namespace ratio::core
 {
-  class method;
-  using method_ptr = std::shared_ptr<method>;
-  class predicate;
-  using predicate_ptr = std::shared_ptr<predicate>;
-
   class core : public scope, public env
   {
   public:

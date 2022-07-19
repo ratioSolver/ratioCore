@@ -1,4 +1,5 @@
 #include "method.h"
+#include "field.h"
 #include "riddle_parser.h"
 
 namespace ratio::core

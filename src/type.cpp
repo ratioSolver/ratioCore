@@ -1,6 +1,7 @@
 #include "type.h"
 #include "core.h"
 #include "item.h"
+#include "field.h"
 #include "constructor.h"
 #include "riddle_lexer.h"
 #include <queue>
@@ -11,6 +12,7 @@
 namespace ratio::core
 {
     ORATIOCORE_EXPORT type::type(core &cr, const std::string &name, bool primitive) : scope(cr), name(name), primitive(primitive) {}
+    ORATIOCORE_EXPORT type::~type() {}
 
     ORATIOCORE_EXPORT bool type::is_assignable_from(const type &t) const noexcept
     {

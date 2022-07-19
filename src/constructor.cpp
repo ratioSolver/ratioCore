@@ -1,6 +1,7 @@
 #include "constructor.h"
 #include "type.h"
 #include "item.h"
+#include "field.h"
 #include "parser.h"
 #include <algorithm>
 #include <cassert>

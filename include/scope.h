@@ -1,6 +1,5 @@
 #pragma once
-#include "oratiocore_export.h"
-#include "field.h"
+#include "core_defs.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -8,16 +7,12 @@
 
 namespace ratio::core
 {
-  class core;
-  class type;
-  using type_ptr = std::shared_ptr<type>;
-
   class scope
   {
   public:
     ORATIOCORE_EXPORT scope(scope &scp);
     scope(const scope &orig) = delete;
-    ORATIOCORE_EXPORT virtual ~scope() = default;
+    ORATIOCORE_EXPORT virtual ~scope();
 
     /**
      * @brief Get the core in which this scope is defined.

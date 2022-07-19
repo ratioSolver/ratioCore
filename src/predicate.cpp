@@ -1,5 +1,6 @@
 #include "predicate.h"
 #include "atom.h"
+#include "field.h"
 #include <queue>
 
 namespace ratio::core

@@ -24,6 +24,4 @@ namespace ratio::core
     std::vector<field *> args;                                                   // the arguments of this method..
     const std::vector<std::unique_ptr<const riddle::ast::statement>> statements; // the statements within the method's body..
   };
-  
-  using method_ptr = std::shared_ptr<method>;
 } // namespace ratio::core
