@@ -37,4 +37,6 @@ namespace ratio::core
     const std::vector<std::vector<std::unique_ptr<const riddle::ast::expression>>> init_vals; // for each parameter name in the init-list, its initializzation values..
     const std::vector<std::unique_ptr<const riddle::ast::statement>> statements;              // the statements within the constructor's body..
   };
+
+  using constructor_ptr = std::shared_ptr<constructor>;
 } // namespace ratio::core

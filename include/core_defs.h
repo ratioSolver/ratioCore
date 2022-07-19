@@ -10,8 +10,6 @@ namespace ratio::core
 {
   class type;
   using type_ptr = std::shared_ptr<type>;
-  class constructor;
-  using constructor_ptr = std::shared_ptr<constructor>;
   class predicate;
   using predicate_ptr = std::shared_ptr<predicate>;
   class method;

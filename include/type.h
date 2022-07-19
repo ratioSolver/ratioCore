@@ -1,5 +1,6 @@
 #pragma once
 #include "scope.h"
+#include "constructor.h"
 #include <string>
 #include <vector>
 
@@ -46,16 +47,16 @@ namespace ratio::core
 
   public:
     ORATIOCORE_EXPORT constructor &get_constructor(const std::vector<const type *> &ts) const;
-    std::vector<constructor *> get_constructors() const noexcept { return constructors; }
+    const std::vector<constructor_ptr> &get_constructors() const noexcept { return constructors; }
 
   private:
     const std::string name;
     const bool primitive; // is this type a primitive type?
 
   protected:
-    std::vector<type *> supertypes;          // the base types (i.e. the types this type inherits from)..
-    std::vector<constructor *> constructors; // the constructors defined within this type..
-    std::vector<expr> instances;             // a vector containing all the instances of this type..
+    std::vector<type *> supertypes;            // the base types (i.e. the types this type inherits from)..
+    std::vector<constructor_ptr> constructors; // the constructors defined within this type..
+    std::vector<expr> instances;               // a vector containing all the instances of this type..
   };
 
   class bool_type final : public type
