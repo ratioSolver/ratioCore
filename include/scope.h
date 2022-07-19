@@ -1,9 +1,8 @@
 #pragma once
-#include "oratiocore_export.h"
+#include "core_defs.h"
 #include "field.h"
 #include <map>
 #include <string>
-#include <memory>
 #include <vector>
 
 namespace ratio::core
@@ -11,10 +10,6 @@ namespace ratio::core
   class core;
   class item;
   using expr = std::shared_ptr<item>;
-  class type;
-  using type_ptr = std::shared_ptr<type>;
-  class field;
-  using field_ptr = std::shared_ptr<field>;
 
   class scope
   {
