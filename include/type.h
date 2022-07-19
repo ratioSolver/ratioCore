@@ -29,9 +29,9 @@ namespace ratio::core
         t = sc;
       }
       return tp_name;
-    }                                                                          // returns the full name of this type..
-    inline bool is_primitive() const noexcept { return primitive; }            // returns whether this type is primitive..
-    std::vector<type *> get_supertypes() const noexcept { return supertypes; } // returns the base types of this type..
+    }                                                                                 // returns the full name of this type..
+    inline bool is_primitive() const noexcept { return primitive; }                   // returns whether this type is primitive..
+    const std::vector<type *> &get_supertypes() const noexcept { return supertypes; } // returns the base types of this type..
 
     ORATIOCORE_EXPORT virtual bool is_assignable_from(const type &t) const noexcept; // checks whether this type is assignable from the 't' type..
 

@@ -104,4 +104,14 @@ namespace ratio::core
 
     expr evaluate(scope &scp, const context &ctx) const override;
   };
+
+  class statement : public riddle::ast::statement
+  {
+  public:
+    statement() = default;
+    statement(const statement &orig) = delete;
+    virtual ~statement() = default;
+
+    virtual void execute(const scope &scp, context &ctx) const = 0;
+  };
 } // namespace ratio::core
