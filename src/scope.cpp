@@ -1,4 +1,5 @@
 #include "scope.h"
+#include "field.h"
 
 namespace ratio::core
 {
@@ -8,6 +9,9 @@ namespace ratio::core
         for (const auto &f : flds)
             fields.emplace(f->get_name(), f);
     }
+
+    ORATIOCORE_EXPORT void scope::new_field(scope &s, field_ptr f) { s.fields.emplace(f->get_name(), std::move(f)); }
+    ORATIOCORE_EXPORT void scope::new_field(field_ptr f) { fields.emplace(f->get_name(), std::move(f)); }
 
     ORATIOCORE_EXPORT const field &scope::get_field(const std::string &name) const
     {

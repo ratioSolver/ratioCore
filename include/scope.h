@@ -1,6 +1,5 @@
 #pragma once
 #include "core_defs.h"
-#include "field.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -63,8 +62,8 @@ namespace ratio::core
     ORATIOCORE_EXPORT virtual const std::map<std::string, type_ptr> &get_types() const noexcept;
 
   protected:
-    static void inline new_field(scope &s, const field_ptr &f) { s.fields.emplace(f->get_name(), std::move(f)); }
-    void inline new_field(const field_ptr &f) { fields.emplace(f->get_name(), std::move(f)); }
+    ORATIOCORE_EXPORT static void new_field(scope &s, field_ptr f);
+    ORATIOCORE_EXPORT void new_field(field_ptr f);
 
   private:
     core &cr;   // the core in which this scope is defined..
