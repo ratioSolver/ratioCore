@@ -39,6 +39,12 @@ namespace ratio::core
     ORATIOCORE_EXPORT virtual expr new_existential();                      // creates a new existential of this type (i.e. an object variable whose allowed values are all the current instances of this type)..
     std::vector<expr> get_instances() const noexcept { return instances; } // returns the instances of this type..
 
+  protected:
+    ORATIOCORE_EXPORT void new_method(method_ptr m) noexcept;
+    ORATIOCORE_EXPORT void new_type(type_ptr t) noexcept;
+    ORATIOCORE_EXPORT void new_predicate(predicate_ptr p) noexcept;
+
+  public:
     ORATIOCORE_EXPORT constructor &get_constructor(const std::vector<const type *> &ts) const;
     std::vector<constructor *> get_constructors() const noexcept { return constructors; }
 

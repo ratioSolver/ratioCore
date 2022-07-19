@@ -8,8 +8,6 @@
 namespace ratio::core
 {
   class core;
-  class item;
-  using expr = std::shared_ptr<item>;
 
   class scope
   {
@@ -65,8 +63,8 @@ namespace ratio::core
     ORATIOCORE_EXPORT virtual const std::map<std::string, type_ptr> &get_types() const noexcept;
 
   protected:
-    static void inline new_field(scope &s, const field_ptr &f) { s.fields.emplace(f->get_name(), f); }
-    void inline new_field(const field_ptr &f) { fields.emplace(f->get_name(), f); }
+    static void inline new_field(scope &s, const field_ptr &f) { s.fields.emplace(f->get_name(), std::move(f)); }
+    void inline new_field(const field_ptr &f) { fields.emplace(f->get_name(), std::move(f)); }
 
   private:
     core &cr;   // the core in which this scope is defined..

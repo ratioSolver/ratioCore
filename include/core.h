@@ -57,6 +57,12 @@ namespace ratio::core
 
     ORATIOCORE_EXPORT expr get(const std::string &name) const noexcept override;
 
+  protected:
+    ORATIOCORE_EXPORT void new_method(method_ptr m) noexcept;
+    ORATIOCORE_EXPORT void new_type(type_ptr t) noexcept;
+    ORATIOCORE_EXPORT void new_predicate(predicate_ptr p) noexcept;
+
+  public:
     ORATIOCORE_EXPORT type &get_type(const std::string &name) const override;
 
   private:
