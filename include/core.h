@@ -168,7 +168,7 @@ namespace ratio::core
      *
      * @param conjs A vector of conjunctions representing the disjunction.
      */
-    virtual void new_disjunction([[maybe_unused]] const std::vector<std::unique_ptr<conjunction>> conjs) {}
+    ORATIOCORE_EXPORT virtual void new_disjunction(const std::vector<std::unique_ptr<conjunction>> conjs);
 
     void assert_facts([[maybe_unused]] std::vector<expr> facts) {}
 

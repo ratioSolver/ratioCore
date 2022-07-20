@@ -18,6 +18,12 @@ namespace ratio::core
 
     inline semitone::rational get_cost() const noexcept { return cost; } // returns the cost for applying this conjunction..
 
+    /**
+     * @brief Execute this conjunction within the stored context.
+     *
+     */
+    ORATIOCORE_EXPORT void execute();
+
   private:
     context ctx;                                                                  // the context within which the conjunction can be executed..
     const semitone::rational cost;                                                // the cost for applying this conjunction..

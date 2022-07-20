@@ -1,6 +1,7 @@
 #include "core.h"
 #include "method.h"
 #include "predicate.h"
+#include "conjunction.h"
 #include <sstream>
 #include <fstream>
 
@@ -31,6 +32,8 @@ namespace ratio::core
         else
             return nullptr;
     }
+
+    ORATIOCORE_EXPORT void core::new_disjunction([[maybe_unused]] const std::vector<std::unique_ptr<conjunction>> conjs) {}
 
     ORATIOCORE_EXPORT type &core::get_type(const std::string &name) const
     {
