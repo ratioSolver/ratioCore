@@ -19,19 +19,19 @@ namespace ratio::core
         new_field(std::make_unique<field>(tp, THIS_KW));
     }
 
-    expr constructor::new_instance(const std::vector<expr> &exprs) noexcept
+    expr constructor::new_instance(std::vector<expr> exprs) noexcept
     {
         assert(args.size() == exprs.size());
 
         type &t = static_cast<type &>(get_scope());
         expr i = t.new_instance();
 
-        invoke(*static_cast<complex_item *>(i.get()), exprs);
+        invoke(*static_cast<complex_item *>(i.get()), std::move(exprs));
 
         return i;
     }
 
-    void constructor::invoke(complex_item &itm, const std::vector<expr> &exprs)
+    void constructor::invoke(complex_item &itm, std::vector<expr> exprs)
     {
         auto ctx = std::make_shared<env>(itm);
         ctx->vars.emplace(THIS_KW, expr(&itm));
@@ -59,7 +59,7 @@ namespace ratio::core
                     }
 
                     // we assume that the constructor exists..
-                    itm.vars.emplace(init_names[il_idx].id, f.get_type().get_constructor(par_types).new_instance(c_exprs));
+                    itm.vars.emplace(init_names[il_idx].id, f.get_type().get_constructor(par_types).new_instance(std::move(c_exprs)));
                 }
             }
             catch (const std::out_of_range &e)
@@ -77,7 +77,7 @@ namespace ratio::core
                 }
 
                 // we assume that the constructor exists..
-                (*st)->get_constructor(par_types).invoke(itm, c_exprs);
+                (*st)->get_constructor(par_types).invoke(itm, std::move(c_exprs));
             }
 
         // we instantiate the uninstantiated fields..

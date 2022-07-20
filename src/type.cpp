@@ -88,21 +88,21 @@ namespace ratio::core
         throw std::out_of_range(name);
     }
 
-    bool_type::bool_type(core &cr) : type(cr, BOOL_KEYWORD, true) {}
+    bool_type::bool_type(core &cr) : type(cr, BOOL_KW, true) {}
     expr bool_type::new_instance() noexcept { return nullptr; }
 
-    int_type::int_type(core &cr) : type(cr, INT_KEYWORD, true) {}
-    bool int_type::is_assignable_from(const type &t) const noexcept { return &t == this || &t == &get_core().get_type(TIME_KEYWORD); }
+    int_type::int_type(core &cr) : type(cr, INT_KW, true) {}
+    bool int_type::is_assignable_from(const type &t) const noexcept { return &t == this || &t == &get_core().get_type(TIME_KW); }
     expr int_type::new_instance() noexcept { return nullptr; }
 
-    real_type::real_type(core &cr) : type(cr, REAL_KEYWORD, true) {}
-    bool real_type::is_assignable_from(const type &t) const noexcept { return &t == this || &t == &get_core().get_type(TIME_KEYWORD); }
+    real_type::real_type(core &cr) : type(cr, REAL_KW, true) {}
+    bool real_type::is_assignable_from(const type &t) const noexcept { return &t == this || &t == &get_core().get_type(TIME_KW); }
     expr real_type::new_instance() noexcept { return nullptr; }
 
-    time_type::time_type(core &cr) : type(cr, TIME_KEYWORD, true) {}
-    bool time_type::is_assignable_from(const type &t) const noexcept { return &t == this || &t == &get_core().get_type(INT_KEYWORD) || &t == &get_core().get_type(REAL_KEYWORD); }
+    time_type::time_type(core &cr) : type(cr, TIME_KW, true) {}
+    bool time_type::is_assignable_from(const type &t) const noexcept { return &t == this || &t == &get_core().get_type(INT_KW) || &t == &get_core().get_type(REAL_KW); }
     expr time_type::new_instance() noexcept { return nullptr; }
 
-    string_type::string_type(core &cr) : type(cr, STRING_KEYWORD, true) {}
+    string_type::string_type(core &cr) : type(cr, STRING_KW, true) {}
     expr string_type::new_instance() noexcept { return nullptr; }
 } // namespace ratio::core

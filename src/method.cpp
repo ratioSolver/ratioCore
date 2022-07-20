@@ -1,6 +1,8 @@
 #include "method.h"
 #include "field.h"
-#include "riddle_parser.h"
+#include "env.h"
+#include "parser.h"
+#include <cassert>
 
 namespace ratio::core
 {
@@ -14,4 +16,20 @@ namespace ratio::core
         }
     }
     ORATIOCORE_EXPORT method::~method() {}
+
+    expr method::invoke(context &ctx, std::vector<expr> exprs)
+    {
+        assert(args.size() == exprs.size());
+        context c_ctx(ctx);
+        for (size_t i = 0; i < args.size(); ++i)
+            c_ctx->vars.emplace(args.at(i)->get_name(), exprs.at(i));
+
+        for (const auto &s : statements)
+            dynamic_cast<const statement *>(s.get())->execute(*this, c_ctx);
+
+        if (return_type)
+            return c_ctx->vars.at(RETURN_KW);
+        else
+            return nullptr;
+    }
 } // namespace ratio::core

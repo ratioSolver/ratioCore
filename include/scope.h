@@ -42,6 +42,9 @@ namespace ratio::core
      */
     const std::map<std::string, field_ptr> &get_fields() const noexcept { return fields; }
 
+    ORATIOCORE_EXPORT virtual method &get_method(const std::string &name, const std::vector<const type *> &ts) const; // returns the method having the given name and the given argument types, check in the enclosed scope if the type is not found..
+    ORATIOCORE_EXPORT virtual const std::map<std::string, std::vector<method *>> &get_methods() const noexcept;       // returns the vector of methods defined within this scope..
+
     /**
      * @brief Get the type in the current scope with the given name, searching in the enclosing scopes if not found in the current scope.
      *

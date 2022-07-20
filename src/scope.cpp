@@ -18,6 +18,9 @@ namespace ratio::core
         return scp.get_field(name);
     }
 
+    ORATIOCORE_EXPORT method &scope::get_method(const std::string &name, const std::vector<const type *> &ts) const { return scp.get_method(name, ts); }
+    ORATIOCORE_EXPORT const std::map<std::string, std::vector<method *>> &scope::get_methods() const noexcept { return scp.get_methods(); }
+
     ORATIOCORE_EXPORT type &scope::get_type(const std::string &name) const { return scp.get_type(name); }
     ORATIOCORE_EXPORT const std::map<std::string, type_ptr> &scope::get_types() const noexcept { return scp.get_types(); }
 } // namespace ratio::core

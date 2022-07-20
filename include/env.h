@@ -8,6 +8,7 @@ namespace ratio::core
   class env
   {
     friend class constructor;
+    friend class method;
 
   public:
     env(env &e);

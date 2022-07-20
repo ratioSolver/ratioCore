@@ -29,10 +29,10 @@ namespace ratio::core
     constructor(const constructor &orig) = delete;
     ORATIOCORE_EXPORT virtual ~constructor() = default;
 
-    expr new_instance(const std::vector<expr> &exprs) noexcept; // creates a new instance of an item whose type has this constructor invoking this constructor within the given context with the given expressions as arguments of the constructor..
+    expr new_instance(std::vector<expr> exprs) noexcept; // creates a new instance of an item whose type has this constructor invoking this constructor within the given context with the given expressions as arguments of the constructor..
 
   private:
-    void invoke(complex_item &itm, const std::vector<expr> &exprs);
+    void invoke(complex_item &itm, std::vector<expr> exprs);
 
   private:
     std::vector<field *> args;                                                                // the arguments of this constructor..
