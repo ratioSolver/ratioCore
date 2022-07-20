@@ -5,6 +5,7 @@
 #include "method.h"
 #include "constructor.h"
 #include "field.h"
+#include "conjunction.h"
 
 namespace ratio::core
 {
@@ -212,5 +213,31 @@ namespace ratio::core
         for (auto it = std::next(ids.begin()); it != ids.end(); ++it)
             c_e = static_cast<complex_item *>(c_e.get())->get(it->id);
         static_cast<complex_item *>(c_e.get())->vars.emplace(id.id, dynamic_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx));
+    }
+
+    void expression_statement::execute(scope &scp, context &ctx) const
+    {
+        expr be = dynamic_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx);
+        scp.get_core().assert_facts({be});
+    }
+
+    void disjunction_statement::execute(scope &scp, context &ctx) const
+    {
+        std::vector<std::unique_ptr<ratio::core::conjunction>> cs;
+        cs.reserve(conjunctions.size());
+        for (size_t i = 0; i < conjunctions.size(); ++i)
+        {
+            semitone::rational cost(1);
+            if (conjunction_costs[i])
+            { // a cost for the conjunction has been specified..
+                expr a_xpr = dynamic_cast<const ratio::core::expression *>(conjunction_costs[i].get())->evaluate(scp, ctx);
+                if (!static_cast<arith_item *>(a_xpr.get())->get_value().vars.empty())
+                    throw std::invalid_argument("invalid disjunct cost: expected a constant..");
+                cost = scp.get_core().arith_value(a_xpr).get_rational();
+            }
+            cs.emplace_back(std::make_unique<conjunction>(scp, ctx, cost, conjunctions[i]));
+        }
+
+        scp.get_core().new_disjunction(std::move(cs));
     }
 } // namespace ratio::core

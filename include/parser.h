@@ -267,4 +267,31 @@ namespace ratio::core
 
     void execute(scope &scp, context &ctx) const override;
   };
+
+  class expression_statement final : public riddle::ast::expression_statement, public statement
+  {
+  public:
+    expression_statement(std::unique_ptr<const riddle::ast::expression> e) : riddle::ast::expression_statement(std::move(e)) {}
+    expression_statement(const expression_statement &orig) = delete;
+
+    void execute(scope &scp, context &ctx) const override;
+  };
+
+  class disjunction_statement final : public riddle::ast::disjunction_statement, public statement
+  {
+  public:
+    disjunction_statement(std::vector<std::vector<std::unique_ptr<const riddle::ast::statement>>> conjs, std::vector<std::unique_ptr<const riddle::ast::expression>> conj_costs) : riddle::ast::disjunction_statement(std::move(conjs), std::move(conj_costs)) {}
+    disjunction_statement(const disjunction_statement &orig) = delete;
+
+    void execute(scope &scp, context &ctx) const override;
+  };
+
+  class conjunction_statement final : public riddle::ast::conjunction_statement, public statement
+  {
+  public:
+    conjunction_statement(std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts) : riddle::ast::conjunction_statement(std::move(stmnts)) {}
+    conjunction_statement(const conjunction_statement &orig) = delete;
+
+    void execute(scope &scp, context &ctx) const override;
+  };
 } // namespace ratio::core
