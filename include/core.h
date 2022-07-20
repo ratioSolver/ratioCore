@@ -71,4 +71,14 @@ namespace ratio::core
     std::map<std::string, type_ptr> types;                  // the inner types, indexed by their name, defined within this core..
     std::map<std::string, predicate_ptr> predicates;        // the inner predicates, indexed by their name, defined within this core..
   };
+
+  class inconsistency_exception : public std::exception
+  {
+    const char *what() const noexcept override { return "an inconsistency has been found.."; }
+  };
+
+  class unsolvable_exception : public std::exception
+  {
+    const char *what() const noexcept override { return "the problem is unsolvable.."; }
+  };
 } // namespace ratio::core

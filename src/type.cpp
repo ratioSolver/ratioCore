@@ -51,16 +51,18 @@ namespace ratio::core
 
     ORATIOCORE_EXPORT expr type::new_existential()
     {
-        assert(!instances.empty());
-        if (instances.size() == 1)
-            return *instances.cbegin();
-        else
+        switch (instances.size())
         {
-            std::vector<expr> c_items;
-            c_items.reserve(instances.size());
+        case 0:
+            throw inconsistency_exception();
+        case 1:
+            return *instances.cbegin();
+        default:
+            std::vector<expr> c_vals;
+            c_vals.reserve(instances.size());
             for (const auto &i : instances)
-                c_items.push_back(i);
-            return get_core().new_enum(*this, c_items);
+                c_vals.push_back(i);
+            return get_core().new_enum(*this, c_vals);
         }
     }
 

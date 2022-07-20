@@ -34,4 +34,46 @@ namespace ratio::core
 
         return static_cast<type *>(s)->get_constructor(par_types).new_instance(exprs);
     }
+
+    expr eq_expression::evaluate(scope &scp, const context &ctx) const
+    {
+        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        return scp.get_core().eq(l, r);
+    }
+
+    expr neq_expression::evaluate(scope &scp, const context &ctx) const
+    {
+        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        return scp.get_core().negate(scp.get_core().eq(l, r));
+    }
+
+    expr lt_expression::evaluate(scope &scp, const context &ctx) const
+    {
+        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        return scp.get_core().lt(l, r);
+    }
+
+    expr leq_expression::evaluate(scope &scp, const context &ctx) const
+    {
+        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        return scp.get_core().leq(l, r);
+    }
+
+    expr geq_expression::evaluate(scope &scp, const context &ctx) const
+    {
+        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        return scp.get_core().geq(l, r);
+    }
+
+    expr gt_expression::evaluate(scope &scp, const context &ctx) const
+    {
+        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        return scp.get_core().gt(l, r);
+    }
 } // namespace ratio::core
