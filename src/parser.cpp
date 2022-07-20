@@ -106,4 +106,75 @@ namespace ratio::core
         else
             return scp.get_core().new_bool(true);
     }
+
+    expr id_expression::evaluate(scope &, context &ctx) const
+    {
+        expr c_e = ctx->get(ids.begin()->id);
+        for (auto it = std::next(ids.begin()); it != ids.end(); ++it)
+            c_e = static_cast<complex_item *>(c_e.get())->get(it->id);
+        return c_e;
+    }
+
+    expr implication_expression::evaluate(scope &scp, context &ctx) const
+    {
+        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        return scp.get_core().disj({scp.get_core().negate(l), r});
+    }
+
+    expr disjunction_expression::evaluate(scope &scp, context &ctx) const
+    {
+        std::vector<expr> exprs;
+        for (const auto &e : expressions)
+            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+        return scp.get_core().disj(exprs);
+    }
+
+    expr conjunction_expression::evaluate(scope &scp, context &ctx) const
+    {
+        std::vector<expr> exprs;
+        for (const auto &e : expressions)
+            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+        return scp.get_core().conj(exprs);
+    }
+
+    expr exct_one_expression::evaluate(scope &scp, context &ctx) const
+    {
+        std::vector<expr> exprs;
+        for (const auto &e : expressions)
+            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+        return scp.get_core().exct_one(exprs);
+    }
+
+    expr addition_expression::evaluate(scope &scp, context &ctx) const
+    {
+        std::vector<expr> exprs;
+        for (const auto &e : expressions)
+            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+        return scp.get_core().add(exprs);
+    }
+
+    expr subtraction_expression::evaluate(scope &scp, context &ctx) const
+    {
+        std::vector<expr> exprs;
+        for (const auto &e : expressions)
+            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+        return scp.get_core().sub(exprs);
+    }
+
+    expr multiplication_expression::evaluate(scope &scp, context &ctx) const
+    {
+        std::vector<expr> exprs;
+        for (const auto &e : expressions)
+            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+        return scp.get_core().mult(exprs);
+    }
+
+    expr division_expression::evaluate(scope &scp, context &ctx) const
+    {
+        std::vector<expr> exprs;
+        for (const auto &e : expressions)
+            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+        return scp.get_core().div(exprs);
+    }
 } // namespace ratio::core

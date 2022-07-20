@@ -159,6 +159,87 @@ namespace ratio::core
     expr evaluate(scope &scp, context &ctx) const override;
   };
 
+  class id_expression final : public riddle::ast::id_expression, public expression
+  {
+  public:
+    id_expression(std::vector<riddle::id_token> is) : riddle::ast::id_expression(std::move(is)) {}
+    id_expression(const id_expression &orig) = delete;
+
+    expr evaluate(scope &scp, context &ctx) const override;
+  };
+
+  class implication_expression final : public riddle::ast::implication_expression, public expression
+  {
+  public:
+    implication_expression(std::unique_ptr<const riddle::ast::expression> l, std::unique_ptr<const riddle::ast::expression> r) : riddle::ast::implication_expression(std::move(l), std::move(r)) {}
+    implication_expression(const implication_expression &orig) = delete;
+
+    expr evaluate(scope &scp, context &ctx) const override;
+  };
+
+  class disjunction_expression final : public riddle::ast::disjunction_expression, public expression
+  {
+  public:
+    disjunction_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) : riddle::ast::disjunction_expression(std::move(es)) {}
+    disjunction_expression(const disjunction_expression &orig) = delete;
+
+    expr evaluate(scope &scp, context &ctx) const override;
+  };
+
+  class conjunction_expression final : public riddle::ast::conjunction_expression, public expression
+  {
+  public:
+    conjunction_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) : riddle::ast::conjunction_expression(std::move(es)) {}
+    conjunction_expression(const conjunction_expression &orig) = delete;
+
+    expr evaluate(scope &scp, context &ctx) const override;
+  };
+
+  class exct_one_expression final : public riddle::ast::exct_one_expression, public expression
+  {
+  public:
+    exct_one_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) : riddle::ast::exct_one_expression(std::move(es)) {}
+    exct_one_expression(const exct_one_expression &orig) = delete;
+
+    expr evaluate(scope &scp, context &ctx) const override;
+  };
+
+  class addition_expression final : public riddle::ast::addition_expression, public expression
+  {
+  public:
+    addition_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) : riddle::ast::addition_expression(std::move(es)) {}
+    addition_expression(const addition_expression &orig) = delete;
+
+    expr evaluate(scope &scp, context &ctx) const override;
+  };
+
+  class subtraction_expression final : public riddle::ast::subtraction_expression, public expression
+  {
+  public:
+    subtraction_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) : riddle::ast::subtraction_expression(std::move(es)) {}
+    subtraction_expression(const subtraction_expression &orig) = delete;
+
+    expr evaluate(scope &scp, context &ctx) const override;
+  };
+
+  class multiplication_expression final : public riddle::ast::multiplication_expression, public expression
+  {
+  public:
+    multiplication_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) : riddle::ast::multiplication_expression(std::move(es)) {}
+    multiplication_expression(const multiplication_expression &orig) = delete;
+
+    expr evaluate(scope &scp, context &ctx) const override;
+  };
+
+  class division_expression final : public riddle::ast::division_expression, public expression
+  {
+  public:
+    division_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) : riddle::ast::division_expression(std::move(es)) {}
+    division_expression(const division_expression &orig) = delete;
+
+    expr evaluate(scope &scp, context &ctx) const override;
+  };
+
   class statement : public riddle::ast::statement
   {
   public:
