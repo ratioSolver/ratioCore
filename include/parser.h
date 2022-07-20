@@ -247,6 +247,24 @@ namespace ratio::core
     statement(const statement &orig) = delete;
     virtual ~statement() = default;
 
-    virtual void execute(const scope &scp, context &ctx) const = 0;
+    virtual void execute(scope &scp, context &ctx) const = 0;
+  };
+
+  class local_field_statement final : public riddle::ast::local_field_statement, public statement
+  {
+  public:
+    local_field_statement(std::vector<riddle::id_token> ft, std::vector<riddle::id_token> ns, std::vector<std::unique_ptr<const riddle::ast::expression>> es) : riddle::ast::local_field_statement(std::move(ft), std::move(ns), std::move(es)) {}
+    local_field_statement(const local_field_statement &orig) = delete;
+
+    void execute(scope &scp, context &ctx) const override;
+  };
+
+  class assignment_statement final : public riddle::ast::assignment_statement, public statement
+  {
+  public:
+    assignment_statement(std::vector<riddle::id_token> is, const riddle::id_token &i, std::unique_ptr<const riddle::ast::expression> e) : riddle::ast::assignment_statement(std::move(is), i, std::move(e)) {}
+    assignment_statement(const assignment_statement &orig) = delete;
+
+    void execute(scope &scp, context &ctx) const override;
   };
 } // namespace ratio::core

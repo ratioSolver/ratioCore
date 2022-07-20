@@ -6,8 +6,14 @@
 
 namespace ratio::core
 {
+  class local_field_statement;
+  class field_declaration;
+
   class scope
   {
+    friend class local_field_statement;
+    friend class field_declaration;
+
   public:
     ORATIOCORE_EXPORT scope(scope &scp);
     scope(const scope &orig) = delete;

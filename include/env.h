@@ -5,10 +5,19 @@
 
 namespace ratio::core
 {
+  class local_field_statement;
+  class assignment_statement;
+  class formula_statement;
+  class return_statement;
+
   class env
   {
     friend class constructor;
     friend class method;
+    friend class local_field_statement;
+    friend class assignment_statement;
+    friend class formula_statement;
+    friend class return_statement;
 
   public:
     env(env &e);

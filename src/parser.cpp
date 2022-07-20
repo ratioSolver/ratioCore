@@ -4,9 +4,12 @@
 #include "predicate.h"
 #include "method.h"
 #include "constructor.h"
+#include "field.h"
 
 namespace ratio::core
 {
+    inline bool is_scope(const scope &scp) noexcept { return &scp == &scp.get_core(); }
+
     expr bool_literal_expression::evaluate(scope &scp, context &) const { return scp.get_core().new_bool(literal.val); }
     expr int_literal_expression::evaluate(scope &scp, context &) const { return scp.get_core().new_int(literal.val); }
     expr real_literal_expression::evaluate(scope &scp, context &) const { return scp.get_core().new_real(literal.val); }
@@ -176,5 +179,38 @@ namespace ratio::core
         for (const auto &e : expressions)
             exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
         return scp.get_core().div(exprs);
+    }
+
+    void local_field_statement::execute(scope &scp, context &ctx) const
+    {
+        for (size_t i = 0; i < names.size(); ++i)
+        {
+            if (xprs[i])
+                ctx->vars.emplace(names[i].id, dynamic_cast<const ratio::core::expression *>(xprs[i].get())->evaluate(scp, ctx));
+            else
+            {
+                scope *s = &scp;
+                for (const auto &tp : field_type)
+                    s = &s->get_type(tp.id);
+                type *t = static_cast<type *>(s);
+                if (t->is_primitive())
+                    ctx->vars.emplace(names[i].id, t->new_instance());
+                else if (!t->get_instances().empty())
+                    ctx->vars.emplace(names[i].id, t->new_existential());
+                else
+                    throw inconsistency_exception();
+            }
+
+            if (is_scope(scp)) // we create fields for root items..
+                scp.get_core().fields.emplace(names[i].id, std::make_unique<field>(ctx->vars.at(names[i].id)->get_type(), names[i].id));
+        }
+    }
+
+    void assignment_statement::execute(scope &scp, context &ctx) const
+    {
+        expr c_e = ctx->get(ids.begin()->id);
+        for (auto it = std::next(ids.begin()); it != ids.end(); ++it)
+            c_e = static_cast<complex_item *>(c_e.get())->get(it->id);
+        static_cast<complex_item *>(c_e.get())->vars.emplace(id.id, dynamic_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx));
     }
 } // namespace ratio::core
