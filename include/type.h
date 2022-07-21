@@ -6,14 +6,16 @@
 namespace ratio::core
 {
   class method_declaration;
+  class predicate_declaration;
 
   class type : public scope
   {
     friend class predicate;
     friend class method_declaration;
+    friend class predicate_declaration;
 
   public:
-    ORATIOCORE_EXPORT type(core &cr, const std::string &name, bool primitive = false);
+    ORATIOCORE_EXPORT type(scope &scp, const std::string &name, bool primitive = false);
     type(const type &orig) = delete;
     ORATIOCORE_EXPORT virtual ~type();
 
@@ -39,6 +41,7 @@ namespace ratio::core
     std::vector<expr> get_instances() const noexcept { return instances; } // returns the instances of this type..
 
   protected:
+    ORATIOCORE_EXPORT void new_supertype(type &t) noexcept;
     ORATIOCORE_EXPORT void new_constructor(constructor_ptr c) noexcept;
     ORATIOCORE_EXPORT void new_method(method_ptr m) noexcept;
     ORATIOCORE_EXPORT void new_type(type_ptr t) noexcept;

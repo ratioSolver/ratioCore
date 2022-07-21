@@ -340,4 +340,37 @@ namespace ratio::core
         else if (type *t = dynamic_cast<type *>(&scp))
             t->new_method(std::move(m));
     }
+
+    void predicate_declaration::declare(scope &scp) const
+    {
+        std::vector<field_ptr> args;
+        for (const auto &[id_tkns, id_tkn] : parameters)
+        {
+            scope *s = &scp;
+            for (const auto &id_tk : id_tkns)
+                s = &s->get_type(id_tk.id);
+            type *tp = static_cast<type *>(s);
+            args.emplace_back(std::make_unique<field>(*tp, id_tkn.id));
+        }
+
+        auto p = std::make_unique<predicate>(scp, name.id, std::move(args), statements);
+        if (core *c = dynamic_cast<core *>(&scp))
+            c->new_predicate(std::move(p));
+        else if (type *t = dynamic_cast<type *>(&scp))
+            t->new_predicate(std::move(p));
+    }
+
+    void predicate_declaration::refine(scope &scp) const
+    {
+        predicate &p = scp.get_predicate(name.id);
+
+        // we add the supertypes..
+        for (const auto &sp : predicate_list)
+        {
+            scope *s = &scp;
+            for (const auto &id_tk : sp)
+                s = &s->get_predicate(id_tk.id);
+            p.new_supertype(*static_cast<predicate *>(s));
+        }
+    }
 } // namespace ratio::core

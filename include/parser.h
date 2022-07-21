@@ -338,6 +338,7 @@ namespace ratio::core
     predicate_declaration(const riddle::id_token &n, std::vector<std::pair<const std::vector<riddle::id_token>, const riddle::id_token>> pars, std::vector<std::vector<riddle::id_token>> pl, std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts) : riddle::ast::predicate_declaration(n, std::move(pars), std::move(pl), std::move(stmnts)) {}
     predicate_declaration(const predicate_declaration &orig) = delete;
 
+    void declare(scope &scp) const;
     void refine(scope &scp) const;
   };
 

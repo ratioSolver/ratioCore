@@ -13,11 +13,13 @@ namespace ratio::core
   class atom;
   class formula_statement;
   class method_declaration;
+  class predicate_declaration;
 
   class core : public scope, public env
   {
     friend class formula_statement;
     friend class method_declaration;
+    friend class predicate_declaration;
 
   public:
     ORATIOCORE_EXPORT core();

@@ -1,6 +1,11 @@
 #pragma once
 #include "type.h"
 
+namespace riddle::ast
+{
+  class statement;
+} // namespace riddle
+
 namespace ratio::core
 {
   class atom;
@@ -8,7 +13,7 @@ namespace ratio::core
   class predicate : public type
   {
   public:
-    ORATIOCORE_EXPORT predicate(core &cr, const std::string &name, std::vector<field_ptr> args);
+    ORATIOCORE_EXPORT predicate(scope &scp, const std::string &name, std::vector<field_ptr> args, const std::vector<std::unique_ptr<const riddle::ast::statement>> &stmnts);
     predicate(const predicate &orig) = delete;
 
     inline std::string get_name() const noexcept { return name; }                 // returns the name of this predicate..
@@ -19,6 +24,7 @@ namespace ratio::core
     ORATIOCORE_EXPORT void apply_rule(atom &a); // applies the rule associated to this predicate to the given atom..
 
   private:
-    std::vector<field *> args; // the arguments of this predicate..
+    std::vector<field *> args;                                                    // the arguments of this predicate..
+    const std::vector<std::unique_ptr<const riddle::ast::statement>> &statements; // the statements within the predicate's body..
   };
 } // namespace ratio::core

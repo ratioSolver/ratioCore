@@ -12,7 +12,7 @@
 
 namespace ratio::core
 {
-    ORATIOCORE_EXPORT type::type(core &cr, const std::string &name, bool primitive) : scope(cr), name(name), primitive(primitive) {}
+    ORATIOCORE_EXPORT type::type(scope &scp, const std::string &name, bool primitive) : scope(scp), name(name), primitive(primitive) {}
     ORATIOCORE_EXPORT type::~type() {}
 
     ORATIOCORE_EXPORT bool type::is_assignable_from(const type &t) const noexcept
@@ -66,6 +66,7 @@ namespace ratio::core
         }
     }
 
+    ORATIOCORE_EXPORT void type::new_supertype(type &t) noexcept { supertypes.emplace_back(&t); }
     ORATIOCORE_EXPORT void type::new_constructor(constructor_ptr c) noexcept { constructors.emplace_back(std::move(c)); }
     ORATIOCORE_EXPORT void type::new_method(method_ptr m) noexcept { methods[m->get_name()].emplace_back(std::move(m)); }
     ORATIOCORE_EXPORT void type::new_type(type_ptr t) noexcept { types.emplace(t->get_name(), std::move(t)); }

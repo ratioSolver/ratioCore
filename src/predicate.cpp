@@ -5,7 +5,7 @@
 
 namespace ratio::core
 {
-    ORATIOCORE_EXPORT predicate::predicate(core &cr, const std::string &name, std::vector<field_ptr> args) : type(cr, name)
+    ORATIOCORE_EXPORT predicate::predicate(scope &scp, const std::string &name, std::vector<field_ptr> args, const std::vector<std::unique_ptr<const riddle::ast::statement>> &stmnts) : type(scp, name), statements(stmnts)
     {
         this->args.reserve(args.size());
         for (auto &f : args)
