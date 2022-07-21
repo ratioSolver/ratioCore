@@ -88,6 +88,127 @@ namespace ratio::core
         throw std::out_of_range(name);
     }
 
+    ORATIOCORE_EXPORT const field &type::get_field(const std::string &name) const
+    {
+        if (const auto at_f = get_fields().find(name); at_f != get_fields().cend())
+            return *at_f->second;
+
+        try
+        { // if not here, check any enclosing scope
+            return get_scope().get_field(name);
+        }
+        catch (const std::out_of_range &)
+        { // if not in any enclosing scope, check any superclass
+            for (const auto &st : supertypes)
+                try
+                {
+                    return st->get_field(name);
+                }
+                catch (const std::out_of_range &)
+                {
+                }
+        }
+
+        // not found
+        throw std::out_of_range(name);
+    }
+
+    ORATIOCORE_EXPORT method &type::get_method(const std::string &name, const std::vector<const type *> &ts) const
+    {
+        if (const auto at_m = methods.find(name); at_m != methods.cend())
+        {
+            bool found = false;
+            for (const auto &mthd : at_m->second)
+                if (mthd->get_args().size() == ts.size())
+                {
+                    found = true;
+                    for (size_t i = 0; i < ts.size(); ++i)
+                        if (!mthd->get_args()[i]->get_type().is_assignable_from(*ts[i]))
+                        {
+                            found = false;
+                            break;
+                        }
+                    if (found)
+                        return *mthd;
+                }
+        }
+
+        try
+        { // if not here, check any enclosing scope
+            return get_scope().get_method(name, ts);
+        }
+        catch (const std::out_of_range &)
+        { // if not in any enclosing scope, check any superclass
+            for (const auto &st : supertypes)
+            {
+                try
+                {
+                    return st->get_method(name, ts);
+                }
+                catch (const std::out_of_range &)
+                {
+                }
+            }
+        }
+
+        // not found
+        throw std::out_of_range(name);
+    }
+
+    ORATIOCORE_EXPORT type &type::get_type(const std::string &name) const
+    {
+        if (const auto at_tp = types.find(name); at_tp != types.cend())
+            return *at_tp->second;
+
+        try
+        { // if not here, check any enclosing scope
+            return get_scope().get_type(name);
+        }
+        catch (const std::out_of_range &)
+        { // if not in any enclosing scope, check any superclass
+            for (const auto &st : supertypes)
+            {
+                try
+                {
+                    return st->get_type(name);
+                }
+                catch (const std::out_of_range &)
+                {
+                }
+            }
+        }
+
+        // not found
+        throw std::out_of_range(name);
+    }
+
+    ORATIOCORE_EXPORT predicate &type::get_predicate(const std::string &name) const
+    {
+        if (const auto at_p = predicates.find(name); at_p != predicates.cend())
+            return *at_p->second;
+
+        try
+        { // if not here, check any enclosing scope
+            return get_scope().get_predicate(name);
+        }
+        catch (const std::out_of_range &)
+        { // if not in any enclosing scope, check any superclass
+            for (const auto &st : supertypes)
+            {
+                try
+                {
+                    return st->get_predicate(name);
+                }
+                catch (const std::out_of_range &)
+                {
+                }
+            }
+        }
+
+        // not found
+        throw std::out_of_range(name);
+    }
+
     bool_type::bool_type(core &cr) : type(cr, BOOL_KW, true) {}
     expr bool_type::new_instance() noexcept { return nullptr; }
 

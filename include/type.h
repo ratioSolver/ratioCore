@@ -41,8 +41,15 @@ namespace ratio::core
     ORATIOCORE_EXPORT void new_predicate(predicate_ptr p) noexcept;
 
   public:
+    ORATIOCORE_EXPORT const field &get_field(const std::string &name) const override;
     ORATIOCORE_EXPORT constructor &get_constructor(const std::vector<const type *> &ts) const;
     const std::vector<constructor_ptr> &get_constructors() const noexcept { return constructors; }
+    ORATIOCORE_EXPORT method &get_method(const std::string &name, const std::vector<const type *> &ts) const override;
+    const std::map<std::string, std::vector<method_ptr>> &get_methods() const noexcept override { return methods; }
+    ORATIOCORE_EXPORT type &get_type(const std::string &name) const override;
+    const std::map<std::string, type_ptr> &get_types() const noexcept override { return types; }
+    ORATIOCORE_EXPORT predicate &get_predicate(const std::string &name) const override;
+    const std::map<std::string, predicate_ptr> &get_predicates() const noexcept override { return predicates; }
 
   private:
     const std::string name;

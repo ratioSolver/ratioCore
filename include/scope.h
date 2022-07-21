@@ -40,7 +40,6 @@ namespace ratio::core
      * @throws std::out_of_range Thrown if there is no field with the given name.
      */
     ORATIOCORE_EXPORT virtual const field &get_field(const std::string &name) const;
-
     /**
      * @brief Get the fields defined within this scope.
      *
@@ -48,8 +47,21 @@ namespace ratio::core
      */
     const std::map<std::string, field_ptr> &get_fields() const noexcept { return fields; }
 
-    ORATIOCORE_EXPORT virtual method &get_method(const std::string &name, const std::vector<const type *> &ts) const; // returns the method having the given name and the given argument types, check in the enclosed scope if the type is not found..
-    ORATIOCORE_EXPORT virtual const std::map<std::string, std::vector<method *>> &get_methods() const noexcept;       // returns the vector of methods defined within this scope..
+    /**
+     * @brief Get the method in the current scope with the given name and the given parameter types, searching in the enclosing scopes if not found in the current scope.
+     *
+     * @param name The name of the desired method.
+     * @param ts The parameter types of the desired method.
+     * @return method& The method in the current scope with the given name.
+     * @throws std::out_of_range Thrown if there is no method with the given name.
+     */
+    ORATIOCORE_EXPORT virtual method &get_method(const std::string &name, const std::vector<const type *> &ts) const;
+    /**
+     * @brief Get the methods defined within this scope.
+     *
+     * @return const std::map<std::string, std::vector<method_ptr>>& A map of methods defined within this scope having the methods' names as keys.
+     */
+    ORATIOCORE_EXPORT virtual const std::map<std::string, std::vector<method_ptr>> &get_methods() const noexcept;
 
     /**
      * @brief Get the type in the current scope with the given name, searching in the enclosing scopes if not found in the current scope.
@@ -66,6 +78,21 @@ namespace ratio::core
      * @return const std::map<std::string, type_ptr>& A map of types defined within this scope having the types' names as keys.
      */
     ORATIOCORE_EXPORT virtual const std::map<std::string, type_ptr> &get_types() const noexcept;
+
+    /**
+     * @brief Get the predicate in the current scope with the given name, searching in the enclosing scopes if not found in the current scope.
+     *
+     * @param name The name of the desired predicate.
+     * @return predicate& The predicate in the current scope with the given name.
+     * @throws std::out_of_range Thrown if there is no predicate with the given name.
+     */
+    ORATIOCORE_EXPORT virtual predicate &get_predicate(const std::string &name) const;
+    /**
+     * @brief Get the predicates defined within this scope.
+     *
+     * @return const std::map<std::string, predicate_ptr>& A map of predicates defined within this scope having the predicates' names as keys.
+     */
+    ORATIOCORE_EXPORT virtual const std::map<std::string, predicate_ptr> &get_predicates() const noexcept;
 
   protected:
     ORATIOCORE_EXPORT static void new_field(scope &s, field_ptr f);
