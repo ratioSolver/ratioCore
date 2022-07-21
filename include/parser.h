@@ -294,4 +294,117 @@ namespace ratio::core
 
     void execute(scope &scp, context &ctx) const override;
   };
+
+  class formula_statement final : public riddle::ast::formula_statement, public statement
+  {
+  public:
+    formula_statement(const bool &isf, const riddle::id_token &fn, std::vector<riddle::id_token> scp, const riddle::id_token &pn, std::vector<riddle::id_token> assn_ns, std::vector<std::unique_ptr<const riddle::ast::expression>> assn_vs) : riddle::ast::formula_statement(isf, fn, std::move(scp), pn, std::move(assn_ns), std::move(assn_vs)) {}
+    formula_statement(const formula_statement &orig) = delete;
+
+    void execute(scope &scp, context &ctx) const override;
+  };
+
+  class return_statement final : public riddle::ast::return_statement, public statement
+  {
+  public:
+    return_statement(std::unique_ptr<const riddle::ast::expression> e) : riddle::ast::return_statement(std::move(e)) {}
+    return_statement(const return_statement &orig) = delete;
+
+    void execute(scope &scp, context &ctx) const override;
+  };
+
+  class type_declaration : public riddle::ast::type_declaration
+  {
+  public:
+    type_declaration() = default;
+    type_declaration(const type_declaration &orig) = delete;
+
+    virtual void declare(scope &) const {}
+    virtual void refine(scope &) const {}
+  };
+
+  class method_declaration final : public riddle::ast::method_declaration
+  {
+  public:
+    method_declaration(std::vector<riddle::id_token> rt, const riddle::id_token &n, std::vector<std::pair<const std::vector<riddle::id_token>, const riddle::id_token>> pars, std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts) : riddle::ast::method_declaration(std::move(rt), n, std::move(pars), std::move(stmnts)) {}
+    method_declaration(const method_declaration &orig) = delete;
+
+    void refine(scope &scp) const;
+  };
+
+  class predicate_declaration final : public riddle::ast::predicate_declaration
+  {
+  public:
+    predicate_declaration(const riddle::id_token &n, std::vector<std::pair<const std::vector<riddle::id_token>, const riddle::id_token>> pars, std::vector<std::vector<riddle::id_token>> pl, std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts) : riddle::ast::predicate_declaration(n, std::move(pars), std::move(pl), std::move(stmnts)) {}
+    predicate_declaration(const predicate_declaration &orig) = delete;
+
+    void refine(scope &scp) const;
+  };
+
+  class typedef_declaration final : public riddle::ast::typedef_declaration, public type_declaration
+  {
+  public:
+    typedef_declaration(const riddle::id_token &n, const riddle::id_token &pt, std::unique_ptr<const riddle::ast::expression> e) : riddle::ast::typedef_declaration(n, pt, std::move(e)) {}
+    typedef_declaration(const typedef_declaration &orig) = delete;
+
+    void declare(scope &scp) const override;
+  };
+
+  class enum_declaration final : public riddle::ast::enum_declaration, public type_declaration
+  {
+  public:
+    enum_declaration(const riddle::id_token &n, std::vector<riddle::string_token> es, std::vector<std::vector<riddle::id_token>> trs) : riddle::ast::enum_declaration(n, std::move(es), std::move(trs)) {}
+    enum_declaration(const enum_declaration &orig) = delete;
+
+    void declare(scope &scp) const override;
+    void refine(scope &scp) const override;
+  };
+
+  class variable_declaration final : public riddle::ast::variable_declaration
+  {
+    friend class field_declaration;
+
+  public:
+    variable_declaration(const riddle::id_token &n, std::unique_ptr<const riddle::ast::expression> e = nullptr) : riddle::ast::variable_declaration(n, std::move(e)) {}
+    variable_declaration(const variable_declaration &orig) = delete;
+  };
+
+  class field_declaration final : public riddle::ast::field_declaration
+  {
+  public:
+    field_declaration(std::vector<riddle::id_token> tp, std::vector<std::unique_ptr<const riddle::ast::variable_declaration>> ds) : riddle::ast::field_declaration(std::move(tp), std::move(ds)) {}
+    field_declaration(const field_declaration &orig) = delete;
+
+    void refine(scope &scp) const;
+  };
+
+  class constructor_declaration final : public riddle::ast::constructor_declaration
+  {
+  public:
+    constructor_declaration(std::vector<std::pair<const std::vector<riddle::id_token>, const riddle::id_token>> pars, std::vector<riddle::id_token> ins, std::vector<std::vector<std::unique_ptr<const riddle::ast::expression>>> ivs, std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts) : riddle::ast::constructor_declaration(std::move(pars), std::move(ins), std::move(ivs), std::move(stmnts)) {}
+    constructor_declaration(const constructor_declaration &orig) = delete;
+
+    void refine(scope &scp) const;
+  };
+
+  class class_declaration final : public riddle::ast::class_declaration, public type_declaration
+  {
+  public:
+    class_declaration(const riddle::id_token &n, std::vector<std::vector<riddle::id_token>> bcs, std::vector<std::unique_ptr<const riddle::ast::field_declaration>> fs, std::vector<std::unique_ptr<const riddle::ast::constructor_declaration>> cs, std::vector<std::unique_ptr<const riddle::ast::method_declaration>> ms, std::vector<std::unique_ptr<const riddle::ast::predicate_declaration>> ps, std::vector<std::unique_ptr<const riddle::ast::type_declaration>> ts) : riddle::ast::class_declaration(n, std::move(bcs), std::move(fs), std::move(cs), std::move(ms), std::move(ps), std::move(ts)) {}
+    class_declaration(const class_declaration &orig) = delete;
+
+    void declare(scope &scp) const override;
+    void refine(scope &scp) const override;
+  };
+
+  class compilation_unit final : public riddle::ast::compilation_unit
+  {
+  public:
+    compilation_unit(std::vector<std::unique_ptr<const riddle::ast::method_declaration>> ms, std::vector<std::unique_ptr<const riddle::ast::predicate_declaration>> ps, std::vector<std::unique_ptr<const riddle::ast::type_declaration>> ts, std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts) : riddle::ast::compilation_unit(std::move(ms), std::move(ps), std::move(ts), std::move(stmnts)) {}
+    compilation_unit(const compilation_unit &orig) = delete;
+
+    void declare(scope &scp) const;
+    void refine(scope &scp) const;
+    void execute(scope &scp, context &ctx) const;
+  };
 } // namespace ratio::core
