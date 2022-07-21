@@ -52,7 +52,7 @@ namespace ratio::core
      * @param val The value of the literal.
      * @return expr The new boolean literal.
      */
-    virtual expr new_bool([[maybe_unused]] const bool &val) noexcept { return nullptr; }
+    ORATIOCORE_EXPORT expr new_bool(const bool &val) noexcept;
 
     /**
      * @brief Creates a new integer variable.
@@ -67,7 +67,7 @@ namespace ratio::core
      * @param val The value of the literal.
      * @return expr The new integer literal.
      */
-    virtual expr new_int([[maybe_unused]] const semitone::I &val) noexcept { return nullptr; }
+    ORATIOCORE_EXPORT expr new_int(const semitone::I &val) noexcept;
 
     /**
      * @brief Creates a new real variable.
@@ -82,7 +82,7 @@ namespace ratio::core
      * @param val The value of the literal.
      * @return expr The new real literal.
      */
-    virtual expr new_real([[maybe_unused]] const semitone::rational &val) noexcept { return nullptr; }
+    ORATIOCORE_EXPORT expr new_real(const semitone::rational &val) noexcept;
 
     /**
      * @brief Creates a new time-point variable.
@@ -97,7 +97,7 @@ namespace ratio::core
      * @param val The value of the literal.
      * @return expr The new time-point literal.
      */
-    virtual expr new_time_point([[maybe_unused]] const semitone::rational &val) noexcept { return nullptr; }
+    ORATIOCORE_EXPORT expr new_time_point(const semitone::rational &val) noexcept;
 
     /**
      * @brief Creates a new string variable.
@@ -112,7 +112,7 @@ namespace ratio::core
      * @param val The value of the literal.
      * @return expr The new string literal.
      */
-    virtual expr new_string([[maybe_unused]] const std::string &val) noexcept { return nullptr; }
+    ORATIOCORE_EXPORT expr new_string(const std::string &val) noexcept;
 
     /**
      * @brief Creates a new enumerative variable.

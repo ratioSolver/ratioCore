@@ -12,6 +12,7 @@ namespace ratio::core
 
   class env
   {
+    friend class predicate;
     friend class constructor;
     friend class method;
     friend class local_field_statement;

@@ -9,7 +9,10 @@
 
 namespace ratio::core
 {
-    ORATIOCORE_EXPORT core::core() : scope(*this), env(*this) {}
+    ORATIOCORE_EXPORT core::core() : scope(*this), env(*this)
+    {
+        new_type(std::make_unique<bool_type>(*this));
+    }
     ORATIOCORE_EXPORT core::~core() {}
 
     ORATIOCORE_EXPORT void core::read(const std::string &script)
@@ -26,6 +29,12 @@ namespace ratio::core
             else
                 throw std::invalid_argument("cannot find file '" + f + "'");
     }
+
+    ORATIOCORE_EXPORT expr core::new_bool(const bool &val) noexcept { return std::make_shared<bool_item>(*types.at(BOOL_KW), val ? semitone::TRUE_lit : semitone::FALSE_lit); }
+    ORATIOCORE_EXPORT expr core::new_int(const semitone::I &val) noexcept { return std::make_shared<arith_item>(*types.at(INT_KW), semitone::lin(semitone::rational(val))); }
+    ORATIOCORE_EXPORT expr core::new_real(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(*types.at(REAL_KW), semitone::lin(val)); }
+    ORATIOCORE_EXPORT expr core::new_time_point(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(*types.at(TIME_KW), semitone::lin(val)); }
+    ORATIOCORE_EXPORT expr core::new_string(const std::string &val) noexcept { return std::make_shared<string_item>(*types.at(STRING_KW), val); }
 
     ORATIOCORE_EXPORT expr core::get(const std::string &name) noexcept
     {

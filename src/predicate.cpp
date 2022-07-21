@@ -1,6 +1,7 @@
 #include "predicate.h"
 #include "atom.h"
 #include "field.h"
+#include "parser.h"
 #include <queue>
 
 namespace ratio::core
@@ -36,5 +37,10 @@ namespace ratio::core
         for (const auto &sp : supertypes)
             if (auto p = dynamic_cast<predicate *>(sp))
                 p->apply_rule(a);
+
+        auto ctx = std::make_shared<env>(a);
+        ctx->vars.emplace(THIS_KW, &a);
+        for (const auto &s : statements)
+            dynamic_cast<const statement *>(s.get())->execute(*this, ctx);
     }
 } // namespace ratio::core
