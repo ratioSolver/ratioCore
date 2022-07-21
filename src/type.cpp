@@ -66,6 +66,11 @@ namespace ratio::core
         }
     }
 
+    ORATIOCORE_EXPORT void type::new_constructor(constructor_ptr c) noexcept { constructors.emplace_back(std::move(c)); }
+    ORATIOCORE_EXPORT void type::new_method(method_ptr m) noexcept { methods[m->get_name()].emplace_back(std::move(m)); }
+    ORATIOCORE_EXPORT void type::new_type(type_ptr t) noexcept { types.emplace(t->get_name(), std::move(t)); }
+    ORATIOCORE_EXPORT void type::new_predicate(predicate_ptr p) noexcept { predicates.emplace(p->get_name(), std::move(p)); }
+
     constructor &type::get_constructor(const std::vector<const type *> &ts) const
     {
         assert(std::none_of(ts.cbegin(), ts.cend(), [](const type *t)

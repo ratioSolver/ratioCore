@@ -311,4 +311,33 @@ namespace ratio::core
         scp.get_core().new_atom(c_atm, is_fact);
         ctx->vars.emplace(formula_name.id, atm);
     }
+
+    void return_statement::execute(scope &scp, context &ctx) const { ctx->vars.emplace(RETURN_KW, dynamic_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx)); }
+
+    void method_declaration::refine(scope &scp) const
+    {
+        type *rt;
+        if (!return_type.empty())
+        {
+            scope *s = &scp;
+            for (const auto &id_tk : return_type)
+                s = &s->get_type(id_tk.id);
+            rt = static_cast<type *>(s);
+        }
+
+        std::vector<field_ptr> args;
+        for (const auto &[id_tkns, id_tkn] : parameters)
+        {
+            scope *s = &scp;
+            for (const auto &id_tk : id_tkns)
+                s = &s->get_type(id_tk.id);
+            type *tp = static_cast<type *>(s);
+            args.emplace_back(std::make_unique<field>(*tp, id_tkn.id));
+        }
+
+        if (auto m = std::make_unique<method>(scp, rt, name.id, std::move(args), statements); core *c = dynamic_cast<core *>(&scp))
+            c->new_method(std::move(m));
+        else if (type *t = dynamic_cast<type *>(&scp))
+            t->new_method(std::move(m));
+    }
 } // namespace ratio::core

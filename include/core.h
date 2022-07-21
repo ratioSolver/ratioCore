@@ -12,10 +12,12 @@ namespace ratio::core
   class enum_item;
   class atom;
   class formula_statement;
+  class method_declaration;
 
   class core : public scope, public env
   {
     friend class formula_statement;
+    friend class method_declaration;
 
   public:
     ORATIOCORE_EXPORT core();

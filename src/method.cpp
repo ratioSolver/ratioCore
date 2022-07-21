@@ -6,7 +6,7 @@
 
 namespace ratio::core
 {
-    ORATIOCORE_EXPORT method::method(scope &scp, type *return_type, const std::string &name, std::vector<field_ptr> args, std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts) : scope(scp), return_type(return_type), name(name), statements(std::move(stmnts))
+    ORATIOCORE_EXPORT method::method(scope &scp, type *return_type, const std::string &name, std::vector<field_ptr> args, const std::vector<std::unique_ptr<const riddle::ast::statement>> &stmnts) : scope(scp), return_type(return_type), name(name), statements(stmnts)
     {
         this->args.reserve(args.size());
         for (auto &f : args)

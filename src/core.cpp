@@ -42,6 +42,10 @@ namespace ratio::core
 
     ORATIOCORE_EXPORT void core::new_disjunction([[maybe_unused]] const std::vector<std::unique_ptr<conjunction>> conjs) {}
 
+    ORATIOCORE_EXPORT void core::new_method(method_ptr m) noexcept { methods[m->get_name()].emplace_back(std::move(m)); }
+    ORATIOCORE_EXPORT void core::new_type(type_ptr t) noexcept { types.emplace(t->get_name(), std::move(t)); }
+    ORATIOCORE_EXPORT void core::new_predicate(predicate_ptr p) noexcept { predicates.emplace(p->get_name(), std::move(p)); }
+
     ORATIOCORE_EXPORT const field &core::get_field(const std::string &name) const
     {
         if (const auto at_f = get_fields().find(name); at_f != get_fields().cend())
