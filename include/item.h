@@ -64,7 +64,7 @@ namespace ratio::core
     complex_item(const complex_item &orig) = delete;
     ORATIOCORE_EXPORT virtual ~complex_item() = default;
 
-    ORATIOCORE_EXPORT expr get(const std::string &name) const noexcept override;
+    ORATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
   };
 
   class enum_item final : public complex_item
@@ -73,7 +73,7 @@ namespace ratio::core
     ORATIOCORE_EXPORT enum_item(type &t, semitone::var ev);
     enum_item(const enum_item &that) = delete;
 
-    ORATIOCORE_EXPORT expr get(const std::string &name) const noexcept override;
+    ORATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
 
     inline semitone::var get_var() const { return ev; }
 

@@ -3,6 +3,7 @@
 #include "predicate.h"
 #include "conjunction.h"
 #include "field.h"
+#include "atom.h"
 #include <sstream>
 #include <fstream>
 
@@ -26,13 +27,18 @@ namespace ratio::core
                 throw std::invalid_argument("cannot find file '" + f + "'");
     }
 
-    ORATIOCORE_EXPORT expr core::get(const std::string &name) const noexcept
+    ORATIOCORE_EXPORT expr core::get(const std::string &name) noexcept
     {
         if (const auto at_xpr = vars.find(name); at_xpr != vars.cend())
             return at_xpr->second;
         else
             return nullptr;
     }
+
+    ORATIOCORE_EXPORT semitone::lbool core::bool_value([[maybe_unused]] const expr &x) const noexcept { return bool_value(*static_cast<bool_item *>(x.get())); }
+    ORATIOCORE_EXPORT std::pair<semitone::inf_rational, semitone::inf_rational> core::arith_bounds([[maybe_unused]] const expr &x) const noexcept { return arith_bounds(*static_cast<arith_item *>(x.get())); }
+    ORATIOCORE_EXPORT semitone::inf_rational core::arith_value([[maybe_unused]] const expr &x) const noexcept { return arith_value(*static_cast<arith_item *>(x.get())); }
+    ORATIOCORE_EXPORT std::unordered_set<expr> core::enum_value([[maybe_unused]] const expr &x) const noexcept { return enum_value(*static_cast<enum_item *>(x.get())); }
 
     ORATIOCORE_EXPORT void core::new_disjunction([[maybe_unused]] const std::vector<std::unique_ptr<conjunction>> conjs) {}
 

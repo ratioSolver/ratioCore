@@ -6,10 +6,12 @@
 #include "constructor.h"
 #include "field.h"
 #include "conjunction.h"
+#include <unordered_map>
+#include <queue>
 
 namespace ratio::core
 {
-    inline bool is_scope(const scope &scp) noexcept { return &scp == &scp.get_core(); }
+    inline bool is_core(const scope &scp) noexcept { return &scp == &scp.get_core(); }
 
     expr bool_literal_expression::evaluate(scope &scp, context &) const { return scp.get_core().new_bool(literal.val); }
     expr int_literal_expression::evaluate(scope &scp, context &) const { return scp.get_core().new_int(literal.val); }
@@ -202,7 +204,7 @@ namespace ratio::core
                     throw inconsistency_exception();
             }
 
-            if (is_scope(scp)) // we create fields for root items..
+            if (is_core(scp)) // we create fields for root items..
                 scp.get_core().fields.emplace(names[i].id, std::make_unique<field>(ctx->vars.at(names[i].id)->get_type(), names[i].id));
         }
     }
@@ -239,5 +241,74 @@ namespace ratio::core
         }
 
         scp.get_core().new_disjunction(std::move(cs));
+    }
+
+    void formula_statement::execute(scope &scp, context &ctx) const
+    {
+        predicate *pred = nullptr;
+        std::unordered_map<std::string, expr> assgnments;
+        if (!formula_scope.empty())
+        { // the scope is explicitely declared..
+            expr c_scope = ctx->get(formula_scope.begin()->id);
+            for (auto it = std::next(formula_scope.begin()); it != formula_scope.end(); ++it)
+                c_scope = static_cast<complex_item *>(c_scope.get())->get(it->id);
+
+            pred = &c_scope->get_type().get_predicate(predicate_name.id);
+
+            if (enum_item *ee = dynamic_cast<enum_item *>(c_scope.get())) // the scope is an enumerative expression..
+                assgnments.emplace(TAU_KW, ee);
+            else // the scope is a single item..
+                assgnments.emplace(TAU_KW, c_scope);
+        }
+        else
+        { // we inherit the scope..
+            pred = &scp.get_predicate(predicate_name.id);
+            if (!is_core(pred->get_scope()))
+                assgnments.emplace(TAU_KW, ctx->get(TAU_KW));
+        }
+
+        for (size_t i = 0; i < assignment_names.size(); ++i)
+        {
+            expr e = dynamic_cast<const ratio::core::expression *>(assignment_values[i].get())->evaluate(scp, ctx);
+            const type &tt = pred->get_field(assignment_names[i].id).get_type(); // the target type..
+            if (tt.is_assignable_from(e->get_type()))                            // the target type is a superclass of the assignment..
+                assgnments.emplace(assignment_names[i].id, e);
+            else if (e->get_type().is_assignable_from(tt)) // the target type is a subclass of the assignment..
+                if (enum_item *ae = dynamic_cast<enum_item *>(&*e))
+                { // some of the allowed values might be inhibited..
+                    // the allowed values..
+                    auto alwd_vals = scp.get_core().enum_value(e);
+                    for (auto ev : alwd_vals)
+                        if (!tt.is_assignable_from(e->get_type())) // the target type is not a superclass of the value..
+                            scp.get_core().remove(e, ev);
+                }
+                else // the evaluated expression is a constant which cannot be assigned to the target type (which is a subclass of the type of the evaluated expression)..
+                    throw inconsistency_exception();
+            else // the evaluated expression is unrelated with the target type (we are probably in the presence of a modeling error!)..
+                throw inconsistency_exception();
+        }
+
+        auto atm = pred->new_instance();
+        auto &c_atm = *static_cast<atom *>(atm.get());
+        c_atm.vars.insert(assgnments.cbegin(), assgnments.cend());
+
+        // we initialize the unassigned atom's fields..
+        std::queue<predicate *> q;
+        q.push(pred);
+        while (!q.empty())
+        {
+            for (const auto &arg : q.front()->get_args())
+                if (!c_atm.vars.count(arg->get_name()))
+                { // the field is uninstantiated..
+                    type &tp = arg->get_type();
+                    c_atm.vars.emplace(arg->get_name(), tp.is_primitive() ? tp.new_instance() : tp.new_existential());
+                }
+            for (const auto &sp : q.front()->get_supertypes())
+                q.push(static_cast<predicate *>(sp));
+            q.pop();
+        }
+
+        scp.get_core().new_atom(c_atm, is_fact);
+        ctx->vars.emplace(formula_name.id, atm);
     }
 } // namespace ratio::core
