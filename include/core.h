@@ -4,6 +4,17 @@
 #include "inf_rational.h"
 #include <unordered_set>
 
+#ifdef COMPUTE_NAMES
+#define RECOMPUTE_NAMES() recompute_names()
+#else
+#define RECOMPUTE_NAMES()
+#endif
+
+namespace riddle::ast
+{
+  class compilation_unit;
+} // namespace riddle::ast
+
 namespace ratio::core
 {
   class conjunction;
@@ -17,7 +28,26 @@ namespace ratio::core
   class typedef_declaration;
   class enum_declaration;
   class class_declaration;
+  class compilation_unit;
+#ifdef BUILD_LISTENERS
+  class core_listener;
+#endif
 
+#ifdef BUILD_LISTENERS
+#define FIRE_LOG(msg) fire_log(msg)
+#define FIRE_READ(rddl) fire_read(rddl)
+#define FIRE_STATE_CHANGED() fire_state_changed()
+#define FIRE_STARTED_SOLVING() fire_started_solving()
+#define FIRE_SOLUTION_FOUND() fire_solution_found()
+#define FIRE_INCONSISTENT_PROBLEM() fire_inconsistent_problem()
+#else
+#define FIRE_LOG(msg)
+#define FIRE_READ(rddl)
+#define FIRE_STATE_CHANGED()
+#define FIRE_STARTED_SOLVING()
+#define FIRE_SOLUTION_FOUND()
+#define FIRE_INCONSISTENT_PROBLEM()
+#endif
   class core : public scope, public env
   {
     friend class formula_statement;
@@ -26,6 +56,9 @@ namespace ratio::core
     friend class typedef_declaration;
     friend class enum_declaration;
     friend class class_declaration;
+#ifdef BUILD_LISTENERS
+    friend class core_listener;
+#endif
 
   public:
     ORATIOCORE_EXPORT core();
@@ -249,10 +282,36 @@ namespace ratio::core
     ORATIOCORE_EXPORT predicate &get_predicate(const std::string &name) const override;
     const std::map<std::string, predicate_ptr> &get_predicates() const noexcept override { return predicates; }
 
+#ifdef COMPUTE_NAMES
+  public:
+    const std::string &guess_name(const item &itm) const noexcept { return expr_names.at(&itm); }
+
   private:
+    void recompute_names() noexcept;
+
+    std::unordered_map<const item *, const std::string> expr_names;
+#endif
+
+  private:
+    std::vector<std::unique_ptr<const riddle::ast::compilation_unit>> cus; // the compilation units..
+
     std::map<std::string, std::vector<method_ptr>> methods; // the methods, indexed by their name, defined within this core..
     std::map<std::string, type_ptr> types;                  // the inner types, indexed by their name, defined within this core..
     std::map<std::string, predicate_ptr> predicates;        // the inner predicates, indexed by their name, defined within this core..
+
+#ifdef BUILD_LISTENERS
+  private:
+    std::vector<core_listener *> listeners; // the core listeners..
+
+  protected:
+    ORATIOCORE_EXPORT void fire_log(const std::string msg) const noexcept;
+    ORATIOCORE_EXPORT void fire_read(const std::string &script) const noexcept;
+    ORATIOCORE_EXPORT void fire_read(const std::vector<std::string> &files) const noexcept;
+    ORATIOCORE_EXPORT void fire_state_changed() const noexcept;
+    ORATIOCORE_EXPORT void fire_started_solving() const noexcept;
+    ORATIOCORE_EXPORT void fire_solution_found() const noexcept;
+    ORATIOCORE_EXPORT void fire_inconsistent_problem() const noexcept;
+#endif
   };
 
   class inconsistency_exception : public std::exception

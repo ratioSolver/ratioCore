@@ -243,6 +243,12 @@ namespace ratio::core
         scp.get_core().new_disjunction(std::move(cs));
     }
 
+    void conjunction_statement::execute(scope &scp, context &ctx) const
+    {
+        for (const auto &st : statements)
+            static_cast<const ratio::core::statement *>(st.get())->execute(scp, ctx);
+    }
+
     void formula_statement::execute(scope &scp, context &ctx) const
     {
         predicate *pred = nullptr;
