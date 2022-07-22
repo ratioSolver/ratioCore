@@ -205,7 +205,7 @@ namespace ratio::core
             }
 
             if (is_core(scp)) // we create fields for root items..
-                scp.get_core().fields.emplace(names[i].id, std::make_unique<field>(ctx->vars.at(names[i].id)->get_type(), names[i].id));
+                scp.get_core().fields.emplace(names[i].id, std::make_unique<field>(ctx->vars.at(names[i].id)->get_type(), names[i].id, xprs[i]));
         }
     }
 
@@ -412,5 +412,16 @@ namespace ratio::core
                 et->enums.emplace_back(static_cast<enum_type *>(s));
             }
         }
+    }
+
+    void field_declaration::refine(scope &scp) const
+    { // we add fields to the current scope..
+        scope *s = &scp;
+        for (const auto &id_tk : field_type)
+            s = &s->get_type(id_tk.id);
+        type *tp = static_cast<type *>(s);
+
+        for (const auto &vd : declarations)
+            scp.new_field(std::make_unique<field>(*tp, static_cast<const variable_declaration *>(vd.get())->name.id, static_cast<const variable_declaration *>(vd.get())->xpr));
     }
 } // namespace ratio::core

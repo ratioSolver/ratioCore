@@ -9,7 +9,7 @@ namespace ratio::core
   class field final
   {
   public:
-    field(type &tp, const std::string &name, std::unique_ptr<const riddle::ast::expression> e = nullptr, bool synthetic = false) : tp(tp), name(name), xpr(std::move(e)), synthetic(synthetic) {}
+    field(type &tp, const std::string &name, const std::unique_ptr<const riddle::ast::expression> &e = nullptr, bool synthetic = false) : tp(tp), name(name), xpr(std::move(e)), synthetic(synthetic) {}
     field(const field &orig) = delete;
 
     inline type &get_type() const { return tp; }                                                        // returns the type of the field..
@@ -18,11 +18,11 @@ namespace ratio::core
     inline bool is_synthetic() const { return synthetic; }                                              // returns whether the field is synthetic or not..
 
   private:
-    type &tp;                                           // the type of the field..
-    const std::string name;                             // the name of the field..
-    std::unique_ptr<const riddle::ast::expression> xpr; // the initialization expression..
-    const bool synthetic;                               // the field is synthetic (a synthetic field is a field which is not created by the user, e.g. 'this')..
+    type &tp;                                                  // the type of the field..
+    const std::string name;                                    // the name of the field..
+    const std::unique_ptr<const riddle::ast::expression> &xpr; // the initialization expression..
+    const bool synthetic;                                      // the field is synthetic (a synthetic field is a field which is not created by the user, e.g. 'this')..
   };
-  
+
   using field_ptr = std::unique_ptr<field>;
 } // namespace ratio::core
