@@ -15,6 +15,7 @@ namespace ratio::core
   class method_declaration;
   class predicate_declaration;
   class typedef_declaration;
+  class enum_declaration;
 
   class core : public scope, public env
   {
@@ -22,6 +23,7 @@ namespace ratio::core
     friend class method_declaration;
     friend class predicate_declaration;
     friend class typedef_declaration;
+    friend class enum_declaration;
 
   public:
     ORATIOCORE_EXPORT core();

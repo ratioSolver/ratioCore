@@ -383,4 +383,34 @@ namespace ratio::core
         else if (type *t = dynamic_cast<type *>(&scp))
             t->new_type(std::move(td));
     }
+
+    void enum_declaration::declare(scope &scp) const
+    {
+        // A new enum type has been declared..
+        auto et = std::make_unique<enum_type>(scp, name.id);
+
+        // We add the enum values..
+        for (const auto &e : enums)
+            et->instances.emplace_back(scp.get_core().new_string(e.str));
+
+        if (core *c = dynamic_cast<core *>(&scp))
+            c->new_type(std::move(et));
+        else if (type *t = dynamic_cast<type *>(&scp))
+            t->new_type(std::move(et));
+    }
+
+    void enum_declaration::refine(scope &scp) const
+    {
+        if (!type_refs.empty())
+        {
+            enum_type *et = static_cast<enum_type *>(&scp.get_type(name.id));
+            for (const auto &tr : type_refs)
+            {
+                scope *s = &scp;
+                for (const auto &id_tk : tr)
+                    s = &s->get_type(id_tk.id);
+                et->enums.emplace_back(static_cast<enum_type *>(s));
+            }
+        }
+    }
 } // namespace ratio::core

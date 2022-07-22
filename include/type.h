@@ -13,6 +13,7 @@ namespace ratio::core
   class method_declaration;
   class predicate_declaration;
   class typedef_declaration;
+  class enum_declaration;
 
   class type : public scope
   {
@@ -20,6 +21,7 @@ namespace ratio::core
     friend class method_declaration;
     friend class predicate_declaration;
     friend class typedef_declaration;
+    friend class enum_declaration;
 
   public:
     ORATIOCORE_EXPORT type(scope &scp, const std::string &name, bool primitive = false);
@@ -141,5 +143,23 @@ namespace ratio::core
   private:
     const type &base_type;
     const std::unique_ptr<const riddle::ast::expression> &xpr;
+  };
+
+  class enum_type : public type
+  {
+    friend class enum_declaration;
+
+  public:
+    enum_type(scope &scp, std::string name);
+    enum_type(const enum_type &orig) = delete;
+    virtual ~enum_type() = default;
+
+    expr new_instance() override;
+
+  private:
+    std::vector<expr> get_all_instances() const noexcept;
+
+  private:
+    std::vector<enum_type *> enums;
   };
 } // namespace ratio::core
