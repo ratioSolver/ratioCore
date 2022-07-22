@@ -373,4 +373,14 @@ namespace ratio::core
             p.new_supertype(*static_cast<predicate *>(s));
         }
     }
+
+    void typedef_declaration::declare(scope &scp) const
+    { // A new typedef type has been declared..
+        auto td = std::make_unique<typedef_type>(scp, name.id, scp.get_type(primitive_type.id), xpr);
+
+        if (core *c = dynamic_cast<core *>(&scp))
+            c->new_type(std::move(td));
+        else if (type *t = dynamic_cast<type *>(&scp))
+            t->new_type(std::move(td));
+    }
 } // namespace ratio::core

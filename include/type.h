@@ -3,16 +3,23 @@
 #include <string>
 #include <vector>
 
+namespace riddle::ast
+{
+  class expression;
+} // namespace riddle
+
 namespace ratio::core
 {
   class method_declaration;
   class predicate_declaration;
+  class typedef_declaration;
 
   class type : public scope
   {
     friend class predicate;
     friend class method_declaration;
     friend class predicate_declaration;
+    friend class typedef_declaration;
 
   public:
     ORATIOCORE_EXPORT type(scope &scp, const std::string &name, bool primitive = false);
@@ -119,5 +126,20 @@ namespace ratio::core
 
     bool is_assignable_from(const type &t) const noexcept override { return &t == this; }
     expr new_instance() noexcept override;
+  };
+
+  class typedef_type final : public type
+  {
+  public:
+    typedef_type(scope &scp, const std::string &name, const type &base_type, const std::unique_ptr<const riddle::ast::expression> &e);
+    typedef_type(const typedef_type &orig) = delete;
+
+    const type &get_base_type() const noexcept { return base_type; }
+
+    expr new_instance() noexcept override;
+
+  private:
+    const type &base_type;
+    const std::unique_ptr<const riddle::ast::expression> &xpr;
   };
 } // namespace ratio::core

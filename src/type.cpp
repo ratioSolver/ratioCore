@@ -4,7 +4,7 @@
 #include "field.h"
 #include "constructor.h"
 #include "method.h"
-#include "riddle_lexer.h"
+#include "parser.h"
 #include <queue>
 #include <algorithm>
 #include <stdexcept>
@@ -232,4 +232,11 @@ namespace ratio::core
 
     string_type::string_type(core &cr) : type(cr, STRING_KW, true) {}
     expr string_type::new_instance() noexcept { return nullptr; }
+
+    typedef_type::typedef_type(scope &scp, const std::string &name, const type &base_type, const std::unique_ptr<const riddle::ast::expression> &e) : type(scp, name), base_type(base_type), xpr(e) {}
+    expr typedef_type::new_instance() noexcept
+    {
+        auto ctx = std::make_shared<env>(get_core());
+        return dynamic_cast<const expression *>(xpr.get())->evaluate(get_core(), ctx);
+    }
 } // namespace ratio::core
