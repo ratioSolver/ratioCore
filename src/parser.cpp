@@ -509,4 +509,6 @@ namespace ratio::core
             throw unsolvable_exception();
         }
     }
+
+    parser::parser(std::istream &is) : riddle::parser::parser(is) {}
 } // namespace ratio::core

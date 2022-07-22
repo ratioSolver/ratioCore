@@ -408,4 +408,66 @@ namespace ratio::core
     void refine(scope &scp) const;
     void execute(scope &scp, context &ctx) const;
   };
+
+  class parser : public riddle::parser
+  {
+  public:
+    parser(std::istream &is);
+    parser(const parser &orig) = delete;
+    virtual ~parser() = default;
+
+  private:
+    /**
+     * The declarations.
+     */
+    std::unique_ptr<const riddle::ast::method_declaration> new_method_declaration(std::vector<riddle::id_token> rt, const riddle::id_token &n, std::vector<std::pair<const std::vector<riddle::id_token>, const riddle::id_token>> pars, std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts) const noexcept { return std::make_unique<const ratio::core::method_declaration>(std::move(rt), n, std::move(pars), std::move(stmnts)); }
+    std::unique_ptr<const riddle::ast::predicate_declaration> new_predicate_declaration(const riddle::id_token &n, std::vector<std::pair<const std::vector<riddle::id_token>, const riddle::id_token>> pars, std::vector<std::vector<riddle::id_token>> pl, std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts) const noexcept { return std::make_unique<const ratio::core::predicate_declaration>(n, std::move(pars), std::move(pl), std::move(stmnts)); }
+    std::unique_ptr<const riddle::ast::typedef_declaration> new_typedef_declaration(const riddle::id_token &n, const riddle::id_token &pt, std::unique_ptr<const riddle::ast::expression> e) const noexcept { return std::make_unique<const ratio::core::typedef_declaration>(n, pt, std::move(e)); }
+    std::unique_ptr<const riddle::ast::enum_declaration> new_enum_declaration(const riddle::id_token &n, std::vector<riddle::string_token> es, std::vector<std::vector<riddle::id_token>> trs) const noexcept { return std::make_unique<const ratio::core::enum_declaration>(n, std::move(es), std::move(trs)); }
+    std::unique_ptr<const riddle::ast::class_declaration> new_class_declaration(const riddle::id_token &n, std::vector<std::vector<riddle::id_token>> bcs, std::vector<std::unique_ptr<const riddle::ast::field_declaration>> fs, std::vector<std::unique_ptr<const riddle::ast::constructor_declaration>> cs, std::vector<std::unique_ptr<const riddle::ast::method_declaration>> ms, std::vector<std::unique_ptr<const riddle::ast::predicate_declaration>> ps, std::vector<std::unique_ptr<const riddle::ast::type_declaration>> ts) const noexcept { return std::make_unique<const ratio::core::class_declaration>(n, std::move(bcs), std::move(fs), std::move(cs), std::move(ms), std::move(ps), std::move(ts)); }
+    std::unique_ptr<const riddle::ast::variable_declaration> new_variable_declaration(const riddle::id_token &n, std::unique_ptr<const riddle::ast::expression> e = nullptr) const noexcept { return std::make_unique<const ratio::core::variable_declaration>(n, std::move(e)); }
+    std::unique_ptr<const riddle::ast::field_declaration> new_field_declaration(std::vector<riddle::id_token> tp, std::vector<std::unique_ptr<const riddle::ast::variable_declaration>> ds) const noexcept { return std::make_unique<const ratio::core::field_declaration>(std::move(tp), std::move(ds)); }
+    std::unique_ptr<const riddle::ast::constructor_declaration> new_constructor_declaration(std::vector<std::pair<const std::vector<riddle::id_token>, const riddle::id_token>> pars, std::vector<riddle::id_token> ins, std::vector<std::vector<std::unique_ptr<const riddle::ast::expression>>> ivs, std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts) const noexcept { return std::make_unique<const ratio::core::constructor_declaration>(std::move(pars), std::move(ins), std::move(ivs), std::move(stmnts)); }
+    std::unique_ptr<const riddle::ast::compilation_unit> new_compilation_unit(std::vector<std::unique_ptr<const riddle::ast::method_declaration>> ms, std::vector<std::unique_ptr<const riddle::ast::predicate_declaration>> ps, std::vector<std::unique_ptr<const riddle::ast::type_declaration>> ts, std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts) const noexcept { return std::make_unique<const ratio::core::compilation_unit>(std::move(ms), std::move(ps), std::move(ts), std::move(stmnts)); }
+
+    /**
+     * The statements.
+     */
+    std::unique_ptr<const riddle::ast::local_field_statement> new_local_field_statement(std::vector<riddle::id_token> ft, std::vector<riddle::id_token> ns, std::vector<std::unique_ptr<const riddle::ast::expression>> es) const noexcept { return std::make_unique<const ratio::core::local_field_statement>(std::move(ft), std::move(ns), std::move(es)); }
+    std::unique_ptr<const riddle::ast::assignment_statement> new_assignment_statement(std::vector<riddle::id_token> is, const riddle::id_token &i, std::unique_ptr<const riddle::ast::expression> e) const noexcept { return std::make_unique<const ratio::core::assignment_statement>(std::move(is), i, std::move(e)); }
+    std::unique_ptr<const riddle::ast::expression_statement> new_expression_statement(std::unique_ptr<const riddle::ast::expression> e) const noexcept { return std::make_unique<const ratio::core::expression_statement>(std::move(e)); }
+    std::unique_ptr<const riddle::ast::disjunction_statement> new_disjunction_statement(std::vector<std::vector<std::unique_ptr<const riddle::ast::statement>>> conjs, std::vector<std::unique_ptr<const riddle::ast::expression>> conj_costs) const noexcept { return std::make_unique<const ratio::core::disjunction_statement>(std::move(conjs), std::move(conj_costs)); }
+    std::unique_ptr<const riddle::ast::conjunction_statement> new_conjunction_statement(std::vector<std::unique_ptr<const riddle::ast::statement>> stmnts) const noexcept { return std::make_unique<const ratio::core::conjunction_statement>(std::move(stmnts)); }
+    std::unique_ptr<const riddle::ast::formula_statement> new_formula_statement(const bool &isf, const riddle::id_token &fn, std::vector<riddle::id_token> scp, const riddle::id_token &pn, std::vector<riddle::id_token> assn_ns, std::vector<std::unique_ptr<const riddle::ast::expression>> assn_vs) const noexcept { return std::make_unique<const ratio::core::formula_statement>(isf, fn, std::move(scp), pn, std::move(assn_ns), std::move(assn_vs)); }
+    std::unique_ptr<const riddle::ast::return_statement> new_return_statement(std::unique_ptr<const riddle::ast::expression> e) const noexcept { return std::make_unique<const ratio::core::return_statement>(std::move(e)); }
+
+    /**
+     * The expressions.
+     */
+    std::unique_ptr<const riddle::ast::bool_literal_expression> new_bool_literal_expression(const riddle::bool_token &l) const noexcept { return std::make_unique<const ratio::core::bool_literal_expression>(l); }
+    std::unique_ptr<const riddle::ast::int_literal_expression> new_int_literal_expression(const riddle::int_token &l) const noexcept { return std::make_unique<const ratio::core::int_literal_expression>(l); }
+    std::unique_ptr<const riddle::ast::real_literal_expression> new_real_literal_expression(const riddle::real_token &l) const noexcept { return std::make_unique<const ratio::core::real_literal_expression>(l); }
+    std::unique_ptr<const riddle::ast::string_literal_expression> new_string_literal_expression(const riddle::string_token &l) const noexcept { return std::make_unique<const ratio::core::string_literal_expression>(l); }
+    std::unique_ptr<const riddle::ast::cast_expression> new_cast_expression(std::vector<riddle::id_token> tp, std::unique_ptr<const riddle::ast::expression> e) const noexcept { return std::make_unique<const ratio::core::cast_expression>(std::move(tp), std::move(e)); }
+    std::unique_ptr<const riddle::ast::plus_expression> new_plus_expression(std::unique_ptr<const riddle::ast::expression> e) const noexcept { return std::make_unique<const ratio::core::plus_expression>(std::move(e)); }
+    std::unique_ptr<const riddle::ast::minus_expression> new_minus_expression(std::unique_ptr<const riddle::ast::expression> e) const noexcept { return std::make_unique<const ratio::core::minus_expression>(std::move(e)); }
+    std::unique_ptr<const riddle::ast::not_expression> new_not_expression(std::unique_ptr<const riddle::ast::expression> e) const noexcept { return std::make_unique<const ratio::core::not_expression>(std::move(e)); }
+    std::unique_ptr<const riddle::ast::constructor_expression> new_constructor_expression(std::vector<riddle::id_token> it, std::vector<std::unique_ptr<const riddle::ast::expression>> es) const noexcept { return std::make_unique<const ratio::core::constructor_expression>(std::move(it), std::move(es)); }
+    std::unique_ptr<const riddle::ast::eq_expression> new_eq_expression(std::unique_ptr<const riddle::ast::expression> l, std::unique_ptr<const riddle::ast::expression> r) const noexcept { return std::make_unique<const ratio::core::eq_expression>(std::move(l), std::move(r)); }
+    std::unique_ptr<const riddle::ast::neq_expression> new_neq_expression(std::unique_ptr<const riddle::ast::expression> l, std::unique_ptr<const riddle::ast::expression> r) const noexcept { return std::make_unique<const ratio::core::neq_expression>(std::move(l), std::move(r)); }
+    std::unique_ptr<const riddle::ast::lt_expression> new_lt_expression(std::unique_ptr<const riddle::ast::expression> l, std::unique_ptr<const riddle::ast::expression> r) const noexcept { return std::make_unique<const ratio::core::lt_expression>(std::move(l), std::move(r)); }
+    std::unique_ptr<const riddle::ast::leq_expression> new_leq_expression(std::unique_ptr<const riddle::ast::expression> l, std::unique_ptr<const riddle::ast::expression> r) const noexcept { return std::make_unique<const ratio::core::leq_expression>(std::move(l), std::move(r)); }
+    std::unique_ptr<const riddle::ast::geq_expression> new_geq_expression(std::unique_ptr<const riddle::ast::expression> l, std::unique_ptr<const riddle::ast::expression> r) const noexcept { return std::make_unique<const ratio::core::geq_expression>(std::move(l), std::move(r)); }
+    std::unique_ptr<const riddle::ast::gt_expression> new_gt_expression(std::unique_ptr<const riddle::ast::expression> l, std::unique_ptr<const riddle::ast::expression> r) const noexcept { return std::make_unique<const ratio::core::gt_expression>(std::move(l), std::move(r)); }
+    std::unique_ptr<const riddle::ast::function_expression> new_function_expression(std::vector<riddle::id_token> is, const riddle::id_token &fn, std::vector<std::unique_ptr<const riddle::ast::expression>> es) const noexcept { return std::make_unique<const ratio::core::function_expression>(std::move(is), fn, std::move(es)); }
+    std::unique_ptr<const riddle::ast::id_expression> new_id_expression(std::vector<riddle::id_token> is) const noexcept { return std::make_unique<const ratio::core::id_expression>(std::move(is)); }
+    std::unique_ptr<const riddle::ast::implication_expression> new_implication_expression(std::unique_ptr<const riddle::ast::expression> l, std::unique_ptr<const riddle::ast::expression> r) const noexcept { return std::make_unique<const ratio::core::implication_expression>(std::move(l), std::move(r)); }
+    std::unique_ptr<const riddle::ast::disjunction_expression> new_disjunction_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) const noexcept { return std::make_unique<const ratio::core::disjunction_expression>(std::move(es)); }
+    std::unique_ptr<const riddle::ast::conjunction_expression> new_conjunction_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) const noexcept { return std::make_unique<const ratio::core::conjunction_expression>(std::move(es)); }
+    std::unique_ptr<const riddle::ast::exct_one_expression> new_exct_one_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) const noexcept { return std::make_unique<const ratio::core::exct_one_expression>(std::move(es)); }
+    std::unique_ptr<const riddle::ast::addition_expression> new_addition_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) const noexcept { return std::make_unique<const ratio::core::addition_expression>(std::move(es)); }
+    std::unique_ptr<const riddle::ast::subtraction_expression> new_subtraction_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) const noexcept { return std::make_unique<const ratio::core::subtraction_expression>(std::move(es)); }
+    std::unique_ptr<const riddle::ast::multiplication_expression> new_multiplication_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) const noexcept { return std::make_unique<const ratio::core::multiplication_expression>(std::move(es)); }
+    std::unique_ptr<const riddle::ast::division_expression> new_division_expression(std::vector<std::unique_ptr<const riddle::ast::expression>> es) const noexcept { return std::make_unique<const ratio::core::division_expression>(std::move(es)); }
+  };
 } // namespace ratio::core
