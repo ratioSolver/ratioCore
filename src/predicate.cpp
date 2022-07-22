@@ -43,4 +43,10 @@ namespace ratio::core
         for (const auto &s : statements)
             dynamic_cast<const statement *>(s.get())->execute(*this, ctx);
     }
+
+    ORATIOCORE_EXPORT void predicate::new_field(field_ptr f) noexcept
+    {
+        args.push_back(f.get());
+        scope::new_field(std::move(f));
+    }
 } // namespace ratio::core

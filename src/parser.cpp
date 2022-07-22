@@ -20,9 +20,9 @@ namespace ratio::core
 
     expr cast_expression::evaluate(scope &scp, context &ctx) const { return static_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx); }
 
-    expr plus_expression::evaluate(scope &scp, context &ctx) const { return dynamic_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx); }
-    expr minus_expression::evaluate(scope &scp, context &ctx) const { return scp.get_core().minus(dynamic_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx)); }
-    expr not_expression::evaluate(scope &scp, context &ctx) const { return scp.get_core().negate(dynamic_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx)); }
+    expr plus_expression::evaluate(scope &scp, context &ctx) const { return static_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx); }
+    expr minus_expression::evaluate(scope &scp, context &ctx) const { return scp.get_core().minus(static_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx)); }
+    expr not_expression::evaluate(scope &scp, context &ctx) const { return scp.get_core().negate(static_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx)); }
 
     expr constructor_expression::evaluate(scope &scp, context &ctx) const
     {
@@ -34,7 +34,7 @@ namespace ratio::core
         std::vector<const type *> par_types;
         for (const auto &ex : expressions)
         {
-            expr i = dynamic_cast<const ratio::core::expression *>(ex.get())->evaluate(scp, ctx);
+            expr i = static_cast<const ratio::core::expression *>(ex.get())->evaluate(scp, ctx);
             exprs.emplace_back(i);
             par_types.emplace_back(&i->get_type());
         }
@@ -44,43 +44,43 @@ namespace ratio::core
 
     expr eq_expression::evaluate(scope &scp, context &ctx) const
     {
-        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
-        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        expr l = static_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = static_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
         return scp.get_core().eq(l, r);
     }
 
     expr neq_expression::evaluate(scope &scp, context &ctx) const
     {
-        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
-        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        expr l = static_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = static_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
         return scp.get_core().negate(scp.get_core().eq(l, r));
     }
 
     expr lt_expression::evaluate(scope &scp, context &ctx) const
     {
-        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
-        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        expr l = static_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = static_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
         return scp.get_core().lt(l, r);
     }
 
     expr leq_expression::evaluate(scope &scp, context &ctx) const
     {
-        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
-        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        expr l = static_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = static_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
         return scp.get_core().leq(l, r);
     }
 
     expr geq_expression::evaluate(scope &scp, context &ctx) const
     {
-        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
-        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        expr l = static_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = static_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
         return scp.get_core().geq(l, r);
     }
 
     expr gt_expression::evaluate(scope &scp, context &ctx) const
     {
-        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
-        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        expr l = static_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = static_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
         return scp.get_core().gt(l, r);
     }
 
@@ -94,7 +94,7 @@ namespace ratio::core
         std::vector<const type *> par_types;
         for (const auto &ex : expressions)
         {
-            expr i = dynamic_cast<const ratio::core::expression *>(ex.get())->evaluate(scp, ctx);
+            expr i = static_cast<const ratio::core::expression *>(ex.get())->evaluate(scp, ctx);
             exprs.emplace_back(i);
             par_types.emplace_back(&i->get_type());
         }
@@ -123,8 +123,8 @@ namespace ratio::core
 
     expr implication_expression::evaluate(scope &scp, context &ctx) const
     {
-        expr l = dynamic_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
-        expr r = dynamic_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
+        expr l = static_cast<const ratio::core::expression *>(left.get())->evaluate(scp, ctx);
+        expr r = static_cast<const ratio::core::expression *>(right.get())->evaluate(scp, ctx);
         return scp.get_core().disj({scp.get_core().negate(l), r});
     }
 
@@ -132,7 +132,7 @@ namespace ratio::core
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
-            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+            exprs.emplace_back(static_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
         return scp.get_core().disj(exprs);
     }
 
@@ -140,7 +140,7 @@ namespace ratio::core
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
-            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+            exprs.emplace_back(static_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
         return scp.get_core().conj(exprs);
     }
 
@@ -148,7 +148,7 @@ namespace ratio::core
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
-            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+            exprs.emplace_back(static_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
         return scp.get_core().exct_one(exprs);
     }
 
@@ -156,7 +156,7 @@ namespace ratio::core
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
-            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+            exprs.emplace_back(static_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
         return scp.get_core().add(exprs);
     }
 
@@ -164,7 +164,7 @@ namespace ratio::core
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
-            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+            exprs.emplace_back(static_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
         return scp.get_core().sub(exprs);
     }
 
@@ -172,7 +172,7 @@ namespace ratio::core
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
-            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+            exprs.emplace_back(static_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
         return scp.get_core().mult(exprs);
     }
 
@@ -180,7 +180,7 @@ namespace ratio::core
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
-            exprs.emplace_back(dynamic_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
+            exprs.emplace_back(static_cast<const ratio::core::expression *>(e.get())->evaluate(scp, ctx));
         return scp.get_core().div(exprs);
     }
 
@@ -189,7 +189,7 @@ namespace ratio::core
         for (size_t i = 0; i < names.size(); ++i)
         {
             if (xprs[i])
-                ctx->vars.emplace(names[i].id, dynamic_cast<const ratio::core::expression *>(xprs[i].get())->evaluate(scp, ctx));
+                ctx->vars.emplace(names[i].id, static_cast<const ratio::core::expression *>(xprs[i].get())->evaluate(scp, ctx));
             else
             {
                 scope *s = &scp;
@@ -214,12 +214,12 @@ namespace ratio::core
         expr c_e = ctx->get(ids.begin()->id);
         for (auto it = std::next(ids.begin()); it != ids.end(); ++it)
             c_e = static_cast<complex_item *>(c_e.get())->get(it->id);
-        static_cast<complex_item *>(c_e.get())->vars.emplace(id.id, dynamic_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx));
+        static_cast<complex_item *>(c_e.get())->vars.emplace(id.id, static_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx));
     }
 
     void expression_statement::execute(scope &scp, context &ctx) const
     {
-        expr be = dynamic_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx);
+        expr be = static_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx);
         scp.get_core().assert_facts({be});
     }
 
@@ -232,7 +232,7 @@ namespace ratio::core
             semitone::rational cost(1);
             if (conjunction_costs[i])
             { // a cost for the conjunction has been specified..
-                expr a_xpr = dynamic_cast<const ratio::core::expression *>(conjunction_costs[i].get())->evaluate(scp, ctx);
+                expr a_xpr = static_cast<const ratio::core::expression *>(conjunction_costs[i].get())->evaluate(scp, ctx);
                 if (!static_cast<arith_item *>(a_xpr.get())->get_value().vars.empty())
                     throw std::invalid_argument("invalid disjunct cost: expected a constant..");
                 cost = scp.get_core().arith_value(a_xpr).get_rational();
@@ -269,7 +269,7 @@ namespace ratio::core
 
         for (size_t i = 0; i < assignment_names.size(); ++i)
         {
-            expr e = dynamic_cast<const ratio::core::expression *>(assignment_values[i].get())->evaluate(scp, ctx);
+            expr e = static_cast<const ratio::core::expression *>(assignment_values[i].get())->evaluate(scp, ctx);
             const type &tt = pred->get_field(assignment_names[i].id).get_type(); // the target type..
             if (tt.is_assignable_from(e->get_type()))                            // the target type is a superclass of the assignment..
                 assgnments.emplace(assignment_names[i].id, e);
@@ -312,7 +312,7 @@ namespace ratio::core
         ctx->vars.emplace(formula_name.id, atm);
     }
 
-    void return_statement::execute(scope &scp, context &ctx) const { ctx->vars.emplace(RETURN_KW, dynamic_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx)); }
+    void return_statement::execute(scope &scp, context &ctx) const { ctx->vars.emplace(RETURN_KW, static_cast<const ratio::core::expression *>(xpr.get())->evaluate(scp, ctx)); }
 
     void method_declaration::refine(scope &scp) const
     {
@@ -337,32 +337,32 @@ namespace ratio::core
 
         if (auto m = std::make_unique<method>(scp, rt, name.id, std::move(args), statements); core *c = dynamic_cast<core *>(&scp))
             c->new_method(std::move(m));
-        else if (type *t = dynamic_cast<type *>(&scp))
+        else if (type *t = static_cast<type *>(&scp))
             t->new_method(std::move(m));
     }
 
     void predicate_declaration::declare(scope &scp) const
     {
-        std::vector<field_ptr> args;
-        for (const auto &[id_tkns, id_tkn] : parameters)
-        {
-            scope *s = &scp;
-            for (const auto &id_tk : id_tkns)
-                s = &s->get_type(id_tk.id);
-            type *tp = static_cast<type *>(s);
-            args.emplace_back(std::make_unique<field>(*tp, id_tkn.id));
-        }
-
-        auto p = std::make_unique<predicate>(scp, name.id, std::move(args), statements);
+        auto p = std::make_unique<predicate>(scp, name.id, std::vector<field_ptr>(), statements);
         if (core *c = dynamic_cast<core *>(&scp))
             c->new_predicate(std::move(p));
-        else if (type *t = dynamic_cast<type *>(&scp))
+        else if (type *t = static_cast<type *>(&scp))
             t->new_predicate(std::move(p));
     }
 
     void predicate_declaration::refine(scope &scp) const
     {
         predicate &p = scp.get_predicate(name.id);
+
+        // we add the predicate fields..
+        for (const auto &[id_tkns, id_tkn] : parameters)
+        {
+            scope *s = &scp;
+            for (const auto &id_tk : id_tkns)
+                s = &s->get_type(id_tk.id);
+            type *tp = static_cast<type *>(s);
+            tp->new_field(std::make_unique<field>(*tp, id_tkn.id));
+        }
 
         // we add the supertypes..
         for (const auto &sp : predicate_list)
@@ -380,7 +380,7 @@ namespace ratio::core
 
         if (core *c = dynamic_cast<core *>(&scp))
             c->new_type(std::move(td));
-        else if (type *t = dynamic_cast<type *>(&scp))
+        else if (type *t = static_cast<type *>(&scp))
             t->new_type(std::move(td));
     }
 
@@ -395,7 +395,7 @@ namespace ratio::core
 
         if (core *c = dynamic_cast<core *>(&scp))
             c->new_type(std::move(et));
-        else if (type *t = dynamic_cast<type *>(&scp))
+        else if (type *t = static_cast<type *>(&scp))
             t->new_type(std::move(et));
     }
 
@@ -423,5 +423,90 @@ namespace ratio::core
 
         for (const auto &vd : declarations)
             scp.new_field(std::make_unique<field>(*tp, static_cast<const variable_declaration *>(vd.get())->name.id, static_cast<const variable_declaration *>(vd.get())->xpr));
+    }
+
+    void constructor_declaration::refine(scope &scp) const
+    {
+        std::vector<field_ptr> args;
+        for (const auto &[id_tkns, id_tkn] : parameters)
+        {
+            scope *s = &scp;
+            for (const auto &id_tk : id_tkns)
+                s = &s->get_type(id_tk.id);
+            type *tp = static_cast<type *>(s);
+            args.emplace_back(std::make_unique<field>(*tp, id_tkn.id));
+        }
+
+        static_cast<type &>(scp).new_constructor(std::make_unique<constructor>(static_cast<type &>(scp), std::move(args), init_names, init_vals, statements));
+    }
+
+    void class_declaration::declare(scope &scp) const
+    { // A new type has been declared..
+        auto tp = std::make_unique<type>(scp, name.id);
+
+        if (core *c = dynamic_cast<core *>(&scp))
+            c->new_type(std::move(tp));
+        else if (type *t = static_cast<type *>(&scp))
+            t->new_type(std::move(tp));
+
+        for (const auto &c_tp : types)
+            static_cast<const ratio::core::type_declaration *>(c_tp.get())->declare(*tp);
+
+        for (const auto &c_p : predicates)
+            static_cast<const ratio::core::predicate_declaration *>(c_p.get())->declare(*tp);
+    }
+    void class_declaration::refine(scope &scp) const
+    {
+        type &tp = scp.get_type(name.id);
+        for (const auto &bc : base_classes)
+        {
+            scope *s = &scp;
+            for (const auto &id_tk : bc)
+                s = &s->get_type(id_tk.id);
+            tp.new_supertype(*static_cast<type *>(s));
+        }
+
+        for (const auto &f : fields)
+            static_cast<const ratio::core::field_declaration *>(f.get())->refine(tp);
+
+        if (constructors.empty()) // we add a default constructor..
+            tp.new_constructor(std::make_unique<constructor>(tp, std::vector<field_ptr>(), std::vector<riddle::id_token>(), std::vector<std::vector<std::unique_ptr<const riddle::ast::expression>>>(), std::vector<std::unique_ptr<const riddle::ast::statement>>()));
+        else
+            for (const auto &c : constructors)
+                static_cast<const ratio::core::constructor_declaration *>(c.get())->refine(tp);
+
+        for (const auto &m : methods)
+            static_cast<const ratio::core::method_declaration *>(m.get())->refine(tp);
+        for (const auto &p : predicates)
+            static_cast<const ratio::core::predicate_declaration *>(p.get())->refine(tp);
+        for (const auto &t : types)
+            static_cast<const ratio::core::type_declaration *>(t.get())->refine(tp);
+    }
+
+    void compilation_unit::declare(scope &scp) const
+    {
+        for (const auto &t : types)
+            static_cast<const ratio::core::type_declaration *>(t.get())->declare(scp);
+    }
+    void compilation_unit::refine(scope &scp) const
+    {
+        for (const auto &t : types)
+            static_cast<const ratio::core::type_declaration *>(t.get())->refine(scp);
+        for (const auto &m : methods)
+            static_cast<const ratio::core::method_declaration *>(m.get())->refine(scp);
+        for (const auto &p : predicates)
+            static_cast<const ratio::core::predicate_declaration *>(p.get())->refine(scp);
+    }
+    void compilation_unit::execute(scope &scp, context &ctx) const
+    {
+        try
+        {
+            for (const auto &stmnt : statements)
+                static_cast<const ratio::core::statement *>(stmnt.get())->execute(scp, ctx);
+        }
+        catch (const inconsistency_exception &)
+        { // we found an inconsistency at root-level..
+            throw unsolvable_exception();
+        }
     }
 } // namespace ratio::core

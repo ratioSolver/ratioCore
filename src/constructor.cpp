@@ -8,7 +8,7 @@
 
 namespace ratio::core
 {
-    constructor::constructor(type &tp, std::vector<field_ptr> args, std::vector<riddle::id_token> ins, std::vector<std::vector<std::unique_ptr<const riddle::ast::expression>>> ivs, const std::vector<std::unique_ptr<const riddle::ast::statement>> &stmnts) : scope(tp), init_names(std::move(ins)), init_vals(std::move(ivs)), statements(stmnts)
+    constructor::constructor(type &tp, std::vector<field_ptr> args, const std::vector<riddle::id_token> &ins, const std::vector<std::vector<std::unique_ptr<const riddle::ast::expression>>> &ivs, const std::vector<std::unique_ptr<const riddle::ast::statement>> &stmnts) : scope(tp), init_names(ins), init_vals(ivs), statements(stmnts)
     {
         this->args.reserve(args.size());
         for (auto &f : args)

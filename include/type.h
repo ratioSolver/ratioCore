@@ -14,6 +14,8 @@ namespace ratio::core
   class predicate_declaration;
   class typedef_declaration;
   class enum_declaration;
+  class constructor_declaration;
+  class class_declaration;
 
   class type : public scope
   {
@@ -22,6 +24,8 @@ namespace ratio::core
     friend class predicate_declaration;
     friend class typedef_declaration;
     friend class enum_declaration;
+    friend class constructor_declaration;
+    friend class class_declaration;
 
   public:
     ORATIOCORE_EXPORT type(scope &scp, const std::string &name, bool primitive = false);

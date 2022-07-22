@@ -6,7 +6,6 @@ namespace ratio::core
     ORATIOCORE_EXPORT scope::scope(scope &scp) : cr(scp.get_core()), scp(scp) {}
     ORATIOCORE_EXPORT scope::~scope() {}
 
-    ORATIOCORE_EXPORT void scope::new_field(scope &s, field_ptr f) { s.fields.emplace(f->get_name(), std::move(f)); }
     ORATIOCORE_EXPORT void scope::new_field(field_ptr f) { fields.emplace(f->get_name(), std::move(f)); }
 
     ORATIOCORE_EXPORT const field &scope::get_field(const std::string &name) const

@@ -19,9 +19,12 @@ namespace ratio::core
     inline std::string get_name() const noexcept { return name; }                 // returns the name of this predicate..
     inline const std::vector<field *> &get_args() const noexcept { return args; } // returns the list of arguments of this predicate..
 
-    ORATIOCORE_EXPORT virtual expr new_instance(); // creates a new instance of this type..
+    ORATIOCORE_EXPORT virtual expr new_instance() override; // creates a new instance of this type..
 
     ORATIOCORE_EXPORT void apply_rule(atom &a); // applies the rule associated to this predicate to the given atom..
+
+  protected:
+    ORATIOCORE_EXPORT void new_field(field_ptr f) noexcept override;
 
   private:
     std::vector<field *> args;                                                    // the arguments of this predicate..

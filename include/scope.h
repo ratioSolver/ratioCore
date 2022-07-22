@@ -95,8 +95,7 @@ namespace ratio::core
     ORATIOCORE_EXPORT virtual const std::map<std::string, predicate_ptr> &get_predicates() const noexcept;
 
   protected:
-    ORATIOCORE_EXPORT static void new_field(scope &s, field_ptr f);
-    ORATIOCORE_EXPORT void new_field(field_ptr f);
+    ORATIOCORE_EXPORT virtual void new_field(field_ptr f);
 
   private:
     core &cr;   // the core in which this scope is defined..
