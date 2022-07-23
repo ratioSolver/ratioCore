@@ -17,6 +17,9 @@ enable_testing()
 
 add_subdirectory(extern/riddle)
 
+option(COMPUTE_NAMES "Computes the objects' names" OFF)
+option(BUILD_LISTENERS "Builds the core's listeners" OFF)
+
 file(GLOB RATIO_CORE_SOURCES src/*.cpp)
 file(GLOB RATIO_CORE_HEADERS include/*.h)
 
@@ -24,6 +27,16 @@ add_library(${PROJECT_NAME} SHARED ${RATIO_CORE_SOURCES})
 GENERATE_EXPORT_HEADER(${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/include $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}> $<INSTALL_INTERFACE:>)
 target_link_libraries(${PROJECT_NAME} PRIVATE RiDDLe SeMiTONE)
+
+message(STATUS "Compute names:    ${COMPUTE_NAMES}")
+if(COMPUTE_NAMES)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE COMPUTE_NAMES)
+endif()
+
+message(STATUS "Build listeners:  ${BUILD_LISTENERS}")
+if(BUILD_LISTENERS)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE BUILD_LISTENERS)
+endif()
 
 if(BUILD_TESTING)
     add_subdirectory(tests)

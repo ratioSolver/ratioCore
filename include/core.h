@@ -3,6 +3,9 @@
 #include "env.h"
 #include "inf_rational.h"
 #include <unordered_set>
+#ifdef COMPUTE_NAMES
+#include <unordered_map>
+#endif
 
 #ifdef COMPUTE_NAMES
 #define RECOMPUTE_NAMES() recompute_names()

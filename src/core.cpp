@@ -5,6 +5,12 @@
 #include "field.h"
 #include "atom.h"
 #include "parser.h"
+#ifdef BUILD_LISTENERS
+#include "core_listener.h"
+#endif
+#ifdef COMPUTE_NAMES
+#include <queue>
+#endif
 #include <sstream>
 #include <fstream>
 
@@ -139,7 +145,7 @@ namespace ratio::core
         expr_names.clear();
 
         std::queue<std::pair<std::string, expr>> q;
-        for (const auto &xpr : exprs)
+        for (const auto &xpr : vars)
         {
             expr_names.emplace(&*xpr.second, xpr.first);
             if (!xpr.second->get_type().is_primitive())
@@ -150,7 +156,7 @@ namespace ratio::core
         while (!q.empty())
         {
             const auto &c_xpr = q.front();
-            for (const auto &xpr : c_xpr.second->exprs)
+            for (const auto &xpr : static_cast<complex_item *>(c_xpr.second.get())->vars)
                 if (expr_names.emplace(&*xpr.second, expr_names.at(&*c_xpr.second) + '.' + xpr.first).second)
                     q.push(xpr);
             q.pop();
