@@ -171,14 +171,6 @@ namespace ratio::core
      */
     virtual expr new_enum([[maybe_unused]] type &tp, [[maybe_unused]] const std::vector<expr> &allowed_vals) { return nullptr; }
     /**
-     * @brief Removes the `val` value from the `var` variable's domain.
-     *
-     * @param var The variable whose domain is to be shrinked.
-     * @param val The value to be removed from the domain.
-     */
-    virtual void remove([[maybe_unused]] expr &var, [[maybe_unused]] expr &val) {}
-
-    /**
      * @brief Computes, if not already present, the `name` field of the enumerative variable `var`, introducing proper constraints for managing consistency.
      *
      * @param var The enumerative variable whose field has to be computed.
@@ -186,6 +178,13 @@ namespace ratio::core
      * @return expr The value ov the `name` field.
      */
     virtual expr get([[maybe_unused]] enum_item &var, [[maybe_unused]] const std::string &name) { return nullptr; }
+    /**
+     * @brief Removes the `val` value from the `var` variable's domain.
+     *
+     * @param var The variable whose domain is to be shrinked.
+     * @param val The value to be removed from the domain.
+     */
+    virtual void remove([[maybe_unused]] expr &var, [[maybe_unused]] expr &val) {}
 
     /**
      * @brief Creates an expression which is the negation of the given expression.
