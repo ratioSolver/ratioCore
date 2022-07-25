@@ -18,7 +18,25 @@ namespace ratio::core
 {
     RATIOCORE_EXPORT core::core() : scope(*this), env(*this)
     {
-        new_type(std::make_unique<bool_type>(*this));
+        auto c_bt = std::make_unique<bool_type>(*this);
+        bt = c_bt.get();
+        new_type(std::move(c_bt));
+
+        auto c_it = std::make_unique<int_type>(*this);
+        it = c_it.get();
+        new_type(std::move(c_it));
+
+        auto c_rt = std::make_unique<real_type>(*this);
+        rt = c_rt.get();
+        new_type(std::move(c_rt));
+
+        auto c_tt = std::make_unique<time_type>(*this);
+        tt = c_tt.get();
+        new_type(std::move(c_tt));
+
+        auto c_st = std::make_unique<string_type>(*this);
+        st = c_st.get();
+        new_type(std::move(c_st));
     }
     RATIOCORE_EXPORT core::~core() {}
 
@@ -63,11 +81,11 @@ namespace ratio::core
         FIRE_READ(files);
     }
 
-    RATIOCORE_EXPORT expr core::new_bool(const bool &val) noexcept { return std::make_shared<bool_item>(*types.at(BOOL_KW), val ? semitone::TRUE_lit : semitone::FALSE_lit); }
-    RATIOCORE_EXPORT expr core::new_int(const semitone::I &val) noexcept { return std::make_shared<arith_item>(*types.at(INT_KW), semitone::lin(semitone::rational(val))); }
-    RATIOCORE_EXPORT expr core::new_real(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(*types.at(REAL_KW), semitone::lin(val)); }
-    RATIOCORE_EXPORT expr core::new_time_point(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(*types.at(TIME_KW), semitone::lin(val)); }
-    RATIOCORE_EXPORT expr core::new_string(const std::string &val) noexcept { return std::make_shared<string_item>(*types.at(STRING_KW), val); }
+    RATIOCORE_EXPORT expr core::new_bool(const bool &val) noexcept { return std::make_shared<bool_item>(get_bool_type(), val ? semitone::TRUE_lit : semitone::FALSE_lit); }
+    RATIOCORE_EXPORT expr core::new_int(const semitone::I &val) noexcept { return std::make_shared<arith_item>(get_int_type(), semitone::lin(semitone::rational(val))); }
+    RATIOCORE_EXPORT expr core::new_real(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(get_real_type(), semitone::lin(val)); }
+    RATIOCORE_EXPORT expr core::new_time_point(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(get_time_type(), semitone::lin(val)); }
+    RATIOCORE_EXPORT expr core::new_string(const std::string &val) noexcept { return std::make_shared<string_item>(get_string_type(), val); }
 
     RATIOCORE_EXPORT expr core::get(const std::string &name) noexcept
     {

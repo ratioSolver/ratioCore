@@ -81,6 +81,12 @@ namespace ratio::core
      */
     RATIOCORE_EXPORT virtual void read(const std::vector<std::string> &files);
 
+    inline type &get_bool_type() const noexcept { return *bt; }
+    inline type &get_int_type() const noexcept { return *it; }
+    inline type &get_real_type() const noexcept { return *rt; }
+    inline type &get_time_type() const noexcept { return *tt; }
+    inline type &get_string_type() const noexcept { return *st; }
+
     /**
      * @brief Creates a new boolean variable.
      *
@@ -306,6 +312,7 @@ namespace ratio::core
 #endif
 
   private:
+    type *bt, *it, *rt, *tt, *st;
     std::vector<std::unique_ptr<const riddle::ast::compilation_unit>> cus; // the compilation units..
 
     std::map<std::string, std::vector<method_ptr>> methods; // the methods, indexed by their name, defined within this core..
