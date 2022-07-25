@@ -282,7 +282,7 @@ namespace ratio::core
      */
     RATIOCORE_EXPORT virtual void new_disjunction(const std::vector<std::unique_ptr<conjunction>> conjs);
 
-    void assert_facts([[maybe_unused]] std::vector<expr> facts) {}
+    virtual void assert_facts([[maybe_unused]] std::vector<expr> facts) {}
 
   private:
     virtual void new_atom([[maybe_unused]] atom &atm, [[maybe_unused]] const bool &is_fact) {}
