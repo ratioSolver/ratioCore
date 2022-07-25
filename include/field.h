@@ -1,5 +1,5 @@
 #pragma once
-#include "RATIOCORE_EXPORT.h"
+#include "ratiocore_export.h"
 #include "riddle_parser.h"
 
 namespace ratio::core

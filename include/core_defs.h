@@ -1,5 +1,5 @@
 #pragma once
-#include "RATIOCORE_EXPORT.h"
+#include "ratiocore_export.h"
 #include <memory>
 
 #define THIS_KW "this"
