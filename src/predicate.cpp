@@ -41,7 +41,7 @@ namespace ratio::core
         auto ctx = std::make_shared<env>(a);
         ctx->vars.emplace(THIS_KW, &a);
         for (const auto &s : statements)
-            dynamic_cast<const statement *>(s.get())->execute(*this, ctx);
+            dynamic_cast<const statement &>(*s).execute(*this, ctx);
     }
 
     RATIOCORE_EXPORT void predicate::new_field(field_ptr f) noexcept

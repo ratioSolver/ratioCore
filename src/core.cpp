@@ -45,10 +45,10 @@ namespace ratio::core
         std::stringstream ss(script);
         parser prs(ss);
         auto cu = prs.parse();
-        static_cast<const ratio::core::compilation_unit *>(cu.get())->declare(*this);
-        static_cast<const ratio::core::compilation_unit *>(cu.get())->refine(*this);
+        static_cast<const ratio::core::compilation_unit &>(*cu).declare(*this);
+        static_cast<const ratio::core::compilation_unit &>(*cu).refine(*this);
         context c_ctx(this);
-        static_cast<const ratio::core::compilation_unit *>(cu.get())->execute(*this, c_ctx);
+        static_cast<const ratio::core::compilation_unit &>(*cu).execute(*this, c_ctx);
         cus.emplace_back(std::move(cu));
         RECOMPUTE_NAMES();
         FIRE_READ(script);
@@ -68,12 +68,12 @@ namespace ratio::core
                 throw std::invalid_argument("cannot find file '" + f + "'");
 
         for (const auto &cu : c_cus)
-            static_cast<const ratio::core::compilation_unit *>(cu.get())->declare(*this);
+            static_cast<const ratio::core::compilation_unit &>(*cu).declare(*this);
         for (const auto &cu : c_cus)
-            static_cast<const ratio::core::compilation_unit *>(cu.get())->refine(*this);
+            static_cast<const ratio::core::compilation_unit &>(*cu).refine(*this);
         context c_ctx(this);
         for (const auto &cu : c_cus)
-            static_cast<const ratio::core::compilation_unit *>(cu.get())->execute(*this, c_ctx);
+            static_cast<const ratio::core::compilation_unit &>(*cu).execute(*this, c_ctx);
         cus.reserve(cus.size() + c_cus.size());
         for (auto &cu : c_cus)
             cus.emplace_back(std::move(cu));
@@ -174,7 +174,7 @@ namespace ratio::core
         while (!q.empty())
         {
             const auto &c_xpr = q.front();
-            for (const auto &xpr : static_cast<complex_item *>(c_xpr.second.get())->vars)
+            for (const auto &xpr : static_cast<complex_item *>(c_xpr.second).vars)
                 if (expr_names.emplace(&*xpr.second, expr_names.at(&*c_xpr.second) + '.' + xpr.first).second)
                     q.push(xpr);
             q.pop();

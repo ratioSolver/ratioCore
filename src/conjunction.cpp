@@ -12,6 +12,6 @@ namespace ratio::core
     {
         context c_ctx(ctx);
         for (const auto &s : statements)
-            dynamic_cast<const statement *>(s.get())->execute(*this, c_ctx);
+            dynamic_cast<const statement &>(*s).execute(*this, c_ctx);
     }
 } // namespace ratio::core

@@ -25,7 +25,7 @@ namespace ratio::core
             c_ctx->vars.emplace(args.at(i)->get_name(), exprs.at(i));
 
         for (const auto &s : statements)
-            dynamic_cast<const statement *>(s.get())->execute(*this, c_ctx);
+            dynamic_cast<const statement &>(*s).execute(*this, c_ctx);
 
         if (return_type)
             return c_ctx->vars.at(RETURN_KW);

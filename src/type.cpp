@@ -237,7 +237,7 @@ namespace ratio::core
     expr typedef_type::new_instance() noexcept
     {
         auto ctx = std::make_shared<env>(get_core());
-        return dynamic_cast<const expression *>(xpr.get())->evaluate(get_core(), ctx);
+        return dynamic_cast<const expression &>(*xpr).evaluate(get_core(), ctx);
     }
 
     enum_type::enum_type(scope &scp, std::string name) : type(scp, name) {}
