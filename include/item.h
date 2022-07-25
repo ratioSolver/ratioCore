@@ -13,7 +13,7 @@ namespace ratio::core
   public:
     item(type &tp);
     item(const item &orig) = delete;
-    ORATIOCORE_EXPORT virtual ~item() = default;
+    RATIOCORE_EXPORT virtual ~item() = default;
 
     type &get_type() const noexcept { return tp; }
 
@@ -24,7 +24,7 @@ namespace ratio::core
   class bool_item final : public item
   {
   public:
-    ORATIOCORE_EXPORT bool_item(type &t, const semitone::lit &l);
+    RATIOCORE_EXPORT bool_item(type &t, const semitone::lit &l);
     bool_item(const bool_item &that) = delete;
 
     inline semitone::lit get_value() const { return l; }
@@ -36,7 +36,7 @@ namespace ratio::core
   class arith_item final : public item
   {
   public:
-    ORATIOCORE_EXPORT arith_item(type &t, const semitone::lin &l);
+    RATIOCORE_EXPORT arith_item(type &t, const semitone::lin &l);
     arith_item(const arith_item &that) = delete;
 
     inline semitone::lin get_value() const { return l; }
@@ -48,7 +48,7 @@ namespace ratio::core
   class string_item final : public item
   {
   public:
-    ORATIOCORE_EXPORT string_item(type &t, const std::string &l);
+    RATIOCORE_EXPORT string_item(type &t, const std::string &l);
     string_item(const string_item &that) = delete;
 
     inline std::string get_value() const { return l; }
@@ -60,20 +60,20 @@ namespace ratio::core
   class complex_item : public item, public env
   {
   public:
-    ORATIOCORE_EXPORT complex_item(type &tp);
+    RATIOCORE_EXPORT complex_item(type &tp);
     complex_item(const complex_item &orig) = delete;
-    ORATIOCORE_EXPORT virtual ~complex_item() = default;
+    RATIOCORE_EXPORT virtual ~complex_item() = default;
 
-    ORATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
+    RATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
   };
 
   class enum_item final : public complex_item
   {
   public:
-    ORATIOCORE_EXPORT enum_item(type &t, semitone::var ev);
+    RATIOCORE_EXPORT enum_item(type &t, semitone::var ev);
     enum_item(const enum_item &that) = delete;
 
-    ORATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
+    RATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
 
     inline semitone::var get_var() const { return ev; }
 

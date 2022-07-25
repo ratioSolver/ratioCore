@@ -16,13 +16,13 @@
 
 namespace ratio::core
 {
-    ORATIOCORE_EXPORT core::core() : scope(*this), env(*this)
+    RATIOCORE_EXPORT core::core() : scope(*this), env(*this)
     {
         new_type(std::make_unique<bool_type>(*this));
     }
-    ORATIOCORE_EXPORT core::~core() {}
+    RATIOCORE_EXPORT core::~core() {}
 
-    ORATIOCORE_EXPORT void core::read(const std::string &script)
+    RATIOCORE_EXPORT void core::read(const std::string &script)
     {
         std::stringstream ss(script);
         parser prs(ss);
@@ -36,7 +36,7 @@ namespace ratio::core
         FIRE_READ(script);
     }
 
-    ORATIOCORE_EXPORT void core::read(const std::vector<std::string> &files)
+    RATIOCORE_EXPORT void core::read(const std::vector<std::string> &files)
     {
         std::vector<std::unique_ptr<const riddle::ast::compilation_unit>> c_cus;
         for (const auto &f : files)
@@ -63,13 +63,13 @@ namespace ratio::core
         FIRE_READ(files);
     }
 
-    ORATIOCORE_EXPORT expr core::new_bool(const bool &val) noexcept { return std::make_shared<bool_item>(*types.at(BOOL_KW), val ? semitone::TRUE_lit : semitone::FALSE_lit); }
-    ORATIOCORE_EXPORT expr core::new_int(const semitone::I &val) noexcept { return std::make_shared<arith_item>(*types.at(INT_KW), semitone::lin(semitone::rational(val))); }
-    ORATIOCORE_EXPORT expr core::new_real(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(*types.at(REAL_KW), semitone::lin(val)); }
-    ORATIOCORE_EXPORT expr core::new_time_point(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(*types.at(TIME_KW), semitone::lin(val)); }
-    ORATIOCORE_EXPORT expr core::new_string(const std::string &val) noexcept { return std::make_shared<string_item>(*types.at(STRING_KW), val); }
+    RATIOCORE_EXPORT expr core::new_bool(const bool &val) noexcept { return std::make_shared<bool_item>(*types.at(BOOL_KW), val ? semitone::TRUE_lit : semitone::FALSE_lit); }
+    RATIOCORE_EXPORT expr core::new_int(const semitone::I &val) noexcept { return std::make_shared<arith_item>(*types.at(INT_KW), semitone::lin(semitone::rational(val))); }
+    RATIOCORE_EXPORT expr core::new_real(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(*types.at(REAL_KW), semitone::lin(val)); }
+    RATIOCORE_EXPORT expr core::new_time_point(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(*types.at(TIME_KW), semitone::lin(val)); }
+    RATIOCORE_EXPORT expr core::new_string(const std::string &val) noexcept { return std::make_shared<string_item>(*types.at(STRING_KW), val); }
 
-    ORATIOCORE_EXPORT expr core::get(const std::string &name) noexcept
+    RATIOCORE_EXPORT expr core::get(const std::string &name) noexcept
     {
         if (const auto at_xpr = vars.find(name); at_xpr != vars.cend())
             return at_xpr->second;
@@ -77,18 +77,18 @@ namespace ratio::core
             return nullptr;
     }
 
-    ORATIOCORE_EXPORT semitone::lbool core::bool_value([[maybe_unused]] const expr &x) const noexcept { return bool_value(*static_cast<bool_item *>(x.get())); }
-    ORATIOCORE_EXPORT std::pair<semitone::inf_rational, semitone::inf_rational> core::arith_bounds([[maybe_unused]] const expr &x) const noexcept { return arith_bounds(*static_cast<arith_item *>(x.get())); }
-    ORATIOCORE_EXPORT semitone::inf_rational core::arith_value([[maybe_unused]] const expr &x) const noexcept { return arith_value(*static_cast<arith_item *>(x.get())); }
-    ORATIOCORE_EXPORT std::unordered_set<expr> core::enum_value([[maybe_unused]] const expr &x) const noexcept { return enum_value(*static_cast<enum_item *>(x.get())); }
+    RATIOCORE_EXPORT semitone::lbool core::bool_value([[maybe_unused]] const expr &x) const noexcept { return bool_value(*static_cast<bool_item *>(x.get())); }
+    RATIOCORE_EXPORT std::pair<semitone::inf_rational, semitone::inf_rational> core::arith_bounds([[maybe_unused]] const expr &x) const noexcept { return arith_bounds(*static_cast<arith_item *>(x.get())); }
+    RATIOCORE_EXPORT semitone::inf_rational core::arith_value([[maybe_unused]] const expr &x) const noexcept { return arith_value(*static_cast<arith_item *>(x.get())); }
+    RATIOCORE_EXPORT std::unordered_set<expr> core::enum_value([[maybe_unused]] const expr &x) const noexcept { return enum_value(*static_cast<enum_item *>(x.get())); }
 
-    ORATIOCORE_EXPORT void core::new_disjunction([[maybe_unused]] const std::vector<std::unique_ptr<conjunction>> conjs) {}
+    RATIOCORE_EXPORT void core::new_disjunction([[maybe_unused]] const std::vector<std::unique_ptr<conjunction>> conjs) {}
 
-    ORATIOCORE_EXPORT void core::new_method(method_ptr m) noexcept { methods[m->get_name()].emplace_back(std::move(m)); }
-    ORATIOCORE_EXPORT void core::new_type(type_ptr t) noexcept { types.emplace(t->get_name(), std::move(t)); }
-    ORATIOCORE_EXPORT void core::new_predicate(predicate_ptr p) noexcept { predicates.emplace(p->get_name(), std::move(p)); }
+    RATIOCORE_EXPORT void core::new_method(method_ptr m) noexcept { methods[m->get_name()].emplace_back(std::move(m)); }
+    RATIOCORE_EXPORT void core::new_type(type_ptr t) noexcept { types.emplace(t->get_name(), std::move(t)); }
+    RATIOCORE_EXPORT void core::new_predicate(predicate_ptr p) noexcept { predicates.emplace(p->get_name(), std::move(p)); }
 
-    ORATIOCORE_EXPORT const field &core::get_field(const std::string &name) const
+    RATIOCORE_EXPORT const field &core::get_field(const std::string &name) const
     {
         if (const auto at_f = get_fields().find(name); at_f != get_fields().cend())
             return *at_f->second;
@@ -97,7 +97,7 @@ namespace ratio::core
         throw std::out_of_range(name);
     }
 
-    ORATIOCORE_EXPORT method &core::get_method(const std::string &name, const std::vector<const type *> &ts) const
+    RATIOCORE_EXPORT method &core::get_method(const std::string &name, const std::vector<const type *> &ts) const
     {
         if (const auto at_m = methods.find(name); at_m != methods.cend())
         {
@@ -121,7 +121,7 @@ namespace ratio::core
         throw std::out_of_range(name);
     }
 
-    ORATIOCORE_EXPORT type &core::get_type(const std::string &name) const
+    RATIOCORE_EXPORT type &core::get_type(const std::string &name) const
     {
         if (const auto at_tp = types.find(name); at_tp != types.cend())
             return *at_tp->second;
@@ -130,7 +130,7 @@ namespace ratio::core
         throw std::out_of_range(name);
     }
 
-    ORATIOCORE_EXPORT predicate &core::get_predicate(const std::string &name) const
+    RATIOCORE_EXPORT predicate &core::get_predicate(const std::string &name) const
     {
         if (const auto at_p = predicates.find(name); at_p != predicates.cend())
             return *at_p->second;
@@ -165,37 +165,37 @@ namespace ratio::core
 #endif
 
 #ifdef BUILD_LISTENERS
-    ORATIOCORE_EXPORT void core::fire_log(const std::string msg) const noexcept
+    RATIOCORE_EXPORT void core::fire_log(const std::string msg) const noexcept
     {
         for (const auto &l : listeners)
             l->log(msg);
     }
-    ORATIOCORE_EXPORT void core::fire_read(const std::string &script) const noexcept
+    RATIOCORE_EXPORT void core::fire_read(const std::string &script) const noexcept
     {
         for (const auto &l : listeners)
             l->read(script);
     }
-    ORATIOCORE_EXPORT void core::fire_read(const std::vector<std::string> &files) const noexcept
+    RATIOCORE_EXPORT void core::fire_read(const std::vector<std::string> &files) const noexcept
     {
         for (const auto &l : listeners)
             l->read(files);
     }
-    ORATIOCORE_EXPORT void core::fire_state_changed() const noexcept
+    RATIOCORE_EXPORT void core::fire_state_changed() const noexcept
     {
         for (const auto &l : listeners)
             l->state_changed();
     }
-    ORATIOCORE_EXPORT void core::fire_started_solving() const noexcept
+    RATIOCORE_EXPORT void core::fire_started_solving() const noexcept
     {
         for (const auto &l : listeners)
             l->started_solving();
     }
-    ORATIOCORE_EXPORT void core::fire_solution_found() const noexcept
+    RATIOCORE_EXPORT void core::fire_solution_found() const noexcept
     {
         for (const auto &l : listeners)
             l->solution_found();
     }
-    ORATIOCORE_EXPORT void core::fire_inconsistent_problem() const noexcept
+    RATIOCORE_EXPORT void core::fire_inconsistent_problem() const noexcept
     {
         for (const auto &l : listeners)
             l->inconsistent_problem();

@@ -64,22 +64,22 @@ namespace ratio::core
 #endif
 
   public:
-    ORATIOCORE_EXPORT core();
+    RATIOCORE_EXPORT core();
     core(const core &orig) = delete;
-    ORATIOCORE_EXPORT virtual ~core();
+    RATIOCORE_EXPORT virtual ~core();
 
     /**
      * @brief Parses the given riddle script.
      *
      * @param script The riddle script to parse.
      */
-    ORATIOCORE_EXPORT virtual void read(const std::string &script);
+    RATIOCORE_EXPORT virtual void read(const std::string &script);
     /**
      * @brief Parses the given riddle files.
      *
      * @param files The riddle files to parse.
      */
-    ORATIOCORE_EXPORT virtual void read(const std::vector<std::string> &files);
+    RATIOCORE_EXPORT virtual void read(const std::vector<std::string> &files);
 
     /**
      * @brief Creates a new boolean variable.
@@ -94,7 +94,7 @@ namespace ratio::core
      * @param val The value of the literal.
      * @return expr The new boolean literal.
      */
-    ORATIOCORE_EXPORT expr new_bool(const bool &val) noexcept;
+    RATIOCORE_EXPORT expr new_bool(const bool &val) noexcept;
 
     /**
      * @brief Creates a new integer variable.
@@ -109,7 +109,7 @@ namespace ratio::core
      * @param val The value of the literal.
      * @return expr The new integer literal.
      */
-    ORATIOCORE_EXPORT expr new_int(const semitone::I &val) noexcept;
+    RATIOCORE_EXPORT expr new_int(const semitone::I &val) noexcept;
 
     /**
      * @brief Creates a new real variable.
@@ -124,7 +124,7 @@ namespace ratio::core
      * @param val The value of the literal.
      * @return expr The new real literal.
      */
-    ORATIOCORE_EXPORT expr new_real(const semitone::rational &val) noexcept;
+    RATIOCORE_EXPORT expr new_real(const semitone::rational &val) noexcept;
 
     /**
      * @brief Creates a new time-point variable.
@@ -139,7 +139,7 @@ namespace ratio::core
      * @param val The value of the literal.
      * @return expr The new time-point literal.
      */
-    ORATIOCORE_EXPORT expr new_time_point(const semitone::rational &val) noexcept;
+    RATIOCORE_EXPORT expr new_time_point(const semitone::rational &val) noexcept;
 
     /**
      * @brief Creates a new string variable.
@@ -154,7 +154,7 @@ namespace ratio::core
      * @param val The value of the literal.
      * @return expr The new string literal.
      */
-    ORATIOCORE_EXPORT expr new_string(const std::string &val) noexcept;
+    RATIOCORE_EXPORT expr new_string(const std::string &val) noexcept;
 
     /**
      * @brief Creates a new enumerative variable.
@@ -234,7 +234,7 @@ namespace ratio::core
 
     inline core &get_core() const override { return const_cast<core &>(*this); }
 
-    ORATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
+    RATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
 
     /**
      * @brief Evaluates the given boolean expression.
@@ -242,7 +242,7 @@ namespace ratio::core
      * @param x The boolean expression to evaluate.
      * @return semitone::lbool The value of the given boolean expression.
      */
-    ORATIOCORE_EXPORT semitone::lbool bool_value([[maybe_unused]] const expr &x) const noexcept;
+    RATIOCORE_EXPORT semitone::lbool bool_value([[maybe_unused]] const expr &x) const noexcept;
     virtual semitone::lbool bool_value([[maybe_unused]] const bool_item &x) const noexcept { return semitone::Undefined; }
     /**
      * @brief Evaluates the bounds of the given arithmetic expression.
@@ -250,7 +250,7 @@ namespace ratio::core
      * @param x The arithmetic expression to evaluate.
      * @return std::pair<semitone::inf_rational, semitone::inf_rational> The bounds of the given arithmetic expression.
      */
-    ORATIOCORE_EXPORT std::pair<semitone::inf_rational, semitone::inf_rational> arith_bounds([[maybe_unused]] const expr &x) const noexcept;
+    RATIOCORE_EXPORT std::pair<semitone::inf_rational, semitone::inf_rational> arith_bounds([[maybe_unused]] const expr &x) const noexcept;
     virtual std::pair<semitone::inf_rational, semitone::inf_rational> arith_bounds([[maybe_unused]] const arith_item &x) const noexcept { return std::make_pair<semitone::inf_rational, semitone::inf_rational>(semitone::inf_rational(semitone::rational::NEGATIVE_INFINITY), semitone::inf_rational(semitone::rational::POSITIVE_INFINITY)); }
     /**
      * @brief Evaluates the given arithmetic expression.
@@ -258,7 +258,7 @@ namespace ratio::core
      * @param x The arithmetic expression to evaluate.
      * @return semitone::inf_rational The value of the given arithmetic expression.
      */
-    ORATIOCORE_EXPORT semitone::inf_rational arith_value([[maybe_unused]] const expr &x) const noexcept;
+    RATIOCORE_EXPORT semitone::inf_rational arith_value([[maybe_unused]] const expr &x) const noexcept;
     virtual semitone::inf_rational arith_value([[maybe_unused]] const arith_item &x) const noexcept { return semitone::inf_rational(0); }
     /**
      * @brief Evaluates the given enumerative expression.
@@ -266,7 +266,7 @@ namespace ratio::core
      * @param x The arithmetic enumerative to evaluate.
      * @return std::unordered_set<expr> The current domain of the given enumerative expression.
      */
-    ORATIOCORE_EXPORT std::unordered_set<expr> enum_value([[maybe_unused]] const expr &x) const noexcept;
+    RATIOCORE_EXPORT std::unordered_set<expr> enum_value([[maybe_unused]] const expr &x) const noexcept;
     virtual std::unordered_set<expr> enum_value([[maybe_unused]] const enum_item &x) const noexcept { return std::unordered_set<expr>(); }
 
     /**
@@ -274,7 +274,7 @@ namespace ratio::core
      *
      * @param conjs A vector of conjunctions representing the disjunction.
      */
-    ORATIOCORE_EXPORT virtual void new_disjunction(const std::vector<std::unique_ptr<conjunction>> conjs);
+    RATIOCORE_EXPORT virtual void new_disjunction(const std::vector<std::unique_ptr<conjunction>> conjs);
 
     void assert_facts([[maybe_unused]] std::vector<expr> facts) {}
 
@@ -282,17 +282,17 @@ namespace ratio::core
     virtual void new_atom([[maybe_unused]] atom &atm, [[maybe_unused]] const bool &is_fact) {}
 
   protected:
-    ORATIOCORE_EXPORT void new_method(method_ptr m) noexcept;
-    ORATIOCORE_EXPORT void new_type(type_ptr t) noexcept;
-    ORATIOCORE_EXPORT void new_predicate(predicate_ptr p) noexcept;
+    RATIOCORE_EXPORT void new_method(method_ptr m) noexcept;
+    RATIOCORE_EXPORT void new_type(type_ptr t) noexcept;
+    RATIOCORE_EXPORT void new_predicate(predicate_ptr p) noexcept;
 
   public:
-    ORATIOCORE_EXPORT const field &get_field(const std::string &name) const override;
-    ORATIOCORE_EXPORT method &get_method(const std::string &name, const std::vector<const type *> &ts) const override;
+    RATIOCORE_EXPORT const field &get_field(const std::string &name) const override;
+    RATIOCORE_EXPORT method &get_method(const std::string &name, const std::vector<const type *> &ts) const override;
     const std::map<std::string, std::vector<method_ptr>> &get_methods() const noexcept override { return methods; }
-    ORATIOCORE_EXPORT type &get_type(const std::string &name) const override;
+    RATIOCORE_EXPORT type &get_type(const std::string &name) const override;
     const std::map<std::string, type_ptr> &get_types() const noexcept override { return types; }
-    ORATIOCORE_EXPORT predicate &get_predicate(const std::string &name) const override;
+    RATIOCORE_EXPORT predicate &get_predicate(const std::string &name) const override;
     const std::map<std::string, predicate_ptr> &get_predicates() const noexcept override { return predicates; }
 
 #ifdef COMPUTE_NAMES
@@ -317,13 +317,13 @@ namespace ratio::core
     std::vector<core_listener *> listeners; // the core listeners..
 
   protected:
-    ORATIOCORE_EXPORT void fire_log(const std::string msg) const noexcept;
-    ORATIOCORE_EXPORT void fire_read(const std::string &script) const noexcept;
-    ORATIOCORE_EXPORT void fire_read(const std::vector<std::string> &files) const noexcept;
-    ORATIOCORE_EXPORT void fire_state_changed() const noexcept;
-    ORATIOCORE_EXPORT void fire_started_solving() const noexcept;
-    ORATIOCORE_EXPORT void fire_solution_found() const noexcept;
-    ORATIOCORE_EXPORT void fire_inconsistent_problem() const noexcept;
+    RATIOCORE_EXPORT void fire_log(const std::string msg) const noexcept;
+    RATIOCORE_EXPORT void fire_read(const std::string &script) const noexcept;
+    RATIOCORE_EXPORT void fire_read(const std::vector<std::string> &files) const noexcept;
+    RATIOCORE_EXPORT void fire_state_changed() const noexcept;
+    RATIOCORE_EXPORT void fire_started_solving() const noexcept;
+    RATIOCORE_EXPORT void fire_solution_found() const noexcept;
+    RATIOCORE_EXPORT void fire_inconsistent_problem() const noexcept;
 #endif
   };
 

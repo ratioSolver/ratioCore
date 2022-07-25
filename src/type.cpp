@@ -12,10 +12,10 @@
 
 namespace ratio::core
 {
-    ORATIOCORE_EXPORT type::type(scope &scp, const std::string &name, bool primitive) : scope(scp), name(name), primitive(primitive) {}
-    ORATIOCORE_EXPORT type::~type() {}
+    RATIOCORE_EXPORT type::type(scope &scp, const std::string &name, bool primitive) : scope(scp), name(name), primitive(primitive) {}
+    RATIOCORE_EXPORT type::~type() {}
 
-    ORATIOCORE_EXPORT bool type::is_assignable_from(const type &t) const noexcept
+    RATIOCORE_EXPORT bool type::is_assignable_from(const type &t) const noexcept
     {
         std::queue<const type *> q;
         q.push(&t);
@@ -33,7 +33,7 @@ namespace ratio::core
         return false;
     }
 
-    ORATIOCORE_EXPORT expr type::new_instance()
+    RATIOCORE_EXPORT expr type::new_instance()
     {
         auto itm = std::make_shared<complex_item>(*this);
         // we add the new item to the instances of this predicate and to the instances of all the super-predicates..
@@ -49,7 +49,7 @@ namespace ratio::core
         return itm;
     }
 
-    ORATIOCORE_EXPORT expr type::new_existential()
+    RATIOCORE_EXPORT expr type::new_existential()
     {
         switch (instances.size())
         {
@@ -66,11 +66,11 @@ namespace ratio::core
         }
     }
 
-    ORATIOCORE_EXPORT void type::new_supertype(type &t) noexcept { supertypes.emplace_back(&t); }
-    ORATIOCORE_EXPORT void type::new_constructor(constructor_ptr c) noexcept { constructors.emplace_back(std::move(c)); }
-    ORATIOCORE_EXPORT void type::new_method(method_ptr m) noexcept { methods[m->get_name()].emplace_back(std::move(m)); }
-    ORATIOCORE_EXPORT void type::new_type(type_ptr t) noexcept { types.emplace(t->get_name(), std::move(t)); }
-    ORATIOCORE_EXPORT void type::new_predicate(predicate_ptr p) noexcept { predicates.emplace(p->get_name(), std::move(p)); }
+    RATIOCORE_EXPORT void type::new_supertype(type &t) noexcept { supertypes.emplace_back(&t); }
+    RATIOCORE_EXPORT void type::new_constructor(constructor_ptr c) noexcept { constructors.emplace_back(std::move(c)); }
+    RATIOCORE_EXPORT void type::new_method(method_ptr m) noexcept { methods[m->get_name()].emplace_back(std::move(m)); }
+    RATIOCORE_EXPORT void type::new_type(type_ptr t) noexcept { types.emplace(t->get_name(), std::move(t)); }
+    RATIOCORE_EXPORT void type::new_predicate(predicate_ptr p) noexcept { predicates.emplace(p->get_name(), std::move(p)); }
 
     constructor &type::get_constructor(const std::vector<const type *> &ts) const
     {
@@ -94,7 +94,7 @@ namespace ratio::core
         throw std::out_of_range(name);
     }
 
-    ORATIOCORE_EXPORT const field &type::get_field(const std::string &name) const
+    RATIOCORE_EXPORT const field &type::get_field(const std::string &name) const
     {
         if (const auto at_f = get_fields().find(name); at_f != get_fields().cend())
             return *at_f->second;
@@ -119,7 +119,7 @@ namespace ratio::core
         throw std::out_of_range(name);
     }
 
-    ORATIOCORE_EXPORT method &type::get_method(const std::string &name, const std::vector<const type *> &ts) const
+    RATIOCORE_EXPORT method &type::get_method(const std::string &name, const std::vector<const type *> &ts) const
     {
         if (const auto at_m = methods.find(name); at_m != methods.cend())
         {
@@ -161,7 +161,7 @@ namespace ratio::core
         throw std::out_of_range(name);
     }
 
-    ORATIOCORE_EXPORT type &type::get_type(const std::string &name) const
+    RATIOCORE_EXPORT type &type::get_type(const std::string &name) const
     {
         if (const auto at_tp = types.find(name); at_tp != types.cend())
             return *at_tp->second;
@@ -188,7 +188,7 @@ namespace ratio::core
         throw std::out_of_range(name);
     }
 
-    ORATIOCORE_EXPORT predicate &type::get_predicate(const std::string &name) const
+    RATIOCORE_EXPORT predicate &type::get_predicate(const std::string &name) const
     {
         if (const auto at_p = predicates.find(name); at_p != predicates.cend())
             return *at_p->second;

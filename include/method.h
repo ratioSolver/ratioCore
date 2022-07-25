@@ -12,9 +12,9 @@ namespace ratio::core
   class method : public scope
   {
   public:
-    ORATIOCORE_EXPORT method(scope &scp, type *return_type, const std::string &name, std::vector<field_ptr> args, const std::vector<std::unique_ptr<const riddle::ast::statement>> &stmnts);
+    RATIOCORE_EXPORT method(scope &scp, type *return_type, const std::string &name, std::vector<field_ptr> args, const std::vector<std::unique_ptr<const riddle::ast::statement>> &stmnts);
     method(const method &orig) = delete;
-    ORATIOCORE_EXPORT virtual ~method();
+    RATIOCORE_EXPORT virtual ~method();
 
     inline type *get_return_type() const noexcept { return return_type; }         // returns the return type of this method (can be nullptr)..
     inline std::string get_name() const noexcept { return name; }                 // returns the name of this method..

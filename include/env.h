@@ -33,7 +33,7 @@ namespace ratio::core
      * @param name The name of the variable.
      * @return expr The expression having the given name.
      */
-    ORATIOCORE_EXPORT virtual expr get(const std::string &name);
+    RATIOCORE_EXPORT virtual expr get(const std::string &name);
 
   private:
     env &e;

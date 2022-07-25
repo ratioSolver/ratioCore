@@ -8,8 +8,8 @@ namespace ratio::core
   class atom : public complex_item
   {
   public:
-    ORATIOCORE_EXPORT atom(predicate &pred);
+    RATIOCORE_EXPORT atom(predicate &pred);
     atom(const atom &orig) = delete;
-    ORATIOCORE_EXPORT virtual ~atom() = default;
+    RATIOCORE_EXPORT virtual ~atom() = default;
   };
 } // namespace ratio::core

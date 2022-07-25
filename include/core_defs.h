@@ -1,5 +1,5 @@
 #pragma once
-#include "oratiocore_export.h"
+#include "RATIOCORE_EXPORT.h"
 #include <memory>
 
 #define THIS_KW "this"

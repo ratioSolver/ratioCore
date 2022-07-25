@@ -6,7 +6,7 @@ namespace ratio::core
     env::env(env &e) : e(e) {}
     env::env(context ctx) : e(*ctx), ctx(ctx) {}
 
-    ORATIOCORE_EXPORT expr env::get(const std::string &name)
+    RATIOCORE_EXPORT expr env::get(const std::string &name)
     {
         if (const auto at_xpr = vars.find(name); at_xpr != vars.cend())
             return at_xpr->second;

@@ -25,9 +25,9 @@ namespace ratio::core
     friend class type;
 
   public:
-    ORATIOCORE_EXPORT constructor(type &tp, std::vector<field_ptr> args, const std::vector<riddle::id_token> &ins, const std::vector<std::vector<std::unique_ptr<const riddle::ast::expression>>> &ivs, const std::vector<std::unique_ptr<const riddle::ast::statement>> &stmnts);
+    RATIOCORE_EXPORT constructor(type &tp, std::vector<field_ptr> args, const std::vector<riddle::id_token> &ins, const std::vector<std::vector<std::unique_ptr<const riddle::ast::expression>>> &ivs, const std::vector<std::unique_ptr<const riddle::ast::statement>> &stmnts);
     constructor(const constructor &orig) = delete;
-    ORATIOCORE_EXPORT virtual ~constructor() = default;
+    RATIOCORE_EXPORT virtual ~constructor() = default;
 
     expr new_instance(std::vector<expr> exprs) noexcept; // creates a new instance of an item whose type has this constructor invoking this constructor within the given context with the given expressions as arguments of the constructor..
 

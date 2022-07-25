@@ -28,9 +28,9 @@ namespace ratio::core
     friend class class_declaration;
 
   public:
-    ORATIOCORE_EXPORT type(scope &scp, const std::string &name, bool primitive = false);
+    RATIOCORE_EXPORT type(scope &scp, const std::string &name, bool primitive = false);
     type(const type &orig) = delete;
-    ORATIOCORE_EXPORT virtual ~type();
+    RATIOCORE_EXPORT virtual ~type();
 
     inline const std::string get_name() const noexcept { return name; } // returns the name of this type..
     std::string get_full_name() const noexcept
@@ -47,28 +47,28 @@ namespace ratio::core
     inline bool is_primitive() const noexcept { return primitive; }                   // returns whether this type is primitive..
     const std::vector<type *> &get_supertypes() const noexcept { return supertypes; } // returns the base types of this type..
 
-    ORATIOCORE_EXPORT virtual bool is_assignable_from(const type &t) const noexcept; // checks whether this type is assignable from the 't' type..
+    RATIOCORE_EXPORT virtual bool is_assignable_from(const type &t) const noexcept; // checks whether this type is assignable from the 't' type..
 
-    ORATIOCORE_EXPORT virtual expr new_instance();                         // creates a new instance of this type..
-    ORATIOCORE_EXPORT virtual expr new_existential();                      // creates a new existential of this type (i.e. an object variable whose allowed values are all the current instances of this type)..
+    RATIOCORE_EXPORT virtual expr new_instance();                         // creates a new instance of this type..
+    RATIOCORE_EXPORT virtual expr new_existential();                      // creates a new existential of this type (i.e. an object variable whose allowed values are all the current instances of this type)..
     std::vector<expr> get_instances() const noexcept { return instances; } // returns the instances of this type..
 
   protected:
-    ORATIOCORE_EXPORT void new_supertype(type &t) noexcept;
-    ORATIOCORE_EXPORT void new_constructor(constructor_ptr c) noexcept;
-    ORATIOCORE_EXPORT void new_method(method_ptr m) noexcept;
-    ORATIOCORE_EXPORT void new_type(type_ptr t) noexcept;
-    ORATIOCORE_EXPORT void new_predicate(predicate_ptr p) noexcept;
+    RATIOCORE_EXPORT void new_supertype(type &t) noexcept;
+    RATIOCORE_EXPORT void new_constructor(constructor_ptr c) noexcept;
+    RATIOCORE_EXPORT void new_method(method_ptr m) noexcept;
+    RATIOCORE_EXPORT void new_type(type_ptr t) noexcept;
+    RATIOCORE_EXPORT void new_predicate(predicate_ptr p) noexcept;
 
   public:
-    ORATIOCORE_EXPORT const field &get_field(const std::string &name) const override;
-    ORATIOCORE_EXPORT constructor &get_constructor(const std::vector<const type *> &ts) const;
+    RATIOCORE_EXPORT const field &get_field(const std::string &name) const override;
+    RATIOCORE_EXPORT constructor &get_constructor(const std::vector<const type *> &ts) const;
     const std::vector<constructor_ptr> &get_constructors() const noexcept { return constructors; }
-    ORATIOCORE_EXPORT method &get_method(const std::string &name, const std::vector<const type *> &ts) const override;
+    RATIOCORE_EXPORT method &get_method(const std::string &name, const std::vector<const type *> &ts) const override;
     const std::map<std::string, std::vector<method_ptr>> &get_methods() const noexcept override { return methods; }
-    ORATIOCORE_EXPORT type &get_type(const std::string &name) const override;
+    RATIOCORE_EXPORT type &get_type(const std::string &name) const override;
     const std::map<std::string, type_ptr> &get_types() const noexcept override { return types; }
-    ORATIOCORE_EXPORT predicate &get_predicate(const std::string &name) const override;
+    RATIOCORE_EXPORT predicate &get_predicate(const std::string &name) const override;
     const std::map<std::string, predicate_ptr> &get_predicates() const noexcept override { return predicates; }
 
   private:

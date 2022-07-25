@@ -22,7 +22,7 @@ namespace ratio::core
      * @brief Execute this conjunction within the stored context.
      *
      */
-    ORATIOCORE_EXPORT void execute();
+    RATIOCORE_EXPORT void execute();
 
   private:
     context ctx;                                                                  // the context within which the conjunction can be executed..
