@@ -2,6 +2,6 @@ set(RATIOCORE_VERSION 1.0.0)
 
 @PACKAGE_INIT@
 
-set_and_check(RATIOCORE_INCLUDE_DIR "@PACKAGE_CMAKE_INSTALL_INCLUDEDIR@/oRatioCore")
+set_and_check(RATIOCORE_INCLUDE_DIR "@PACKAGE_CMAKE_INSTALL_INCLUDEDIR@/ratioCore")
 
-check_required_components(oRatioCore)
+check_required_components(ratioCore)
