@@ -283,7 +283,7 @@ namespace ratio::core
                 if (enum_item *ae = dynamic_cast<enum_item *>(&*e))
                 { // some of the allowed values might be inhibited..
                     // the allowed values..
-                    auto alwd_vals = scp.get_core().enum_value(e);
+                    auto alwd_vals = scp.get_core().enum_value(*ae);
                     for (auto ev : alwd_vals)
                         if (!tt.is_assignable_from(e->get_type())) // the target type is not a superclass of the value..
                             scp.get_core().remove(e, ev);
