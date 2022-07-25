@@ -2,13 +2,14 @@
 #include "env.h"
 #include "lit.h"
 #include "lin.h"
+#include "var_value.h"
 #include <map>
 
 namespace ratio::core
 {
   class type;
 
-  class item
+  class item : public semitone::var_value
   {
   public:
     item(type &tp);
