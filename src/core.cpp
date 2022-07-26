@@ -13,6 +13,7 @@
 #endif
 #include <sstream>
 #include <fstream>
+#include <algorithm>
 
 namespace ratio::core
 {
@@ -95,13 +96,39 @@ namespace ratio::core
             return nullptr;
     }
 
-    RATIOCORE_EXPORT semitone::lbool core::bool_value([[maybe_unused]] const expr &x) const noexcept { return bool_value(*static_cast<bool_item *>(x.get())); }
-    RATIOCORE_EXPORT std::pair<semitone::inf_rational, semitone::inf_rational> core::arith_bounds([[maybe_unused]] const expr &x) const noexcept { return arith_bounds(*static_cast<arith_item *>(x.get())); }
-    RATIOCORE_EXPORT semitone::inf_rational core::arith_value([[maybe_unused]] const expr &x) const noexcept { return arith_value(*static_cast<arith_item *>(x.get())); }
-    RATIOCORE_EXPORT std::unordered_set<expr> core::enum_value([[maybe_unused]] const expr &x) const noexcept { return enum_value(*static_cast<enum_item *>(x.get())); }
+    RATIOCORE_EXPORT semitone::lbool core::bool_value(const expr &x) const noexcept { return bool_value(static_cast<bool_item &>(*x)); }
+    RATIOCORE_EXPORT bool core::is_constant(const bool_item &x) const noexcept { return bool_value(x) != semitone::Undefined; }
+    RATIOCORE_EXPORT std::pair<semitone::inf_rational, semitone::inf_rational> core::arith_bounds(const expr &x) const noexcept { return arith_bounds(static_cast<arith_item &>(*x)); }
+    RATIOCORE_EXPORT semitone::inf_rational core::arith_value(const expr &x) const noexcept { return arith_value(static_cast<arith_item &>(*x)); }
+    RATIOCORE_EXPORT bool core::is_constant(const arith_item &x) const noexcept
+    {
+        if (x.get_value().vars.empty())
+            return true;
+        else
+        {
+            auto [lb, ub] = arith_bounds(x);
+            return lb == ub;
+        }
+    }
+    RATIOCORE_EXPORT std::unordered_set<expr> core::enum_value(const expr &x) const noexcept { return enum_value(static_cast<enum_item &>(*x)); }
+    RATIOCORE_EXPORT bool core::is_constant(const enum_item &x) const noexcept { return enum_value(x).size() == 1; }
 
     RATIOCORE_EXPORT void core::new_disjunction([[maybe_unused]] const std::vector<std::unique_ptr<conjunction>> conjs) {}
 
+    RATIOCORE_EXPORT type &core::get_type(const std::vector<expr> &exprs) const
+    {
+        if (std::all_of(exprs.cbegin(), exprs.cend(), [this](auto &aex)
+                        { return &aex->get_type() == &get_int_type(); }))
+            return get_int_type();
+        else if (std::all_of(exprs.cbegin(), exprs.cend(), [this](auto &aex)
+                             { return &aex->get_type() == &get_real_type(); }))
+            return get_real_type();
+        else if (std::all_of(exprs.cbegin(), exprs.cend(), [this](auto &aex)
+                             { return &aex->get_type() == &get_time_type() || is_constant(static_cast<arith_item &>(*aex)); }))
+            return get_time_type();
+        else
+            return get_real_type();
+    }
     RATIOCORE_EXPORT void core::new_method(method_ptr m) noexcept { methods[m->get_name()].emplace_back(std::move(m)); }
     RATIOCORE_EXPORT void core::new_type(type_ptr t) noexcept { types.emplace(t->get_name(), std::move(t)); }
     RATIOCORE_EXPORT void core::new_predicate(predicate_ptr p) noexcept { predicates.emplace(p->get_name(), std::move(p)); }

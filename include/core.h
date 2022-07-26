@@ -249,6 +249,7 @@ namespace ratio::core
      */
     RATIOCORE_EXPORT semitone::lbool bool_value([[maybe_unused]] const expr &x) const noexcept;
     virtual semitone::lbool bool_value([[maybe_unused]] const bool_item &x) const noexcept { return semitone::Undefined; }
+    RATIOCORE_EXPORT bool is_constant(const bool_item &x) const noexcept;
     /**
      * @brief Evaluates the bounds of the given arithmetic expression.
      *
@@ -265,6 +266,7 @@ namespace ratio::core
      */
     RATIOCORE_EXPORT semitone::inf_rational arith_value([[maybe_unused]] const expr &x) const noexcept;
     virtual semitone::inf_rational arith_value([[maybe_unused]] const arith_item &x) const noexcept { return semitone::inf_rational(0); }
+    RATIOCORE_EXPORT bool is_constant([[maybe_unused]] const arith_item &x) const noexcept;
     /**
      * @brief Evaluates the given enumerative expression.
      *
@@ -273,6 +275,7 @@ namespace ratio::core
      */
     RATIOCORE_EXPORT std::unordered_set<expr> enum_value([[maybe_unused]] const expr &x) const noexcept;
     virtual std::unordered_set<expr> enum_value([[maybe_unused]] const enum_item &x) const noexcept { return std::unordered_set<expr>(); }
+    RATIOCORE_EXPORT bool is_constant([[maybe_unused]] const enum_item &x) const noexcept;
 
     /**
      * @brief Creates a new disjunction of conjunctions.
@@ -287,6 +290,7 @@ namespace ratio::core
     virtual void new_atom([[maybe_unused]] atom &atm, [[maybe_unused]] const bool &is_fact) {}
 
   protected:
+    RATIOCORE_EXPORT type &get_type(const std::vector<expr> &exprs) const;
     RATIOCORE_EXPORT void new_method(method_ptr m) noexcept;
     RATIOCORE_EXPORT void new_type(type_ptr t) noexcept;
     RATIOCORE_EXPORT void new_predicate(predicate_ptr p) noexcept;
