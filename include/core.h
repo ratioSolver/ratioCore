@@ -235,7 +235,7 @@ namespace ratio::core
      * @return true If the two expressions can be made equal.
      * @return false If the two expressions can not be made equal.
      */
-    virtual bool match([[maybe_unused]] const expr &left, [[maybe_unused]] const expr &right) noexcept { return false; }
+    virtual bool matches([[maybe_unused]] const expr &left, [[maybe_unused]] const expr &right) noexcept { return false; }
 
     inline core &get_core() const override { return const_cast<core &>(*this); }
 
