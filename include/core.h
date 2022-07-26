@@ -282,7 +282,7 @@ namespace ratio::core
      *
      * @param conjs A vector of conjunctions representing the disjunction.
      */
-    RATIOCORE_EXPORT virtual void new_disjunction(const std::vector<std::unique_ptr<conjunction>> conjs);
+    RATIOCORE_EXPORT virtual void new_disjunction(std::vector<std::unique_ptr<conjunction>> conjs);
 
   private:
     virtual void new_atom([[maybe_unused]] atom &atm, [[maybe_unused]] const bool &is_fact = true) {}

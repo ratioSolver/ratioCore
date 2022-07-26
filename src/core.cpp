@@ -113,7 +113,7 @@ namespace ratio::core
     RATIOCORE_EXPORT std::unordered_set<expr> core::enum_value(const expr &x) const noexcept { return enum_value(static_cast<enum_item &>(*x)); }
     RATIOCORE_EXPORT bool core::is_constant(const enum_item &x) const noexcept { return enum_value(x).size() == 1; }
 
-    RATIOCORE_EXPORT void core::new_disjunction([[maybe_unused]] const std::vector<std::unique_ptr<conjunction>> conjs) {}
+    RATIOCORE_EXPORT void core::new_disjunction([[maybe_unused]] std::vector<std::unique_ptr<conjunction>> conjs) {}
 
     RATIOCORE_EXPORT type &core::get_type(const std::vector<expr> &exprs) const
     {
