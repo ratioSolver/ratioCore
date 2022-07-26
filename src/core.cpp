@@ -201,7 +201,7 @@ namespace ratio::core
         while (!q.empty())
         {
             const auto &c_xpr = q.front();
-            for (const auto &xpr : static_cast<complex_item *>(c_xpr.second).vars)
+            for (const auto &xpr : static_cast<complex_item &>(*c_xpr.second).vars)
                 if (expr_names.emplace(&*xpr.second, expr_names.at(&*c_xpr.second) + '.' + xpr.first).second)
                     q.push(xpr);
             q.pop();
