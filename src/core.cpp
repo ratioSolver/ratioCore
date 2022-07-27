@@ -124,7 +124,21 @@ namespace ratio::core
                              { return &aex->get_type() == &get_real_type(); }))
             return get_real_type();
         else if (std::all_of(exprs.cbegin(), exprs.cend(), [this](auto &aex)
-                             { return &aex->get_type() == &get_time_type() || is_constant(static_cast<arith_item &>(*aex)); }))
+                             { return &aex->get_type() == &get_time_type() || is_constant(static_cast<const arith_item &>(*aex)); }))
+            return get_time_type();
+        else
+            return get_real_type();
+    }
+    RATIOCORE_EXPORT type &core::get_type(const std::vector<const item *> &exprs) const
+    {
+        if (std::all_of(exprs.cbegin(), exprs.cend(), [this](auto &aex)
+                        { return &aex->get_type() == &get_int_type(); }))
+            return get_int_type();
+        else if (std::all_of(exprs.cbegin(), exprs.cend(), [this](auto &aex)
+                             { return &aex->get_type() == &get_real_type(); }))
+            return get_real_type();
+        else if (std::all_of(exprs.cbegin(), exprs.cend(), [this](auto &aex)
+                             { return &aex->get_type() == &get_time_type() || is_constant(static_cast<const arith_item &>(*aex)); }))
             return get_time_type();
         else
             return get_real_type();

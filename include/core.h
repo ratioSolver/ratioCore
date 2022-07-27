@@ -227,16 +227,6 @@ namespace ratio::core
     virtual expr geq([[maybe_unused]] const expr &left, [[maybe_unused]] const expr &right) noexcept { return nullptr; }
     virtual expr gt([[maybe_unused]] const expr &left, [[maybe_unused]] const expr &right) noexcept { return nullptr; }
 
-    /**
-     * @brief Checks whether the two expressions can be made equal.
-     *
-     * @param left The first expression to check if it can be made equal to the other.
-     * @param right The second expression to check if it can be made equal to the other.
-     * @return true If the two expressions can be made equal.
-     * @return false If the two expressions can not be made equal.
-     */
-    virtual bool matches([[maybe_unused]] const expr &left, [[maybe_unused]] const expr &right) noexcept { return false; }
-
     inline core &get_core() const override { return const_cast<core &>(*this); }
 
     RATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
@@ -292,6 +282,7 @@ namespace ratio::core
 
   protected:
     RATIOCORE_EXPORT type &get_type(const std::vector<expr> &exprs) const;
+    RATIOCORE_EXPORT type &get_type(const std::vector<const item *> &exprs) const;
     RATIOCORE_EXPORT void new_method(method_ptr m) noexcept;
     RATIOCORE_EXPORT void new_type(type_ptr t) noexcept;
     RATIOCORE_EXPORT void new_predicate(predicate_ptr p) noexcept;
