@@ -237,7 +237,7 @@ namespace ratio::core
                     throw std::invalid_argument("invalid disjunct cost: expected a constant..");
                 cost = scp.get_core().arith_value(a_xpr).get_rational();
             }
-            cs.emplace_back(std::make_unique<conjunction>(scp, cost, conjunctions[i]));
+            cs.emplace_back(std::make_unique<conjunction>(scp, ctx, cost, conjunctions[i]));
         }
 
         scp.get_core().new_disjunction(std::move(cs));
