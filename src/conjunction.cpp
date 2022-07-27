@@ -5,10 +5,10 @@
 
 namespace ratio::core
 {
-    conjunction::conjunction(scope &scp, context ctx, semitone::rational cst, const std::vector<std::unique_ptr<const riddle::ast::statement>> &stmnts) : scope(scp), ctx(ctx), cost(std::move(cst)), statements(stmnts) {}
+    conjunction::conjunction(scope &scp, semitone::rational cst, const std::vector<std::unique_ptr<const riddle::ast::statement>> &stmnts) : scope(scp), cost(std::move(cst)), statements(stmnts) {}
     conjunction::~conjunction() {}
 
-    RATIOCORE_EXPORT void conjunction::execute()
+    RATIOCORE_EXPORT void conjunction::execute(context &ctx)
     {
         context c_ctx(ctx);
         for (const auto &s : statements)
