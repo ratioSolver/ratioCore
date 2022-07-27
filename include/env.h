@@ -34,6 +34,7 @@ namespace ratio::core
      * @return expr The expression having the given name.
      */
     RATIOCORE_EXPORT virtual expr get(const std::string &name);
+    const std::map<std::string, expr> &get_vars() const noexcept { return vars; }
 
   private:
     env &e;
