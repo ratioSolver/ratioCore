@@ -1,5 +1,5 @@
 #include "item.h"
-#include "type.h"
+#include "predicate.h"
 #include "core.h"
 #include "riddle_lexer.h"
 #include <queue>
@@ -61,4 +61,6 @@ namespace ratio::core
                 return it_it->second;
         }
     }
+
+    RATIOCORE_EXPORT atom::atom(predicate &pred) : complex_item(pred) {}
 } // namespace ratio::core

@@ -8,6 +8,7 @@
 namespace ratio::core
 {
   class type;
+  class predicate;
 
   class item : public semitone::var_value
   {
@@ -80,5 +81,12 @@ namespace ratio::core
 
   private:
     const semitone::var ev;
+  };
+
+  class atom final : public complex_item
+  {
+  public:
+    RATIOCORE_EXPORT atom(predicate &pred);
+    atom(const atom &orig) = delete;
   };
 } // namespace ratio::core

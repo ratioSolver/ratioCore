@@ -1,6 +1,6 @@
 #include "core.h"
 #include "parser.h"
-#include "atom.h"
+#include "item.h"
 #include "predicate.h"
 #include "method.h"
 #include "constructor.h"

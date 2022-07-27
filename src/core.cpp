@@ -3,7 +3,7 @@
 #include "predicate.h"
 #include "conjunction.h"
 #include "field.h"
-#include "atom.h"
+#include "item.h"
 #include "parser.h"
 #ifdef BUILD_LISTENERS
 #include "core_listener.h"
