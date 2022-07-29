@@ -95,6 +95,7 @@ namespace ratio::core
     RATIOCORE_EXPORT virtual const std::map<std::string, predicate_ptr> &get_predicates() const noexcept;
 
   protected:
+    RATIOCORE_EXPORT static void new_field(scope &s, field_ptr f);
     RATIOCORE_EXPORT virtual void new_field(field_ptr f);
 
   private:
