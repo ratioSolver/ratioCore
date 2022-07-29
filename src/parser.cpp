@@ -286,7 +286,7 @@ namespace ratio::core
                     auto alwd_vals = scp.get_core().enum_value(*ae);
                     for (auto ev : alwd_vals)
                         if (!tt.is_assignable_from(e->get_type())) // the target type is not a superclass of the value..
-                            scp.get_core().remove(e, ev);
+                            scp.get_core().remove(e, *ev);
                 }
                 else // the evaluated expression is a constant which cannot be assigned to the target type (which is a subclass of the type of the evaluated expression)..
                     throw inconsistency_exception();

@@ -2,6 +2,7 @@
 #include "scope.h"
 #include "env.h"
 #include "inf_rational.h"
+#include "var_value.h"
 #include <unordered_set>
 #ifdef COMPUTE_NAMES
 #include <unordered_map>
@@ -184,7 +185,7 @@ namespace ratio::core
      * @param var The variable whose domain is to be shrinked.
      * @param val The value to be removed from the domain.
      */
-    virtual void remove([[maybe_unused]] expr &var, [[maybe_unused]] expr &val) {}
+    virtual void remove([[maybe_unused]] expr &var, [[maybe_unused]] semitone::var_value &val) {}
 
     /**
      * @brief Creates an expression which is the negation of the given expression.
@@ -261,10 +262,10 @@ namespace ratio::core
      * @brief Evaluates the given enumerative expression.
      *
      * @param x The arithmetic enumerative to evaluate.
-     * @return std::unordered_set<expr> The current domain of the given enumerative expression.
+     * @return std::unordered_set<semitone::var_value *> The current domain of the given enumerative expression.
      */
-    RATIOCORE_EXPORT std::unordered_set<expr> enum_value([[maybe_unused]] const expr &x) const noexcept;
-    virtual std::unordered_set<expr> enum_value([[maybe_unused]] const enum_item &x) const noexcept { return std::unordered_set<expr>(); }
+    RATIOCORE_EXPORT std::unordered_set<semitone::var_value *> enum_value([[maybe_unused]] const expr &x) const noexcept;
+    virtual std::unordered_set<semitone::var_value *> enum_value([[maybe_unused]] const enum_item &x) const noexcept { return std::unordered_set<semitone::var_value *>(); }
     RATIOCORE_EXPORT bool is_constant([[maybe_unused]] const enum_item &x) const noexcept;
 
     /**

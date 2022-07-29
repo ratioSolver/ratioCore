@@ -49,7 +49,7 @@ namespace ratio::core
             {
                 assert(!get_type().get_core().enum_value(*this).empty());
                 if (auto vs = get_type().get_core().enum_value(*this); vs.size() == 1)
-                    return (static_cast<complex_item *>(vs.cbegin()->get()))->get(name);
+                    return (static_cast<complex_item *>(*vs.cbegin()))->get(name);
                 else
                 { // we generate a new variable..
                     auto e = get_type().get_core().get(*this, name);
