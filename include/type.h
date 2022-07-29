@@ -49,8 +49,8 @@ namespace ratio::core
 
     RATIOCORE_EXPORT virtual bool is_assignable_from(const type &t) const noexcept; // checks whether this type is assignable from the 't' type..
 
-    RATIOCORE_EXPORT virtual expr new_instance();                         // creates a new instance of this type..
-    RATIOCORE_EXPORT virtual expr new_existential();                      // creates a new existential of this type (i.e. an object variable whose allowed values are all the current instances of this type)..
+    RATIOCORE_EXPORT virtual expr new_instance();                          // creates a new instance of this type..
+    RATIOCORE_EXPORT virtual expr new_existential();                       // creates a new existential of this type (i.e. an object variable whose allowed values are all the current instances of this type)..
     std::vector<expr> get_instances() const noexcept { return instances; } // returns the instances of this type..
 
   protected:
@@ -58,7 +58,10 @@ namespace ratio::core
     RATIOCORE_EXPORT void new_constructor(constructor_ptr c) noexcept;
     RATIOCORE_EXPORT void new_method(method_ptr m) noexcept;
     RATIOCORE_EXPORT void new_type(type_ptr t) noexcept;
-    RATIOCORE_EXPORT void new_predicate(predicate_ptr p) noexcept;
+    RATIOCORE_EXPORT void new_predicate(predicate_ptr p, bool notify = true) noexcept;
+
+  private:
+    RATIOCORE_EXPORT virtual void new_predicate(predicate &) noexcept {}
 
   public:
     RATIOCORE_EXPORT const field &get_field(const std::string &name) const override;

@@ -70,7 +70,23 @@ namespace ratio::core
     RATIOCORE_EXPORT void type::new_constructor(constructor_ptr c) noexcept { constructors.emplace_back(std::move(c)); }
     RATIOCORE_EXPORT void type::new_method(method_ptr m) noexcept { methods[m->get_name()].emplace_back(std::move(m)); }
     RATIOCORE_EXPORT void type::new_type(type_ptr t) noexcept { types.emplace(t->get_name(), std::move(t)); }
-    RATIOCORE_EXPORT void type::new_predicate(predicate_ptr p) noexcept { predicates.emplace(p->get_name(), std::move(p)); }
+    RATIOCORE_EXPORT void type::new_predicate(predicate_ptr p, bool notify) noexcept
+    {
+        if (notify)
+        { // we notify all the supertypes that a new predicate has been created..
+            std::queue<type *> q;
+            q.push(this);
+            while (!q.empty())
+            {
+                q.front()->new_predicate(*p);
+                for (const auto &st : q.front()->supertypes)
+                    q.push(st);
+                q.pop();
+            }
+        }
+
+        predicates.emplace(p->get_name(), std::move(p));
+    }
 
     constructor &type::get_constructor(const std::vector<const type *> &ts) const
     {
