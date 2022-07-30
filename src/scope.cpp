@@ -7,6 +7,7 @@ namespace ratio::core
     RATIOCORE_EXPORT scope::~scope() {}
 
     RATIOCORE_EXPORT void scope::new_field(field_ptr f) { fields.emplace(f->get_name(), std::move(f)); }
+    RATIOCORE_EXPORT void scope::new_field(scope &s, field_ptr f) { s.new_field(std::move(f)); }
 
     RATIOCORE_EXPORT const field &scope::get_field(const std::string &name) const
     {

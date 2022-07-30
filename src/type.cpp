@@ -67,6 +67,7 @@ namespace ratio::core
     }
 
     RATIOCORE_EXPORT void type::new_supertype(type &t) noexcept { supertypes.emplace_back(&t); }
+    RATIOCORE_EXPORT void type::new_supertype(type &t, type &st) noexcept { t.new_supertype(st); }
     RATIOCORE_EXPORT void type::new_constructor(constructor_ptr c) noexcept { constructors.emplace_back(std::move(c)); }
     RATIOCORE_EXPORT void type::new_method(method_ptr m) noexcept { methods[m->get_name()].emplace_back(std::move(m)); }
     RATIOCORE_EXPORT void type::new_type(type_ptr t) noexcept { types.emplace(t->get_name(), std::move(t)); }
