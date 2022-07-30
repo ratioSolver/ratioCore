@@ -55,6 +55,7 @@ namespace ratio::core
 
   protected:
     RATIOCORE_EXPORT void new_supertype(type &t) noexcept;
+    static void new_supertype(type &t, type &st) { t.new_supertype(st); }
     RATIOCORE_EXPORT void new_constructor(constructor_ptr c) noexcept;
     RATIOCORE_EXPORT void new_method(method_ptr m) noexcept;
     RATIOCORE_EXPORT void new_type(type_ptr t) noexcept;
