@@ -13,18 +13,18 @@ namespace ratio::core
 {
     inline bool is_core(const scope &scp) noexcept { return &scp == &scp.get_core(); }
 
-    expr bool_literal_expression::evaluate(scope &scp, context &) const { return scp.get_core().new_bool(literal.val); }
-    expr int_literal_expression::evaluate(scope &scp, context &) const { return scp.get_core().new_int(literal.val); }
-    expr real_literal_expression::evaluate(scope &scp, context &) const { return scp.get_core().new_real(literal.val); }
-    expr string_literal_expression::evaluate(scope &scp, context &) const { return scp.get_core().new_string(literal.str); }
+    RATIOCORE_EXPORT expr bool_literal_expression::evaluate(scope &scp, context &) const { return scp.get_core().new_bool(literal.val); }
+    RATIOCORE_EXPORT expr int_literal_expression::evaluate(scope &scp, context &) const { return scp.get_core().new_int(literal.val); }
+    RATIOCORE_EXPORT expr real_literal_expression::evaluate(scope &scp, context &) const { return scp.get_core().new_real(literal.val); }
+    RATIOCORE_EXPORT expr string_literal_expression::evaluate(scope &scp, context &) const { return scp.get_core().new_string(literal.str); }
 
-    expr cast_expression::evaluate(scope &scp, context &ctx) const { return static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx); }
+    RATIOCORE_EXPORT expr cast_expression::evaluate(scope &scp, context &ctx) const { return static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx); }
 
-    expr plus_expression::evaluate(scope &scp, context &ctx) const { return static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx); }
-    expr minus_expression::evaluate(scope &scp, context &ctx) const { return scp.get_core().minus(static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx)); }
-    expr not_expression::evaluate(scope &scp, context &ctx) const { return scp.get_core().negate(static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx)); }
+    RATIOCORE_EXPORT expr plus_expression::evaluate(scope &scp, context &ctx) const { return static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx); }
+    RATIOCORE_EXPORT expr minus_expression::evaluate(scope &scp, context &ctx) const { return scp.get_core().minus(static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx)); }
+    RATIOCORE_EXPORT expr not_expression::evaluate(scope &scp, context &ctx) const { return scp.get_core().negate(static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx)); }
 
-    expr constructor_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr constructor_expression::evaluate(scope &scp, context &ctx) const
     {
         scope *s = &scp;
         for (const auto &tp : instance_type)
@@ -42,49 +42,49 @@ namespace ratio::core
         return static_cast<type *>(s)->get_constructor(par_types).new_instance(std::move(exprs));
     }
 
-    expr eq_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr eq_expression::evaluate(scope &scp, context &ctx) const
     {
         expr l = static_cast<const ratio::core::expression &>(*left).evaluate(scp, ctx);
         expr r = static_cast<const ratio::core::expression &>(*right).evaluate(scp, ctx);
         return scp.get_core().eq(l, r);
     }
 
-    expr neq_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr neq_expression::evaluate(scope &scp, context &ctx) const
     {
         expr l = static_cast<const ratio::core::expression &>(*left).evaluate(scp, ctx);
         expr r = static_cast<const ratio::core::expression &>(*right).evaluate(scp, ctx);
         return scp.get_core().negate(scp.get_core().eq(l, r));
     }
 
-    expr lt_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr lt_expression::evaluate(scope &scp, context &ctx) const
     {
         expr l = static_cast<const ratio::core::expression &>(*left).evaluate(scp, ctx);
         expr r = static_cast<const ratio::core::expression &>(*right).evaluate(scp, ctx);
         return scp.get_core().lt(l, r);
     }
 
-    expr leq_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr leq_expression::evaluate(scope &scp, context &ctx) const
     {
         expr l = static_cast<const ratio::core::expression &>(*left).evaluate(scp, ctx);
         expr r = static_cast<const ratio::core::expression &>(*right).evaluate(scp, ctx);
         return scp.get_core().leq(l, r);
     }
 
-    expr geq_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr geq_expression::evaluate(scope &scp, context &ctx) const
     {
         expr l = static_cast<const ratio::core::expression &>(*left).evaluate(scp, ctx);
         expr r = static_cast<const ratio::core::expression &>(*right).evaluate(scp, ctx);
         return scp.get_core().geq(l, r);
     }
 
-    expr gt_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr gt_expression::evaluate(scope &scp, context &ctx) const
     {
         expr l = static_cast<const ratio::core::expression &>(*left).evaluate(scp, ctx);
         expr r = static_cast<const ratio::core::expression &>(*right).evaluate(scp, ctx);
         return scp.get_core().gt(l, r);
     }
 
-    expr function_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr function_expression::evaluate(scope &scp, context &ctx) const
     {
         scope *s = &scp;
         for (const auto &id_tk : ids)
@@ -113,7 +113,7 @@ namespace ratio::core
             return scp.get_core().new_bool(true);
     }
 
-    expr id_expression::evaluate(scope &, context &ctx) const
+    RATIOCORE_EXPORT expr id_expression::evaluate(scope &, context &ctx) const
     {
         expr c_e = ctx->get(ids.begin()->id);
         for (auto it = std::next(ids.begin()); it != ids.end(); ++it)
@@ -121,14 +121,14 @@ namespace ratio::core
         return c_e;
     }
 
-    expr implication_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr implication_expression::evaluate(scope &scp, context &ctx) const
     {
         expr l = static_cast<const ratio::core::expression &>(*left).evaluate(scp, ctx);
         expr r = static_cast<const ratio::core::expression &>(*right).evaluate(scp, ctx);
         return scp.get_core().disj({scp.get_core().negate(l), r});
     }
 
-    expr disjunction_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr disjunction_expression::evaluate(scope &scp, context &ctx) const
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
@@ -136,7 +136,7 @@ namespace ratio::core
         return scp.get_core().disj(exprs);
     }
 
-    expr conjunction_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr conjunction_expression::evaluate(scope &scp, context &ctx) const
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
@@ -144,7 +144,7 @@ namespace ratio::core
         return scp.get_core().conj(exprs);
     }
 
-    expr exct_one_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr exct_one_expression::evaluate(scope &scp, context &ctx) const
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
@@ -152,7 +152,7 @@ namespace ratio::core
         return scp.get_core().exct_one(exprs);
     }
 
-    expr addition_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr addition_expression::evaluate(scope &scp, context &ctx) const
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
@@ -160,7 +160,7 @@ namespace ratio::core
         return scp.get_core().add(exprs);
     }
 
-    expr subtraction_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr subtraction_expression::evaluate(scope &scp, context &ctx) const
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
@@ -168,7 +168,7 @@ namespace ratio::core
         return scp.get_core().sub(exprs);
     }
 
-    expr multiplication_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr multiplication_expression::evaluate(scope &scp, context &ctx) const
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
@@ -176,7 +176,7 @@ namespace ratio::core
         return scp.get_core().mult(exprs);
     }
 
-    expr division_expression::evaluate(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT expr division_expression::evaluate(scope &scp, context &ctx) const
     {
         std::vector<expr> exprs;
         for (const auto &e : expressions)
@@ -184,7 +184,7 @@ namespace ratio::core
         return scp.get_core().div(exprs);
     }
 
-    void local_field_statement::execute(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT void local_field_statement::execute(scope &scp, context &ctx) const
     {
         for (size_t i = 0; i < names.size(); ++i)
         {
@@ -209,7 +209,7 @@ namespace ratio::core
         }
     }
 
-    void assignment_statement::execute(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT void assignment_statement::execute(scope &scp, context &ctx) const
     {
         expr c_e = ctx->get(ids.begin()->id);
         for (auto it = std::next(ids.begin()); it != ids.end(); ++it)
@@ -217,13 +217,13 @@ namespace ratio::core
         static_cast<complex_item &>(*c_e).vars.emplace(id.id, static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx));
     }
 
-    void expression_statement::execute(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT void expression_statement::execute(scope &scp, context &ctx) const
     {
         expr be = static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx);
         scp.get_core().assert_facts({be});
     }
 
-    void disjunction_statement::execute(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT void disjunction_statement::execute(scope &scp, context &ctx) const
     {
         std::vector<std::unique_ptr<ratio::core::conjunction>> cs;
         cs.reserve(conjunctions.size());
@@ -243,13 +243,13 @@ namespace ratio::core
         scp.get_core().new_disjunction(std::move(cs));
     }
 
-    void conjunction_statement::execute(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT void conjunction_statement::execute(scope &scp, context &ctx) const
     {
         for (const auto &st : statements)
             static_cast<const ratio::core::statement &>(*st).execute(scp, ctx);
     }
 
-    void formula_statement::execute(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT void formula_statement::execute(scope &scp, context &ctx) const
     {
         predicate *pred = nullptr;
         std::unordered_map<std::string, expr> assgnments;
@@ -318,9 +318,9 @@ namespace ratio::core
         ctx->vars.emplace(formula_name.id, atm);
     }
 
-    void return_statement::execute(scope &scp, context &ctx) const { ctx->vars.emplace(RETURN_KW, static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx)); }
+    RATIOCORE_EXPORT void return_statement::execute(scope &scp, context &ctx) const { ctx->vars.emplace(RETURN_KW, static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx)); }
 
-    void method_declaration::refine(scope &scp) const
+    RATIOCORE_EXPORT void method_declaration::refine(scope &scp) const
     {
         type *rt;
         if (!return_type.empty())
@@ -347,7 +347,7 @@ namespace ratio::core
             t->new_method(std::move(m));
     }
 
-    void predicate_declaration::declare(scope &scp) const
+    RATIOCORE_EXPORT void predicate_declaration::declare(scope &scp) const
     {
         auto p = std::make_unique<predicate>(scp, name.id, std::vector<field_ptr>(), statements);
         if (core *c = dynamic_cast<core *>(&scp))
@@ -356,7 +356,7 @@ namespace ratio::core
             t->new_predicate(std::move(p));
     }
 
-    void predicate_declaration::refine(scope &scp) const
+    RATIOCORE_EXPORT void predicate_declaration::refine(scope &scp) const
     {
         predicate &p = scp.get_predicate(name.id);
 
@@ -380,7 +380,7 @@ namespace ratio::core
         }
     }
 
-    void typedef_declaration::declare(scope &scp) const
+    RATIOCORE_EXPORT void typedef_declaration::declare(scope &scp) const
     { // A new typedef type has been declared..
         auto td = std::make_unique<typedef_type>(scp, name.id, scp.get_type(primitive_type.id), xpr);
 
@@ -390,7 +390,7 @@ namespace ratio::core
             t->new_type(std::move(td));
     }
 
-    void enum_declaration::declare(scope &scp) const
+    RATIOCORE_EXPORT void enum_declaration::declare(scope &scp) const
     {
         // A new enum type has been declared..
         auto et = std::make_unique<enum_type>(scp, name.id);
@@ -405,7 +405,7 @@ namespace ratio::core
             t->new_type(std::move(et));
     }
 
-    void enum_declaration::refine(scope &scp) const
+    RATIOCORE_EXPORT void enum_declaration::refine(scope &scp) const
     {
         if (!type_refs.empty())
         {
@@ -420,7 +420,7 @@ namespace ratio::core
         }
     }
 
-    void field_declaration::refine(scope &scp) const
+    RATIOCORE_EXPORT void field_declaration::refine(scope &scp) const
     { // we add fields to the current scope..
         scope *s = &scp;
         for (const auto &id_tk : field_type)
@@ -431,7 +431,7 @@ namespace ratio::core
             scp.new_field(std::make_unique<field>(*tp, static_cast<const variable_declaration &>(*vd).name.id, static_cast<const variable_declaration &>(*vd).xpr));
     }
 
-    void constructor_declaration::refine(scope &scp) const
+    RATIOCORE_EXPORT void constructor_declaration::refine(scope &scp) const
     {
         std::vector<field_ptr> args;
         for (const auto &[id_tkns, id_tkn] : parameters)
@@ -446,7 +446,7 @@ namespace ratio::core
         static_cast<type &>(scp).new_constructor(std::make_unique<constructor>(static_cast<type &>(scp), std::move(args), init_names, init_vals, statements));
     }
 
-    void class_declaration::declare(scope &scp) const
+    RATIOCORE_EXPORT void class_declaration::declare(scope &scp) const
     { // A new type has been declared..
         auto tp = std::make_unique<type>(scp, name.id);
 
@@ -461,7 +461,7 @@ namespace ratio::core
         for (const auto &c_p : predicates)
             static_cast<const ratio::core::predicate_declaration &>(*c_p).declare(*tp);
     }
-    void class_declaration::refine(scope &scp) const
+    RATIOCORE_EXPORT void class_declaration::refine(scope &scp) const
     {
         type &tp = scp.get_type(name.id);
         for (const auto &bc : base_classes)
@@ -489,12 +489,12 @@ namespace ratio::core
             static_cast<const ratio::core::type_declaration &>(*t).refine(tp);
     }
 
-    void compilation_unit::declare(scope &scp) const
+    RATIOCORE_EXPORT void compilation_unit::declare(scope &scp) const
     {
         for (const auto &t : types)
             static_cast<const ratio::core::type_declaration &>(*t).declare(scp);
     }
-    void compilation_unit::refine(scope &scp) const
+    RATIOCORE_EXPORT void compilation_unit::refine(scope &scp) const
     {
         for (const auto &t : types)
             static_cast<const ratio::core::type_declaration &>(*t).refine(scp);
@@ -503,7 +503,7 @@ namespace ratio::core
         for (const auto &p : predicates)
             static_cast<const ratio::core::predicate_declaration &>(*p).refine(scp);
     }
-    void compilation_unit::execute(scope &scp, context &ctx) const
+    RATIOCORE_EXPORT void compilation_unit::execute(scope &scp, context &ctx) const
     {
         try
         {
@@ -516,5 +516,5 @@ namespace ratio::core
         }
     }
 
-    parser::parser(std::istream &is) : riddle::parser::parser(is) {}
+    RATIOCORE_EXPORT parser::parser(std::istream &is) : riddle::parser::parser(is) {}
 } // namespace ratio::core
