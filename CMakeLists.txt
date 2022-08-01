@@ -15,8 +15,8 @@ include(CMakePackageConfigHelpers)
 include(CTest)
 enable_testing()
 
-option(COMPUTE_NAMES "Computes the objects' names" FALSE)
-option(BUILD_LISTENERS "Builds the core's listeners" FALSE)
+option(COMPUTE_NAMES "Computes the objects' names" OFF)
+option(BUILD_LISTENERS "Builds the core's listeners" OFF)
 
 add_subdirectory(extern/riddle)
 
