@@ -30,7 +30,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE RiDDLe SeMiTONE)
 
 message(STATUS "Compute names:          ${COMPUTE_NAMES}")
 if(COMPUTE_NAMES)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE COMPUTE_NAMES)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC COMPUTE_NAMES)
 endif()
 
 message(STATUS "Build core listeners:   ${BUILD_LISTENERS}")

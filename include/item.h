@@ -89,4 +89,6 @@ namespace ratio::core
     RATIOCORE_EXPORT atom(predicate &pred);
     atom(const atom &orig) = delete;
   };
+
+  inline uintptr_t get_id(const ratio::core::item &itm) noexcept { return reinterpret_cast<uintptr_t>(&itm); }
 } // namespace ratio::core
