@@ -332,10 +332,10 @@ namespace ratio::core
         }
 
         std::vector<field_ptr> args;
-        for (const auto &[id_tkns, id_tkn] : parameters)
+        for (const auto &[tp_id_tkns, id_tkn] : parameters)
         {
             scope *s = &scp;
-            for (const auto &id_tk : id_tkns)
+            for (const auto &id_tk : tp_id_tkns)
                 s = &s->get_type(id_tk.id);
             type *tp = static_cast<type *>(s);
             args.emplace_back(std::make_unique<field>(*tp, id_tkn.id));
@@ -361,13 +361,13 @@ namespace ratio::core
         predicate &p = scp.get_predicate(name.id);
 
         // we add the predicate fields..
-        for (const auto &[id_tkns, id_tkn] : parameters)
+        for (const auto &[tp_id_tkns, id_tkn] : parameters)
         {
             scope *s = &scp;
-            for (const auto &id_tk : id_tkns)
+            for (const auto &id_tk : tp_id_tkns)
                 s = &s->get_type(id_tk.id);
             type *tp = static_cast<type *>(s);
-            tp->new_field(std::make_unique<field>(*tp, id_tkn.id));
+            p.new_field(std::make_unique<field>(*tp, id_tkn.id));
         }
 
         // we add the supertypes..
@@ -434,10 +434,10 @@ namespace ratio::core
     RATIOCORE_EXPORT void constructor_declaration::refine(scope &scp) const
     {
         std::vector<field_ptr> args;
-        for (const auto &[id_tkns, id_tkn] : parameters)
+        for (const auto &[tp_id_tkns, id_tkn] : parameters)
         {
             scope *s = &scp;
-            for (const auto &id_tk : id_tkns)
+            for (const auto &id_tk : tp_id_tkns)
                 s = &s->get_type(id_tk.id);
             type *tp = static_cast<type *>(s);
             args.emplace_back(std::make_unique<field>(*tp, id_tkn.id));
@@ -493,6 +493,8 @@ namespace ratio::core
     {
         for (const auto &t : types)
             static_cast<const ratio::core::type_declaration &>(*t).declare(scp);
+        for (const auto &p : predicates)
+            static_cast<const ratio::core::predicate_declaration &>(*p).declare(scp);
     }
     RATIOCORE_EXPORT void compilation_unit::refine(scope &scp) const
     {

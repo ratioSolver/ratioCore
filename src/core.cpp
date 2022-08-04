@@ -48,8 +48,7 @@ namespace ratio::core
         auto cu = prs.parse();
         static_cast<const ratio::core::compilation_unit &>(*cu).declare(*this);
         static_cast<const ratio::core::compilation_unit &>(*cu).refine(*this);
-        context c_ctx(this);
-        static_cast<const ratio::core::compilation_unit &>(*cu).execute(*this, c_ctx);
+        static_cast<const ratio::core::compilation_unit &>(*cu).execute(*this, ctx);
         cus.emplace_back(std::move(cu));
         RECOMPUTE_NAMES();
         FIRE_READ(script);
@@ -72,9 +71,8 @@ namespace ratio::core
             static_cast<const ratio::core::compilation_unit &>(*cu).declare(*this);
         for (const auto &cu : c_cus)
             static_cast<const ratio::core::compilation_unit &>(*cu).refine(*this);
-        context c_ctx(this);
         for (const auto &cu : c_cus)
-            static_cast<const ratio::core::compilation_unit &>(*cu).execute(*this, c_ctx);
+            static_cast<const ratio::core::compilation_unit &>(*cu).execute(*this, ctx);
         cus.reserve(cus.size() + c_cus.size());
         for (auto &cu : c_cus)
             cus.emplace_back(std::move(cu));

@@ -308,6 +308,7 @@ namespace ratio::core
 #endif
 
   private:
+    context ctx = context(this);
     type *bt, *it, *rt, *tt, *st;
     std::vector<std::unique_ptr<const riddle::ast::compilation_unit>> cus; // the compilation units..
 

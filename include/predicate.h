@@ -9,9 +9,12 @@ namespace riddle::ast
 namespace ratio::core
 {
   class atom;
+  class predicate_declaration;
 
   class predicate : public type
   {
+    friend class predicate_declaration;
+
   public:
     RATIOCORE_EXPORT predicate(scope &scp, const std::string &name, std::vector<field_ptr> args, const std::vector<std::unique_ptr<const riddle::ast::statement>> &stmnts);
     predicate(const predicate &orig) = delete;

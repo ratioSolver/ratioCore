@@ -233,22 +233,22 @@ namespace ratio::core
     }
 
     bool_type::bool_type(core &cr) : type(cr, BOOL_KW, true) {}
-    expr bool_type::new_instance() noexcept { return nullptr; }
+    expr bool_type::new_instance() noexcept { return get_core().new_bool(); }
 
     int_type::int_type(core &cr) : type(cr, INT_KW, true) {}
     bool int_type::is_assignable_from(const type &t) const noexcept { return &t == this || &t == &get_core().get_type(TIME_KW); }
-    expr int_type::new_instance() noexcept { return nullptr; }
+    expr int_type::new_instance() noexcept { return get_core().new_int(); }
 
     real_type::real_type(core &cr) : type(cr, REAL_KW, true) {}
     bool real_type::is_assignable_from(const type &t) const noexcept { return &t == this || &t == &get_core().get_type(TIME_KW); }
-    expr real_type::new_instance() noexcept { return nullptr; }
+    expr real_type::new_instance() noexcept { return get_core().new_real(); }
 
     time_type::time_type(core &cr) : type(cr, TIME_KW, true) {}
     bool time_type::is_assignable_from(const type &t) const noexcept { return &t == this || &t == &get_core().get_type(INT_KW) || &t == &get_core().get_type(REAL_KW); }
-    expr time_type::new_instance() noexcept { return nullptr; }
+    expr time_type::new_instance() noexcept { return get_core().new_time_point(); }
 
     string_type::string_type(core &cr) : type(cr, STRING_KW, true) {}
-    expr string_type::new_instance() noexcept { return nullptr; }
+    expr string_type::new_instance() noexcept { return get_core().new_string(); }
 
     typedef_type::typedef_type(scope &scp, const std::string &name, const type &base_type, const std::unique_ptr<const riddle::ast::expression> &e) : type(scp, name), base_type(base_type), xpr(e) {}
     expr typedef_type::new_instance() noexcept
