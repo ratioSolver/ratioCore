@@ -57,6 +57,7 @@ namespace ratio::core
     RATIOCORE_EXPORT void core::read(const std::vector<std::string> &files)
     {
         std::vector<std::unique_ptr<const riddle::ast::compilation_unit>> c_cus;
+        c_cus.reserve(files.size());
         for (const auto &f : files)
             if (std::ifstream ifs(f); ifs)
             {

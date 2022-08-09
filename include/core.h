@@ -32,7 +32,6 @@ namespace ratio::core
   class typedef_declaration;
   class enum_declaration;
   class class_declaration;
-  class compilation_unit;
 #ifdef BUILD_LISTENERS
   class core_listener;
 #endif
