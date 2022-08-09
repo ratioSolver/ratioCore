@@ -18,7 +18,7 @@ namespace ratio::core
     }
     RATIOCORE_EXPORT method::~method() {}
 
-    expr method::invoke(env &ctx, std::vector<expr> exprs)
+    expr method::invoke(context &ctx, std::vector<expr> exprs)
     {
         assert(args.size() == exprs.size());
         auto c_ctx = std::make_shared<env>(ctx);

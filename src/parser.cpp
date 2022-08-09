@@ -96,13 +96,14 @@ namespace ratio::core
         }
 
         if (ids.empty())
-            return scp.get_method(function_name.id, par_types).invoke(*ctx, std::move(exprs));
+            return scp.get_method(function_name.id, par_types).invoke(ctx, std::move(exprs));
 
         expr c_e = ctx->get(ids.begin()->id);
         for (auto it = std::next(ids.begin()); it != ids.end(); ++it)
             c_e = static_cast<complex_item &>(*c_e).get(it->id);
 
-        return c_e->get_type().get_method(function_name.id, par_types).invoke(static_cast<complex_item &>(*c_e), std::move(exprs));
+        auto itm = std::dynamic_pointer_cast<ratio::core::env>(c_e);
+        return c_e->get_type().get_method(function_name.id, par_types).invoke(itm, std::move(exprs));
     }
 
     RATIOCORE_EXPORT expr id_expression::evaluate(scope &, context &ctx) const

@@ -26,17 +26,18 @@ namespace ratio::core
         type &t = static_cast<type &>(get_scope());
         expr i = t.new_instance();
 
-        invoke(static_cast<complex_item &>(*i), std::move(exprs));
+        auto itm = std::dynamic_pointer_cast<ratio::core::env>(i);
+        invoke(itm, std::move(exprs));
 
         return i;
     }
 
-    void constructor::invoke(complex_item &itm, std::vector<expr> exprs)
+    void constructor::invoke(context &ctx, std::vector<expr> exprs)
     {
-        auto ctx = std::make_shared<env>(itm);
-        ctx->vars.emplace(THIS_KW, expr(&itm));
+        auto c_ctx = std::make_shared<env>(ctx);
+        c_ctx->vars.emplace(THIS_KW, std::dynamic_pointer_cast<ratio::core::item>(ctx));
         for (size_t i = 0; i < args.size(); ++i)
-            ctx->vars.emplace(args.at(i)->get_name(), exprs.at(i));
+            c_ctx->vars.emplace(args.at(i)->get_name(), exprs.at(i));
 
         for (size_t il_idx = 0; il_idx < init_names.size(); il_idx++)
             try
@@ -45,7 +46,7 @@ namespace ratio::core
                 if (f.get_type().is_primitive())
                 { // we evaluate the expression..
                     assert(init_vals[il_idx].size() == 1);
-                    itm.vars.emplace(init_names[il_idx].id, dynamic_cast<const expression &>(*init_vals[il_idx][0]).evaluate(*this, ctx));
+                    static_cast<complex_item &>(*ctx).vars.emplace(init_names[il_idx].id, dynamic_cast<const expression &>(*init_vals[il_idx][0]).evaluate(*this, c_ctx));
                 }
                 else
                 { // we call the constructor..
@@ -53,13 +54,13 @@ namespace ratio::core
                     std::vector<const type *> par_types;
                     for (const auto &ex : init_vals.at(il_idx))
                     {
-                        expr c_expr = dynamic_cast<const expression &>(*ex).evaluate(*this, ctx);
+                        expr c_expr = dynamic_cast<const expression &>(*ex).evaluate(*this, c_ctx);
                         c_exprs.push_back(c_expr);
                         par_types.push_back(&c_expr->get_type());
                     }
 
                     // we assume that the constructor exists..
-                    itm.vars.emplace(init_names[il_idx].id, f.get_type().get_constructor(par_types).new_instance(std::move(c_exprs)));
+                    static_cast<complex_item &>(*ctx).vars.emplace(init_names[il_idx].id, f.get_type().get_constructor(par_types).new_instance(std::move(c_exprs)));
                 }
             }
             catch (const std::out_of_range &e)
@@ -71,33 +72,33 @@ namespace ratio::core
                 std::vector<const type *> par_types;
                 for (const auto &ex : init_vals.at(il_idx))
                 {
-                    expr c_expr = dynamic_cast<const expression &>(*ex).evaluate(*this, ctx);
+                    expr c_expr = dynamic_cast<const expression &>(*ex).evaluate(*this, c_ctx);
                     c_exprs.push_back(c_expr);
                     par_types.push_back(&c_expr->get_type());
                 }
 
                 // we assume that the constructor exists..
-                (*st)->get_constructor(par_types).invoke(itm, std::move(c_exprs));
+                (*st)->get_constructor(par_types).invoke(ctx, std::move(c_exprs));
             }
 
         // we instantiate the uninstantiated fields..
         for (const auto &[f_name, f] : get_scope().get_fields())
-            if (!f->is_synthetic() && !itm.vars.count(f_name))
+            if (!f->is_synthetic() && !static_cast<complex_item &>(*ctx).vars.count(f_name))
             { // the field is uninstantiated..
                 if (f->get_expression())
-                    itm.vars.emplace(f_name, dynamic_cast<const expression &>(*f->get_expression()).evaluate(*this, ctx));
+                    static_cast<complex_item &>(*ctx).vars.emplace(f_name, dynamic_cast<const expression &>(*f->get_expression()).evaluate(*this, c_ctx));
                 else
                 {
                     type &tp = f->get_type();
                     if (tp.is_primitive())
-                        itm.vars.emplace(f_name, tp.new_instance());
+                        static_cast<complex_item &>(*ctx).vars.emplace(f_name, tp.new_instance());
                     else
-                        itm.vars.emplace(f_name, tp.new_existential());
+                        static_cast<complex_item &>(*ctx).vars.emplace(f_name, tp.new_existential());
                 }
             }
 
         // finally, we execute the constructor body..
         for (const auto &s : statements)
-            dynamic_cast<const statement &>(*s).execute(*this, ctx);
+            dynamic_cast<const statement &>(*s).execute(*this, c_ctx);
     }
 } // namespace ratio::core
