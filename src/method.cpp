@@ -2,6 +2,7 @@
 #include "field.h"
 #include "env.h"
 #include "parser.h"
+#include "core.h"
 #include <cassert>
 
 namespace ratio::core
@@ -17,10 +18,10 @@ namespace ratio::core
     }
     RATIOCORE_EXPORT method::~method() {}
 
-    expr method::invoke(context &ctx, std::vector<expr> exprs)
+    expr method::invoke(env &ctx, std::vector<expr> exprs)
     {
         assert(args.size() == exprs.size());
-        context c_ctx(ctx);
+        auto c_ctx = std::make_shared<env>(ctx);
         for (size_t i = 0; i < args.size(); ++i)
             c_ctx->vars.emplace(args.at(i)->get_name(), exprs.at(i));
 
@@ -30,6 +31,6 @@ namespace ratio::core
         if (return_type)
             return c_ctx->vars.at(RETURN_KW);
         else
-            return nullptr;
+            return get_core().new_bool(true);
     }
 } // namespace ratio::core

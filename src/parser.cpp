@@ -86,10 +86,6 @@ namespace ratio::core
 
     RATIOCORE_EXPORT expr function_expression::evaluate(scope &scp, context &ctx) const
     {
-        scope *s = &scp;
-        for (const auto &id_tk : ids)
-            s = &s->get_type(id_tk.id);
-
         std::vector<expr> exprs;
         std::vector<const type *> par_types;
         for (const auto &ex : expressions)
@@ -99,18 +95,14 @@ namespace ratio::core
             par_types.emplace_back(&i->get_type());
         }
 
-        if (method &m = s->get_method(function_name.id, par_types); m.get_return_type())
-        {
-            const auto rt = m.get_return_type();
-            if (rt == &scp.get_core().get_type(BOOL_KW))
-                return m.invoke(ctx, std::move(exprs));
-            else if (rt == &scp.get_core().get_type(INT_KW) || rt == &scp.get_core().get_type(REAL_KW) || rt == &scp.get_core().get_type(TIME_KW))
-                return m.invoke(ctx, std::move(exprs));
-            else
-                return m.invoke(ctx, std::move(exprs));
-        }
-        else
-            return scp.get_core().new_bool(true);
+        if (ids.empty())
+            return scp.get_method(function_name.id, par_types).invoke(*ctx, std::move(exprs));
+
+        expr c_e = ctx->get(ids.begin()->id);
+        for (auto it = std::next(ids.begin()); it != ids.end(); ++it)
+            c_e = static_cast<complex_item &>(*c_e).get(it->id);
+
+        return c_e->get_type().get_method(function_name.id, par_types).invoke(static_cast<complex_item &>(*c_e), std::move(exprs));
     }
 
     RATIOCORE_EXPORT expr id_expression::evaluate(scope &, context &ctx) const
@@ -211,10 +203,20 @@ namespace ratio::core
 
     RATIOCORE_EXPORT void assignment_statement::execute(scope &scp, context &ctx) const
     {
-        expr c_e = ctx->get(ids.begin()->id);
-        for (auto it = std::next(ids.begin()); it != ids.end(); ++it)
-            c_e = static_cast<complex_item &>(*c_e).get(it->id);
-        static_cast<complex_item &>(*c_e).vars.emplace(id.id, static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx));
+        if (ids.empty())
+        {
+            if (is_core(scp))
+                static_cast<core &>(scp).vars.emplace(id.id, static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx));
+            else
+                static_cast<complex_item &>(*ctx).get_env().vars.emplace(id.id, static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx));
+        }
+        else
+        {
+            expr c_e = ctx->get(ids.begin()->id);
+            for (auto it = std::next(ids.begin()); it != ids.end(); ++it)
+                c_e = static_cast<complex_item &>(*c_e).get(it->id);
+            static_cast<complex_item &>(*c_e).get_env().vars.emplace(id.id, static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx));
+        }
     }
 
     RATIOCORE_EXPORT void expression_statement::execute(scope &scp, context &ctx) const

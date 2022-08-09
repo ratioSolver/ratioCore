@@ -28,6 +28,13 @@ namespace ratio::core
     virtual ~env() = default;
 
     /**
+     * @brief Get the enclosing environment of this environment.
+     *
+     * @return env& The enclosing environment of this environment.
+     */
+    inline env &get_env() const noexcept { return e; }
+
+    /**
      * @brief Get the expression having the given name, searching in the enclosing environments if not found in the current environment.
      *
      * @param name The name of the variable.
