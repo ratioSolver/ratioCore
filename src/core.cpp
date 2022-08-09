@@ -62,7 +62,7 @@ namespace ratio::core
             {
                 parser prs(ifs);
                 auto cu = prs.parse();
-                cus.emplace_back(std::move(cu));
+                c_cus.emplace_back(std::move(cu));
             }
             else
                 throw std::invalid_argument("cannot find file '" + f + "'");
