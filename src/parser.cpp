@@ -477,12 +477,8 @@ namespace ratio::core
         for (const auto &f : fields)
             static_cast<const ratio::core::field_declaration &>(*f).refine(tp);
 
-        if (constructors.empty()) // we add a default constructor..
-            tp.new_constructor(std::make_unique<constructor>(tp, std::vector<field_ptr>(), std::vector<riddle::id_token>(), std::vector<std::vector<std::unique_ptr<const riddle::ast::expression>>>(), std::vector<std::unique_ptr<const riddle::ast::statement>>()));
-        else
-            for (const auto &c : constructors)
-                static_cast<const ratio::core::constructor_declaration &>(*c).refine(tp);
-
+        for (const auto &c : constructors)
+            static_cast<const ratio::core::constructor_declaration &>(*c).refine(tp);
         for (const auto &m : methods)
             static_cast<const ratio::core::method_declaration &>(*m).refine(tp);
         for (const auto &p : predicates)
