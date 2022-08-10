@@ -24,7 +24,7 @@ namespace ratio::core
 
     RATIOCORE_EXPORT virtual expr new_instance() override; // creates a new instance of this type..
 
-    RATIOCORE_EXPORT void apply_rule(atom &a); // applies the rule associated to this predicate to the given atom..
+    RATIOCORE_EXPORT void apply_rule(expr &atm); // applies the rule associated to this predicate to the given atom..
 
   protected:
     RATIOCORE_EXPORT void new_field(field_ptr f) noexcept override;

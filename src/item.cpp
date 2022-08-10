@@ -15,15 +15,7 @@ namespace ratio::core
 
     RATIOCORE_EXPORT string_item::string_item(type &t, const std::string &l) : item(t), l(l) { assert(t.get_name() == STRING_KW); }
 
-    RATIOCORE_EXPORT complex_item::complex_item(type &tp) : item(tp), env(tp.get_core()) {}
-
-    RATIOCORE_EXPORT expr complex_item::get(const std::string &name) noexcept
-    {
-        if (const auto at_xpr = vars.find(name); at_xpr != vars.cend())
-            return at_xpr->second;
-        else
-            return nullptr;
-    }
+    RATIOCORE_EXPORT complex_item::complex_item(type &tp) : item(tp), env(tp.get_core().get_context()) {}
 
     RATIOCORE_EXPORT enum_item::enum_item(type &t, semitone::var ev) : complex_item(t), ev(ev) {}
 
@@ -44,8 +36,8 @@ namespace ratio::core
             return complex_item::get(name);
         else
         {
-            const auto &it_it = vars.lower_bound(name);
-            if (it_it == vars.cend())
+            const auto &it_it = get_context()->vars.lower_bound(name);
+            if (it_it == get_context()->vars.cend())
             {
                 assert(!get_type().get_core().enum_value(*this).empty());
                 if (auto vs = get_type().get_core().enum_value(*this); vs.size() == 1)
@@ -53,7 +45,7 @@ namespace ratio::core
                 else
                 { // we generate a new variable..
                     auto e = get_type().get_core().get(*this, name);
-                    vars.emplace_hint(it_it, name, e);
+                    get_context()->vars.emplace_hint(it_it, name, e);
                     return e;
                 }
             }

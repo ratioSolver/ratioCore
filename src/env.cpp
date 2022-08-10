@@ -3,16 +3,17 @@
 
 namespace ratio::core
 {
-    env::env(env &e) : e(e) {}
-    env::env(context ctx) : e(*ctx), ctx(ctx) {}
+    var_map::var_map(context ctx) : ctx(ctx) {}
 
-    RATIOCORE_EXPORT expr env::get(const std::string &name)
+    RATIOCORE_EXPORT expr var_map::get(const std::string &name)
     {
         if (const auto at_xpr = vars.find(name); at_xpr != vars.cend())
             return at_xpr->second;
         else if (ctx)
             return ctx->get(name);
         else
-            return e.get(name);
+            return nullptr;
     }
+
+    env::env(context ctx) : ctx(ctx) {}
 } // namespace ratio::core

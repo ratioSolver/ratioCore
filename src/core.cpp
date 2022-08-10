@@ -17,7 +17,7 @@
 
 namespace ratio::core
 {
-    RATIOCORE_EXPORT core::core() : scope(*this), env(*this)
+    RATIOCORE_EXPORT core::core() : scope(*this), env(std::make_shared<var_map>(nullptr))
     {
         auto c_bt = std::make_unique<bool_type>(*this);
         bt = c_bt.get();
@@ -48,7 +48,7 @@ namespace ratio::core
         auto cu = prs.parse();
         static_cast<const ratio::core::compilation_unit &>(*cu).declare(*this);
         static_cast<const ratio::core::compilation_unit &>(*cu).refine(*this);
-        static_cast<const ratio::core::compilation_unit &>(*cu).execute(*this, ctx);
+        static_cast<const ratio::core::compilation_unit &>(*cu).execute(*this, get_context());
         cus.emplace_back(std::move(cu));
         RECOMPUTE_NAMES();
         FIRE_READ(script);
@@ -73,7 +73,7 @@ namespace ratio::core
         for (const auto &cu : c_cus)
             static_cast<const ratio::core::compilation_unit &>(*cu).refine(*this);
         for (const auto &cu : c_cus)
-            static_cast<const ratio::core::compilation_unit &>(*cu).execute(*this, ctx);
+            static_cast<const ratio::core::compilation_unit &>(*cu).execute(*this, get_context());
         cus.reserve(cus.size() + c_cus.size());
         for (auto &cu : c_cus)
             cus.emplace_back(std::move(cu));
@@ -86,14 +86,6 @@ namespace ratio::core
     RATIOCORE_EXPORT expr core::new_real(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(get_real_type(), semitone::lin(val)); }
     RATIOCORE_EXPORT expr core::new_time_point(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(get_time_type(), semitone::lin(val)); }
     RATIOCORE_EXPORT expr core::new_string(const std::string &val) noexcept { return std::make_shared<string_item>(get_string_type(), val); }
-
-    RATIOCORE_EXPORT expr core::get(const std::string &name) noexcept
-    {
-        if (const auto at_xpr = vars.find(name); at_xpr != vars.cend())
-            return at_xpr->second;
-        else
-            return nullptr;
-    }
 
     RATIOCORE_EXPORT semitone::lbool core::bool_value(const expr &x) const noexcept { return bool_value(static_cast<bool_item &>(*x)); }
     RATIOCORE_EXPORT bool core::is_constant(const bool_item &x) const noexcept { return bool_value(x) != semitone::Undefined; }
@@ -203,7 +195,7 @@ namespace ratio::core
         expr_names.clear();
 
         std::queue<std::pair<std::string, expr>> q;
-        for (const auto &xpr : vars)
+        for (const auto &xpr : get_vars())
         {
             expr_names.emplace(&*xpr.second, xpr.first);
             if (!xpr.second->get_type().is_primitive())
@@ -214,7 +206,7 @@ namespace ratio::core
         while (!q.empty())
         {
             const auto &c_xpr = q.front();
-            for (const auto &xpr : static_cast<complex_item &>(*c_xpr.second).vars)
+            for (const auto &xpr : static_cast<complex_item &>(*c_xpr.second).get_vars())
                 if (expr_names.emplace(&*xpr.second, expr_names.at(&*c_xpr.second) + '.' + xpr.first).second)
                     q.push(xpr);
             q.pop();

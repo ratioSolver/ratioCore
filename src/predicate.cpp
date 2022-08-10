@@ -32,16 +32,16 @@ namespace ratio::core
         return itm;
     }
 
-    RATIOCORE_EXPORT void predicate::apply_rule(atom &a)
+    RATIOCORE_EXPORT void predicate::apply_rule(expr &atm)
     {
         for (const auto &sp : supertypes)
             if (auto p = dynamic_cast<predicate *>(sp))
-                p->apply_rule(a);
+                p->apply_rule(atm);
 
-        auto ctx = std::make_shared<env>(a);
-        ctx->vars.emplace(THIS_KW, &a);
+        auto c_ctx = std::make_shared<var_map>(static_cast<atom &>(*atm).get_context());
+        c_ctx->vars.emplace(THIS_KW, atm);
         for (const auto &s : statements)
-            dynamic_cast<const statement &>(*s).execute(*this, ctx);
+            dynamic_cast<const statement &>(*s).execute(*this, c_ctx);
     }
 
     RATIOCORE_EXPORT void predicate::new_field(field_ptr f) noexcept

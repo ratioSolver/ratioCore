@@ -10,7 +10,7 @@ namespace ratio::core
 
     RATIOCORE_EXPORT void conjunction::execute()
     {
-        context c_ctx(ctx);
+        auto c_ctx = std::make_shared<var_map>(ctx);
         for (const auto &s : statements)
             dynamic_cast<const statement &>(*s).execute(*this, c_ctx);
     }

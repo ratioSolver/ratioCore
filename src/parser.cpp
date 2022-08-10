@@ -102,8 +102,7 @@ namespace ratio::core
         for (auto it = std::next(ids.begin()); it != ids.end(); ++it)
             c_e = static_cast<complex_item &>(*c_e).get(it->id);
 
-        auto itm = std::dynamic_pointer_cast<ratio::core::env>(c_e);
-        return c_e->get_type().get_method(function_name.id, par_types).invoke(itm, std::move(exprs));
+        return c_e->get_type().get_method(function_name.id, par_types).invoke(static_cast<complex_item &>(*c_e).get_context(), std::move(exprs));
     }
 
     RATIOCORE_EXPORT expr id_expression::evaluate(scope &, context &ctx) const
@@ -205,18 +204,13 @@ namespace ratio::core
     RATIOCORE_EXPORT void assignment_statement::execute(scope &scp, context &ctx) const
     {
         if (ids.empty())
-        {
-            if (is_core(scp))
-                static_cast<core &>(scp).vars.emplace(id.id, static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx));
-            else
-                static_cast<complex_item &>(*ctx).get_env().vars.emplace(id.id, static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx));
-        }
+            ctx->vars.emplace(id.id, static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx));
         else
         {
             expr c_e = ctx->get(ids.begin()->id);
             for (auto it = std::next(ids.begin()); it != ids.end(); ++it)
                 c_e = static_cast<complex_item &>(*c_e).get(it->id);
-            static_cast<complex_item &>(*c_e).get_env().vars.emplace(id.id, static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx));
+            static_cast<complex_item &>(*c_e).get_context()->vars.emplace(id.id, static_cast<const ratio::core::expression &>(*xpr).evaluate(scp, ctx));
         }
     }
 
@@ -299,7 +293,7 @@ namespace ratio::core
 
         auto atm = pred->new_instance();
         auto &c_atm = *static_cast<atom *>(atm.get());
-        c_atm.vars.insert(assgnments.cbegin(), assgnments.cend());
+        c_atm.get_context()->vars.insert(assgnments.cbegin(), assgnments.cend());
 
         // we initialize the unassigned atom's fields..
         std::queue<predicate *> q;
@@ -307,17 +301,17 @@ namespace ratio::core
         while (!q.empty())
         {
             for (const auto &arg : q.front()->get_args())
-                if (!c_atm.vars.count(arg->get_name()))
+                if (!c_atm.get_context()->vars.count(arg->get_name()))
                 { // the field is uninstantiated..
                     type &tp = arg->get_type();
-                    c_atm.vars.emplace(arg->get_name(), tp.is_primitive() ? tp.new_instance() : tp.new_existential());
+                    c_atm.get_context()->vars.emplace(arg->get_name(), tp.is_primitive() ? tp.new_instance() : tp.new_existential());
                 }
             for (const auto &sp : q.front()->get_supertypes())
                 q.push(static_cast<predicate *>(sp));
             q.pop();
         }
 
-        scp.get_core().new_atom(c_atm, is_fact);
+        scp.get_core().new_atom(atm, is_fact);
         ctx->vars.emplace(formula_name.id, atm);
     }
 

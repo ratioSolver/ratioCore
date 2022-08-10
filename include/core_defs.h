@@ -19,8 +19,10 @@ namespace ratio::core
   using predicate_ptr = std::unique_ptr<predicate>;
   class method;
   using method_ptr = std::unique_ptr<method>;
-  class env;
-  using context = std::shared_ptr<env>;
   class item;
   using expr = std::shared_ptr<item>;
+  class env;
+  class complex_item;
+  class var_map;
+  using context = std::shared_ptr<var_map>;
 } // namespace ratio::core

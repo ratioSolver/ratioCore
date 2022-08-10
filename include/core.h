@@ -229,8 +229,6 @@ namespace ratio::core
 
     inline core &get_core() const override { return const_cast<core &>(*this); }
 
-    RATIOCORE_EXPORT expr get(const std::string &name) noexcept override;
-
     /**
      * @brief Evaluates the given boolean expression.
      *
@@ -275,7 +273,7 @@ namespace ratio::core
     RATIOCORE_EXPORT virtual void new_disjunction(std::vector<std::unique_ptr<conjunction>> conjs);
 
   private:
-    virtual void new_atom([[maybe_unused]] atom &atm, [[maybe_unused]] const bool &is_fact = true) {}
+    virtual void new_atom([[maybe_unused]] expr &atm, [[maybe_unused]] const bool &is_fact = true) {}
 
   public:
     virtual void assert_facts([[maybe_unused]] std::vector<expr> facts) {}
@@ -298,7 +296,12 @@ namespace ratio::core
 
 #ifdef COMPUTE_NAMES
   public:
-    const std::string &guess_name(const item &itm) const noexcept { return expr_names.at(&itm); }
+    std::string guess_name(const item &itm) const noexcept
+    {
+      if (const auto at_f = expr_names.find(&itm); at_f != expr_names.cend())
+        return at_f->second;
+      return "";
+    }
 
   private:
     void recompute_names() noexcept;
@@ -307,7 +310,6 @@ namespace ratio::core
 #endif
 
   private:
-    context ctx = std::make_shared<env>(*this);
     type *bt, *it, *rt, *tt, *st;
     std::vector<std::unique_ptr<const riddle::ast::compilation_unit>> cus; // the compilation units..
 
