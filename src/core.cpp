@@ -48,6 +48,7 @@ namespace ratio::core
         auto cu = prs.parse();
         static_cast<const ratio::core::compilation_unit &>(*cu).declare(*this);
         static_cast<const ratio::core::compilation_unit &>(*cu).refine(*this);
+        static_cast<const ratio::core::compilation_unit &>(*cu).refine_predicates(*this);
         static_cast<const ratio::core::compilation_unit &>(*cu).execute(*this, get_context());
         cus.emplace_back(std::move(cu));
         RECOMPUTE_NAMES();
@@ -72,6 +73,8 @@ namespace ratio::core
             static_cast<const ratio::core::compilation_unit &>(*cu).declare(*this);
         for (const auto &cu : c_cus)
             static_cast<const ratio::core::compilation_unit &>(*cu).refine(*this);
+        for (const auto &cu : c_cus)
+            static_cast<const ratio::core::compilation_unit &>(*cu).refine_predicates(*this);
         for (const auto &cu : c_cus)
             static_cast<const ratio::core::compilation_unit &>(*cu).execute(*this, get_context());
         cus.reserve(cus.size() + c_cus.size());
@@ -208,7 +211,8 @@ namespace ratio::core
             const auto &c_xpr = q.front();
             for (const auto &xpr : static_cast<complex_item &>(*c_xpr.second).get_vars())
                 if (expr_names.emplace(&*xpr.second, expr_names.at(&*c_xpr.second) + '.' + xpr.first).second)
-                    q.push(xpr);
+                    if (!xpr.second->get_type().is_primitive())
+                        q.push(xpr);
             q.pop();
         }
     }

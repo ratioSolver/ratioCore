@@ -58,8 +58,10 @@ namespace ratio::core
                         par_types.push_back(&c_expr->get_type());
                     }
 
-                    // we assume that the constructor exists..
-                    static_cast<complex_item &>(*ctx).get_context()->vars.emplace(init_names[il_idx].id, f.get_type().get_constructor(par_types).new_instance(std::move(c_exprs)));
+                    if (par_types.size() == 1 && f.get_type().is_assignable_from(**par_types.begin()))
+                        static_cast<complex_item &>(*ctx).get_context()->vars.emplace(init_names[il_idx].id, std::move(*c_exprs.begin()));
+                    else // we assume that the constructor exists..
+                        static_cast<complex_item &>(*ctx).get_context()->vars.emplace(init_names[il_idx].id, f.get_type().get_constructor(par_types).new_instance(std::move(c_exprs)));
                 }
             }
             catch (const std::out_of_range &e)

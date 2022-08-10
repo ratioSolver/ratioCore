@@ -247,7 +247,7 @@ namespace ratio::core
     statement(const statement &orig) = delete;
     virtual ~statement() = default;
 
-    RATIOCORE_EXPORT virtual void execute(scope &scp, context &ctx) const = 0;
+    virtual void execute(scope &scp, context &ctx) const = 0;
   };
 
   class local_field_statement final : public riddle::ast::local_field_statement, public statement
@@ -319,8 +319,9 @@ namespace ratio::core
     type_declaration() = default;
     type_declaration(const type_declaration &orig) = delete;
 
-    RATIOCORE_EXPORT virtual void declare(scope &) const {}
-    RATIOCORE_EXPORT virtual void refine(scope &) const {}
+    virtual void declare(scope &) const {}
+    virtual void refine(scope &) const {}
+    virtual void refine_predicates(scope &) const {}
   };
 
   class method_declaration final : public riddle::ast::method_declaration
@@ -396,6 +397,7 @@ namespace ratio::core
 
     RATIOCORE_EXPORT void declare(scope &scp) const override;
     RATIOCORE_EXPORT void refine(scope &scp) const override;
+    RATIOCORE_EXPORT void refine_predicates(scope &scp) const override;
   };
 
   class compilation_unit final : public riddle::ast::compilation_unit
@@ -406,6 +408,7 @@ namespace ratio::core
 
     RATIOCORE_EXPORT void declare(scope &scp) const;
     RATIOCORE_EXPORT void refine(scope &scp) const;
+    RATIOCORE_EXPORT void refine_predicates(scope &scp) const;
     RATIOCORE_EXPORT void execute(scope &scp, context &ctx) const;
   };
 

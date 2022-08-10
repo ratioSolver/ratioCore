@@ -15,7 +15,7 @@ namespace ratio::core
 
     RATIOCORE_EXPORT string_item::string_item(type &t, const std::string &l) : item(t), l(l) { assert(t.get_name() == STRING_KW); }
 
-    RATIOCORE_EXPORT complex_item::complex_item(type &tp) : item(tp), env(tp.get_core().get_context()) {}
+    RATIOCORE_EXPORT complex_item::complex_item(type &tp) : item(tp), env(std::make_shared<var_map>(tp.get_core().get_context())) {}
 
     RATIOCORE_EXPORT enum_item::enum_item(type &t, semitone::var ev) : complex_item(t), ev(ev) {}
 
