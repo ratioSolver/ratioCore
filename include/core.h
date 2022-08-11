@@ -310,7 +310,7 @@ namespace ratio::core
 #endif
 
   private:
-    type *bt, *it, *rt, *tt, *st;
+    type *bt = nullptr, *it = nullptr, *rt = nullptr, *tt = nullptr, *st = nullptr;
     std::vector<std::unique_ptr<const riddle::ast::compilation_unit>> cus; // the compilation units..
 
     std::map<std::string, std::vector<method_ptr>> methods; // the methods, indexed by their name, defined within this core..
