@@ -111,21 +111,21 @@ namespace ratio::core
         throw std::out_of_range(name);
     }
 
-    RATIOCORE_EXPORT const field &type::get_field(const std::string &name) const
+    RATIOCORE_EXPORT const field &type::get_field(const std::string &fname) const
     {
-        if (const auto at_f = get_fields().find(name); at_f != get_fields().cend())
+        if (const auto at_f = get_fields().find(fname); at_f != get_fields().cend())
             return *at_f->second;
 
         try
         { // if not here, check any enclosing scope
-            return get_scope().get_field(name);
+            return get_scope().get_field(fname);
         }
         catch (const std::out_of_range &)
         { // if not in any enclosing scope, check any superclass
             for (const auto &st : supertypes)
                 try
                 {
-                    return st->get_field(name);
+                    return st->get_field(fname);
                 }
                 catch (const std::out_of_range &)
                 {
@@ -133,12 +133,12 @@ namespace ratio::core
         }
 
         // not found
-        throw std::out_of_range(name);
+        throw std::out_of_range(fname);
     }
 
-    RATIOCORE_EXPORT method &type::get_method(const std::string &name, const std::vector<const type *> &ts) const
+    RATIOCORE_EXPORT method &type::get_method(const std::string &mname, const std::vector<const type *> &ts) const
     {
-        if (const auto at_m = methods.find(name); at_m != methods.cend())
+        if (const auto at_m = methods.find(mname); at_m != methods.cend())
         {
             bool found = false;
             for (const auto &mthd : at_m->second)
@@ -158,7 +158,7 @@ namespace ratio::core
 
         try
         { // if not here, check any enclosing scope
-            return get_scope().get_method(name, ts);
+            return get_scope().get_method(mname, ts);
         }
         catch (const std::out_of_range &)
         { // if not in any enclosing scope, check any superclass
@@ -166,7 +166,7 @@ namespace ratio::core
             {
                 try
                 {
-                    return st->get_method(name, ts);
+                    return st->get_method(mname, ts);
                 }
                 catch (const std::out_of_range &)
                 {
@@ -175,17 +175,17 @@ namespace ratio::core
         }
 
         // not found
-        throw std::out_of_range(name);
+        throw std::out_of_range(mname);
     }
 
-    RATIOCORE_EXPORT type &type::get_type(const std::string &name) const
+    RATIOCORE_EXPORT type &type::get_type(const std::string &tname) const
     {
-        if (const auto at_tp = types.find(name); at_tp != types.cend())
+        if (const auto at_tp = types.find(tname); at_tp != types.cend())
             return *at_tp->second;
 
         try
         { // if not here, check any enclosing scope
-            return get_scope().get_type(name);
+            return get_scope().get_type(tname);
         }
         catch (const std::out_of_range &)
         { // if not in any enclosing scope, check any superclass
@@ -193,7 +193,7 @@ namespace ratio::core
             {
                 try
                 {
-                    return st->get_type(name);
+                    return st->get_type(tname);
                 }
                 catch (const std::out_of_range &)
                 {
@@ -202,17 +202,17 @@ namespace ratio::core
         }
 
         // not found
-        throw std::out_of_range(name);
+        throw std::out_of_range(tname);
     }
 
-    RATIOCORE_EXPORT predicate &type::get_predicate(const std::string &name) const
+    RATIOCORE_EXPORT predicate &type::get_predicate(const std::string &pname) const
     {
-        if (const auto at_p = predicates.find(name); at_p != predicates.cend())
+        if (const auto at_p = predicates.find(pname); at_p != predicates.cend())
             return *at_p->second;
 
         try
         { // if not here, check any enclosing scope
-            return get_scope().get_predicate(name);
+            return get_scope().get_predicate(pname);
         }
         catch (const std::out_of_range &)
         { // if not in any enclosing scope, check any superclass
@@ -220,7 +220,7 @@ namespace ratio::core
             {
                 try
                 {
-                    return st->get_predicate(name);
+                    return st->get_predicate(pname);
                 }
                 catch (const std::out_of_range &)
                 {
@@ -229,7 +229,7 @@ namespace ratio::core
         }
 
         // not found
-        throw std::out_of_range(name);
+        throw std::out_of_range(pname);
     }
 
     bool_type::bool_type(core &cr) : type(cr, BOOL_KW, true) {}

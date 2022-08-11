@@ -65,14 +65,14 @@ namespace ratio::core
     RATIOCORE_EXPORT virtual void new_predicate(predicate &) noexcept {}
 
   public:
-    RATIOCORE_EXPORT const field &get_field(const std::string &name) const override;
+    RATIOCORE_EXPORT const field &get_field(const std::string &fname) const override;
     RATIOCORE_EXPORT constructor &get_constructor(const std::vector<const type *> &ts) const;
     const std::vector<constructor_ptr> &get_constructors() const noexcept { return constructors; }
-    RATIOCORE_EXPORT method &get_method(const std::string &name, const std::vector<const type *> &ts) const override;
+    RATIOCORE_EXPORT method &get_method(const std::string &mname, const std::vector<const type *> &ts) const override;
     const std::map<std::string, std::vector<method_ptr>> &get_methods() const noexcept override { return methods; }
-    RATIOCORE_EXPORT type &get_type(const std::string &name) const override;
+    RATIOCORE_EXPORT type &get_type(const std::string &tname) const override;
     const std::map<std::string, type_ptr> &get_types() const noexcept override { return types; }
-    RATIOCORE_EXPORT predicate &get_predicate(const std::string &name) const override;
+    RATIOCORE_EXPORT predicate &get_predicate(const std::string &pname) const override;
     const std::map<std::string, predicate_ptr> &get_predicates() const noexcept override { return predicates; }
 
   private:

@@ -64,7 +64,7 @@ namespace ratio::core
                         static_cast<complex_item &>(*ctx).get_context()->vars.emplace(init_names[il_idx].id, f.get_type().get_constructor(par_types).new_instance(std::move(c_exprs)));
                 }
             }
-            catch (const std::out_of_range &e)
+            catch (const std::out_of_range &)
             { // there is no field in the current type with the given name, so we call the supertype's constructor..
                 auto st = std::find_if(static_cast<type &>(get_scope()).get_supertypes().begin(), static_cast<type &>(get_scope()).get_supertypes().end(), [this, il_idx](auto &st)
                                        { return init_names.at(il_idx).id == st->get_name(); });
