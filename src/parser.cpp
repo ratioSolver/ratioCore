@@ -257,11 +257,7 @@ namespace ratio::core
                 c_scope = static_cast<complex_item &>(*c_scope).get(it->id);
 
             pred = &c_scope->get_type().get_predicate(predicate_name.id);
-
-            if (enum_item *ee = dynamic_cast<enum_item *>(c_scope.get())) // the scope is an enumerative expression..
-                assgnments.emplace(TAU_KW, ee);
-            else // the scope is a single item..
-                assgnments.emplace(TAU_KW, c_scope);
+            assgnments.emplace(TAU_KW, c_scope);
         }
         else
         { // we inherit the scope..

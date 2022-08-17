@@ -64,7 +64,7 @@ namespace ratio::core
   public:
     RATIOCORE_EXPORT complex_item(type &tp);
     complex_item(const complex_item &orig) = delete;
-    RATIOCORE_EXPORT virtual ~complex_item() = default;
+    virtual ~complex_item() = default;
   };
 
   class enum_item final : public complex_item
