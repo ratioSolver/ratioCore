@@ -47,7 +47,7 @@ namespace ratio::core
     inline bool is_primitive() const noexcept { return primitive; }                   // returns whether this type is primitive..
     const std::vector<type *> &get_supertypes() const noexcept { return supertypes; } // returns the base types of this type..
 
-    RATIOCORE_EXPORT virtual bool is_assignable_from(const type &t) const noexcept; // checks whether this type is assignable from the 't' type..
+    RATIOCORE_EXPORT virtual bool is_assignable_from(const type &t) const noexcept; // checks whether this type is assignable from the `t` type..
 
     RATIOCORE_EXPORT virtual expr new_instance();                          // creates a new instance of this type..
     RATIOCORE_EXPORT virtual expr new_existential();                       // creates a new existential of this type (i.e. an object variable whose allowed values are all the current instances of this type)..

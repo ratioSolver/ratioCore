@@ -21,7 +21,7 @@ namespace ratio::core
     type &tp;                                                  // the type of the field..
     const std::string name;                                    // the name of the field..
     const std::unique_ptr<const riddle::ast::expression> &xpr; // the initialization expression..
-    const bool synthetic;                                      // the field is synthetic (a synthetic field is a field which is not created by the user, e.g. 'this')..
+    const bool synthetic;                                      // the field is synthetic (a synthetic field is a field which is not created by the user, e.g. `this`)..
   };
 
   using field_ptr = std::unique_ptr<field>;

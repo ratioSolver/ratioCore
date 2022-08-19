@@ -67,7 +67,7 @@ namespace ratio::core
                 c_cus.emplace_back(std::move(cu));
             }
             else
-                throw std::invalid_argument("cannot find file '" + f + "'");
+                throw std::invalid_argument("cannot find file `" + f + "`");
 
         for (const auto &cu : c_cus)
             static_cast<const ratio::core::compilation_unit &>(*cu).declare(*this);
