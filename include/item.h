@@ -15,7 +15,7 @@ namespace ratio::core
   public:
     item(type &tp);
     item(const item &orig) = delete;
-    RATIOCORE_EXPORT virtual ~item() = default;
+    virtual ~item() = default;
 
     type &get_type() const noexcept { return tp; }
 

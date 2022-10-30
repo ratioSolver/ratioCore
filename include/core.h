@@ -177,7 +177,7 @@ namespace ratio::core
      * @param name The name of the field which has to be computed.
      * @return expr The value ov the `name` field.
      */
-    virtual expr get([[maybe_unused]] enum_item &var, [[maybe_unused]] const std::string &name) { return nullptr; }
+    virtual expr get_enum([[maybe_unused]] enum_item &var, [[maybe_unused]] const std::string &name) { return nullptr; }
     /**
      * @brief Removes the `val` value from the `var` variable's domain.
      *

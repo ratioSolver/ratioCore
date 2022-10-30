@@ -44,7 +44,7 @@ namespace ratio::core
                     return (static_cast<complex_item *>(*vs.cbegin()))->get(name);
                 else
                 { // we generate a new variable..
-                    auto e = get_type().get_core().get(*this, name);
+                    auto e = get_type().get_core().get_enum(*this, name);
                     get_context()->vars.emplace_hint(it_it, name, e);
                     return e;
                 }
