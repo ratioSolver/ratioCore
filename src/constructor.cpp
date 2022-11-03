@@ -33,7 +33,7 @@ namespace ratio::core
 
     void constructor::invoke(expr &ctx, std::vector<expr> exprs)
     {
-        auto c_ctx = std::make_shared<var_map>(static_cast<complex_item &>(*ctx).get_context());
+        auto c_ctx = std::make_shared<var_map>(static_cast<complex_item &>(*ctx).get_context().get());
         c_ctx->vars.emplace(THIS_KW, ctx);
         for (size_t i = 0; i < args.size(); ++i)
             c_ctx->vars.emplace(args.at(i)->get_name(), exprs.at(i));

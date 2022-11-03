@@ -21,7 +21,7 @@ namespace ratio::core
     expr method::invoke(context &ctx, std::vector<expr> exprs)
     {
         assert(args.size() == exprs.size());
-        auto c_ctx = std::make_shared<var_map>(ctx);
+        auto c_ctx = std::make_shared<var_map>(ctx.get());
         for (size_t i = 0; i < args.size(); ++i)
             c_ctx->vars.emplace(args.at(i)->get_name(), exprs.at(i));
 

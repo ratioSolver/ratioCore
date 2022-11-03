@@ -38,7 +38,7 @@ namespace ratio::core
             if (auto p = dynamic_cast<predicate *>(sp))
                 p->apply_rule(atm);
 
-        auto c_ctx = std::make_shared<var_map>(static_cast<atom &>(*atm).get_context());
+        auto c_ctx = std::make_shared<var_map>(static_cast<atom &>(*atm).get_context().get());
         c_ctx->vars.emplace(THIS_KW, atm);
         for (const auto &s : statements)
             dynamic_cast<const statement &>(*s).execute(*this, c_ctx);

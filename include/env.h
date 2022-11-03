@@ -24,9 +24,9 @@ namespace ratio::core
     friend class return_statement;
 
   public:
-    var_map(context ctx);
+    var_map();
+    var_map(var_map *ctx);
     var_map(const var_map &orig) = delete;
-    virtual ~var_map() = default;
 
     /**
      * @brief Get the expression having the given name, searching in the enclosing environments if not found in the current environment.
@@ -38,7 +38,7 @@ namespace ratio::core
     const std::map<std::string, expr> &get_vars() const noexcept { return vars; }
 
   private:
-    context ctx; // the enclosing context..
+    var_map *ctx; // the enclosing context..
     std::map<std::string, expr> vars;
   };
 

@@ -253,7 +253,7 @@ namespace ratio::core
     typedef_type::typedef_type(scope &scp, const std::string &name, const type &base_type, const std::unique_ptr<const riddle::ast::expression> &e) : type(scp, name), base_type(base_type), xpr(e) {}
     expr typedef_type::new_instance() noexcept
     {
-        auto c_ctx = std::make_shared<var_map>(get_core().get_context());
+        auto c_ctx = std::make_shared<var_map>(get_core().get_context().get());
         return dynamic_cast<const expression &>(*xpr).evaluate(get_core(), c_ctx);
     }
 
