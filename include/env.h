@@ -24,7 +24,6 @@ namespace ratio::core
     friend class return_statement;
 
   public:
-    var_map();
     var_map(var_map *ctx);
     var_map(const var_map &orig) = delete;
 
@@ -45,7 +44,6 @@ namespace ratio::core
   class env
   {
   public:
-    env();
     env(context ctx);
     env(const env &orig) = delete;
     virtual ~env() = default;

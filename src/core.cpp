@@ -17,7 +17,7 @@
 
 namespace ratio::core
 {
-    RATIOCORE_EXPORT core::core() : scope(*this), env()
+    RATIOCORE_EXPORT core::core() : scope(*this), env(std::make_shared<var_map>(nullptr))
     {
         auto c_bt = std::make_unique<bool_type>(*this);
         bt = c_bt.get();

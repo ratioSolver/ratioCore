@@ -3,7 +3,6 @@
 
 namespace ratio::core
 {
-    var_map::var_map() : ctx(nullptr) {}
     var_map::var_map(var_map *ctx) : ctx(ctx) {}
 
     RATIOCORE_EXPORT expr var_map::get(const std::string &name)
@@ -16,6 +15,5 @@ namespace ratio::core
             return nullptr;
     }
 
-    env::env() : ctx(std::make_shared<var_map>()) {}
     env::env(context ctx) : ctx(ctx) {}
 } // namespace ratio::core
