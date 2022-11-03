@@ -45,6 +45,7 @@ namespace ratio::core
   class env
   {
   public:
+    env();
     env(context ctx);
     env(const env &orig) = delete;
     virtual ~env() = default;

@@ -15,5 +15,6 @@ namespace ratio::core
             return nullptr;
     }
 
+    env::env() : ctx(std::make_shared<var_map>(nullptr)) {}
     env::env(context ctx) : ctx(ctx) {}
 } // namespace ratio::core
