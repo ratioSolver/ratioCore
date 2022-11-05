@@ -11,7 +11,6 @@
 #ifdef COMPUTE_NAMES
 #include <queue>
 #endif
-#include <sstream>
 #include <fstream>
 #include <algorithm>
 
@@ -43,8 +42,7 @@ namespace ratio::core
 
     RATIOCORE_EXPORT void core::read(const std::string &script)
     {
-        std::stringstream ss(script);
-        parser prs(ss);
+        parser prs(script);
         auto cu = prs.parse();
         static_cast<const ratio::core::compilation_unit &>(*cu).declare(*this);
         static_cast<const ratio::core::compilation_unit &>(*cu).refine(*this);

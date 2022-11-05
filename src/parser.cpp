@@ -515,5 +515,6 @@ namespace ratio::core
         }
     }
 
+    RATIOCORE_EXPORT parser::parser(const std::string &str): riddle::parser::parser(str) {}
     RATIOCORE_EXPORT parser::parser(std::istream &is) : riddle::parser::parser(is) {}
 } // namespace ratio::core

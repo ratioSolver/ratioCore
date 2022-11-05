@@ -415,6 +415,7 @@ namespace ratio::core
   class parser final : public riddle::parser
   {
   public:
+    RATIOCORE_EXPORT parser(const std::string &str);
     RATIOCORE_EXPORT parser(std::istream &is);
     parser(const parser &orig) = delete;
 
