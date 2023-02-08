@@ -62,6 +62,13 @@ namespace ratio::core
      * @return expr The expression having the given name.
      */
     virtual inline expr get(const std::string &name) { return ctx->get(name); }
+    /**
+     * @brief Get the expression having the given name, searching in the enclosing environments if not found in the current environment.
+     *
+     * @param name The name of the variable.
+     * @return const expr The expression having the given name.
+     */
+    virtual inline const expr get(const std::string &name) const { return ctx->get(name); }
     const inline std::map<std::string, expr> &get_vars() const noexcept { return ctx->get_vars(); }
 
   private:
