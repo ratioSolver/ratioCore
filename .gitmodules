@@ -1,3 +1,9 @@
 [submodule "extern/riddle"]
 	path = extern/riddle
 	url = https://github.com/ratioSolver/RiDDLe
+[submodule "extern/json"]
+	path = extern/json
+	url = https://github.com/ratioSolver/json
+[submodule "extern/semitone"]
+	path = extern/semitone
+	url = https://github.com/ratioSolver/SeMiTONE
