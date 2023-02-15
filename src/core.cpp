@@ -83,15 +83,15 @@ namespace ratio::core
     }
 
     RATIOCORE_EXPORT expr core::new_bool(const bool &val) noexcept { return std::make_shared<bool_item>(get_bool_type(), val ? semitone::TRUE_lit : semitone::FALSE_lit); }
-    RATIOCORE_EXPORT expr core::new_int(const semitone::I &val) noexcept { return std::make_shared<arith_item>(get_int_type(), semitone::lin(semitone::rational(val))); }
-    RATIOCORE_EXPORT expr core::new_real(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(get_real_type(), semitone::lin(val)); }
-    RATIOCORE_EXPORT expr core::new_time_point(const semitone::rational &val) noexcept { return std::make_shared<arith_item>(get_time_type(), semitone::lin(val)); }
+    RATIOCORE_EXPORT expr core::new_int(const utils::I &val) noexcept { return std::make_shared<arith_item>(get_int_type(), semitone::lin(utils::rational(val))); }
+    RATIOCORE_EXPORT expr core::new_real(const utils::rational &val) noexcept { return std::make_shared<arith_item>(get_real_type(), semitone::lin(val)); }
+    RATIOCORE_EXPORT expr core::new_time_point(const utils::rational &val) noexcept { return std::make_shared<arith_item>(get_time_type(), semitone::lin(val)); }
     RATIOCORE_EXPORT expr core::new_string(const std::string &val) noexcept { return std::make_shared<string_item>(get_string_type(), val); }
 
     RATIOCORE_EXPORT semitone::lbool core::bool_value(const expr &x) const noexcept { return bool_value(static_cast<bool_item &>(*x)); }
     RATIOCORE_EXPORT bool core::is_constant(const bool_item &x) const noexcept { return bool_value(x) != semitone::Undefined; }
-    RATIOCORE_EXPORT std::pair<semitone::inf_rational, semitone::inf_rational> core::arith_bounds(const expr &x) const noexcept { return arith_bounds(static_cast<arith_item &>(*x)); }
-    RATIOCORE_EXPORT semitone::inf_rational core::arith_value(const expr &x) const noexcept { return arith_value(static_cast<arith_item &>(*x)); }
+    RATIOCORE_EXPORT std::pair<utils::inf_rational, utils::inf_rational> core::arith_bounds(const expr &x) const noexcept { return arith_bounds(static_cast<arith_item &>(*x)); }
+    RATIOCORE_EXPORT utils::inf_rational core::arith_value(const expr &x) const noexcept { return arith_value(static_cast<arith_item &>(*x)); }
     RATIOCORE_EXPORT bool core::is_constant(const arith_item &x) const noexcept
     {
         if (x.get_value().vars.empty())

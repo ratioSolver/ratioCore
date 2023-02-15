@@ -1,4 +1,5 @@
 #pragma once
+#include "defs.h"
 #include "scope.h"
 #include "env.h"
 #include "inf_rational.h"
@@ -115,7 +116,7 @@ namespace ratio::core
      * @param val The value of the literal.
      * @return expr The new integer literal.
      */
-    RATIOCORE_EXPORT expr new_int(const semitone::I &val) noexcept;
+    RATIOCORE_EXPORT expr new_int(const utils::I &val) noexcept;
 
     /**
      * @brief Creates a new real variable.
@@ -130,7 +131,7 @@ namespace ratio::core
      * @param val The value of the literal.
      * @return expr The new real literal.
      */
-    RATIOCORE_EXPORT expr new_real(const semitone::rational &val) noexcept;
+    RATIOCORE_EXPORT expr new_real(const utils::rational &val) noexcept;
 
     /**
      * @brief Creates a new time-point variable.
@@ -145,7 +146,7 @@ namespace ratio::core
      * @param val The value of the literal.
      * @return expr The new time-point literal.
      */
-    RATIOCORE_EXPORT expr new_time_point(const semitone::rational &val) noexcept;
+    RATIOCORE_EXPORT expr new_time_point(const utils::rational &val) noexcept;
 
     /**
      * @brief Creates a new string variable.
@@ -242,18 +243,18 @@ namespace ratio::core
      * @brief Evaluates the bounds of the given arithmetic expression.
      *
      * @param x The arithmetic expression to evaluate.
-     * @return std::pair<semitone::inf_rational, semitone::inf_rational> The bounds of the given arithmetic expression.
+     * @return std::pair<utils::inf_rational, utils::inf_rational> The bounds of the given arithmetic expression.
      */
-    RATIOCORE_EXPORT std::pair<semitone::inf_rational, semitone::inf_rational> arith_bounds([[maybe_unused]] const expr &x) const noexcept;
-    virtual std::pair<semitone::inf_rational, semitone::inf_rational> arith_bounds([[maybe_unused]] const arith_item &x) const noexcept { return std::make_pair<semitone::inf_rational, semitone::inf_rational>(semitone::inf_rational(semitone::rational::NEGATIVE_INFINITY), semitone::inf_rational(semitone::rational::POSITIVE_INFINITY)); }
+    RATIOCORE_EXPORT std::pair<utils::inf_rational, utils::inf_rational> arith_bounds([[maybe_unused]] const expr &x) const noexcept;
+    virtual std::pair<utils::inf_rational, utils::inf_rational> arith_bounds([[maybe_unused]] const arith_item &x) const noexcept { return std::make_pair<utils::inf_rational, utils::inf_rational>(utils::inf_rational(utils::rational::NEGATIVE_INFINITY), utils::inf_rational(utils::rational::POSITIVE_INFINITY)); }
     /**
      * @brief Evaluates the given arithmetic expression.
      *
      * @param x The arithmetic expression to evaluate.
-     * @return semitone::inf_rational The value of the given arithmetic expression.
+     * @return utils::inf_rational The value of the given arithmetic expression.
      */
-    RATIOCORE_EXPORT semitone::inf_rational arith_value([[maybe_unused]] const expr &x) const noexcept;
-    virtual semitone::inf_rational arith_value([[maybe_unused]] const arith_item &x) const noexcept { return semitone::inf_rational(0); }
+    RATIOCORE_EXPORT utils::inf_rational arith_value([[maybe_unused]] const expr &x) const noexcept;
+    virtual utils::inf_rational arith_value([[maybe_unused]] const arith_item &x) const noexcept { return utils::inf_rational(0); }
     RATIOCORE_EXPORT bool is_constant([[maybe_unused]] const arith_item &x) const noexcept;
     /**
      * @brief Evaluates the given enumerative expression.

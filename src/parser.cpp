@@ -226,7 +226,7 @@ namespace ratio::core
         cs.reserve(conjunctions.size());
         for (size_t i = 0; i < conjunctions.size(); ++i)
         {
-            semitone::rational cost(1);
+            utils::rational cost(1);
             if (conjunction_costs[i])
             { // a cost for the conjunction has been specified..
                 expr a_xpr = dynamic_cast<const ratio::core::expression &>(*conjunction_costs[i]).evaluate(scp, ctx);
