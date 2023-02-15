@@ -19,6 +19,8 @@ option(COMPUTE_NAMES "Computes the objects' names" OFF)
 option(BUILD_LISTENERS "Builds the core's listeners" OFF)
 
 add_subdirectory(extern/riddle)
+add_subdirectory(extern/semitone)
+add_subdirectory(extern/json)
 
 file(GLOB RATIO_CORE_SOURCES src/*.cpp)
 file(GLOB RATIO_CORE_HEADERS include/*.h)
